@@ -5,21 +5,19 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenSale.Domain", "src\GreenSale.Domain\GreenSale.Domain.csproj", "{526AC78F-7839-432D-8108-29228A673F33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenSale.Domain", "src\GreenSale.Domain\GreenSale.Domain.csproj", "{526AC78F-7839-432D-8108-29228A673F33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenSale.Application", "src\GreenSale.Application\GreenSale.Application.csproj", "{80E84C37-719B-4BB6-861E-DAAA2D4EC8EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenSale.Application", "src\GreenSale.Application\GreenSale.Application.csproj", "{80E84C37-719B-4BB6-861E-DAAA2D4EC8EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenSale.WebApi", "src\GreenSale.WebApi\GreenSale.WebApi.csproj", "{42F08329-CA62-4EA4-8E9F-4B04B58865B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenSale.Persistence", "src\GreenSale.Persistence\GreenSale.Persistence.csproj", "{3AD09518-96DF-43DA-9402-8045287FBB9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenSale.Persistence", "src\GreenSale.Persistence\GreenSale.Persistence.csproj", "{3AD09518-96DF-43DA-9402-8045287FBB9C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenSale.DataAccess", "src\GreenSale.DataAccess\GreenSale.DataAccess.csproj", "{159F8684-067E-435F-A605-33D88175372B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenSale.DataAccess", "src\GreenSale.DataAccess\GreenSale.DataAccess.csproj", "{159F8684-067E-435F-A605-33D88175372B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9B9EC2D0-9837-4461-A183-7E7A2D59BA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "test\UnitTest\UnitTest.csproj", "{CD6692C7-B22C-4F70-B183-DCEA9F16B4AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "test\UnitTest\UnitTest.csproj", "{CD6692C7-B22C-4F70-B183-DCEA9F16B4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenSale.Service", "src\GreenSale.Service\GreenSale.Service.csproj", "{BDD77104-079B-4A14-95E4-3D5CD32D9B6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenSale.Service", "src\GreenSale.Service\GreenSale.Service.csproj", "{BDD77104-079B-4A14-95E4-3D5CD32D9B6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{80E84C37-719B-4BB6-861E-DAAA2D4EC8EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80E84C37-719B-4BB6-861E-DAAA2D4EC8EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80E84C37-719B-4BB6-861E-DAAA2D4EC8EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42F08329-CA62-4EA4-8E9F-4B04B58865B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42F08329-CA62-4EA4-8E9F-4B04B58865B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42F08329-CA62-4EA4-8E9F-4B04B58865B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42F08329-CA62-4EA4-8E9F-4B04B58865B8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AD09518-96DF-43DA-9402-8045287FBB9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3AD09518-96DF-43DA-9402-8045287FBB9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AD09518-96DF-43DA-9402-8045287FBB9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,7 +56,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{526AC78F-7839-432D-8108-29228A673F33} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
 		{80E84C37-719B-4BB6-861E-DAAA2D4EC8EA} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
-		{42F08329-CA62-4EA4-8E9F-4B04B58865B8} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
 		{3AD09518-96DF-43DA-9402-8045287FBB9C} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
 		{159F8684-067E-435F-A605-33D88175372B} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
 		{CD6692C7-B22C-4F70-B183-DCEA9F16B4AB} = {9B9EC2D0-9837-4461-A183-7E7A2D59BA42}

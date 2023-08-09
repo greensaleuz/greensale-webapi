@@ -21,8 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\GreenSale.WebApi\GreenSale.WebApi.csproj" />
-  </ItemGroup>
-
 </Project>
