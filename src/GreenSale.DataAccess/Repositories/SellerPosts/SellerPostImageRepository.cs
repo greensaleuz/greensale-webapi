@@ -17,13 +17,13 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
 
                 return result;
             }
-            catch 
-            { 
-                return 0; 
+            catch
+            {
+                return 0;
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 
@@ -40,13 +40,13 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
 
                 return result;
             }
-            catch 
-            { 
-                return 0; 
+            catch
+            {
+                return 0;
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 
@@ -60,13 +60,13 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
 
                 return result;
             }
-            catch 
-            { 
-                return 0; 
+            catch
+            {
+                return 0;
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 
@@ -104,13 +104,13 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
 
                 return result;
             }
-            catch 
-            { 
-                return new SellerPostImage(); 
+            catch
+            {
+                return new SellerPostImage();
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 

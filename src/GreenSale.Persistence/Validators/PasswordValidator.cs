@@ -6,7 +6,7 @@ public class PasswordValidator
 
     public static (bool IsValid, string Message) IsStrongPassword(string password)
     {
-        if (password.Length < 8) 
+        if (password.Length < 8)
             return (IsValid: false, Message: "Password can not be than 8 characters");
 
         bool isUpperCaseExists = false;
@@ -22,16 +22,16 @@ public class PasswordValidator
             if (Symbols.Contains(item)) isCharacterExists = true;
         }
 
-        if (isNumberExists == false) 
+        if (isNumberExists == false)
             return (IsValid: false, Message: "Password should contain at least one Digit!");
-        
-        if (isUpperCaseExists == false) 
+
+        if (isUpperCaseExists == false)
             return (IsValid: false, Message: "Password should contain at least one Upper case!");
-        
-        if (isLowerCaseExists == false) 
+
+        if (isLowerCaseExists == false)
             return (IsValid: false, Message: "Password should contain at least one Lower case!");
-        
-        if (isCharacterExists == false) 
+
+        if (isCharacterExists == false)
             return (IsValid: false, Message: "Password should contain at least one Symbol like (#@$%.!)!");
 
         return (IsValid: true, "");
