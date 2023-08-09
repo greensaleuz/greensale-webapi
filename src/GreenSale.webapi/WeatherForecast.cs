@@ -1,4 +1,4 @@
-namespace GreenSale.webapi
+namespace GreenSale.WebApi
 {
     public class WeatherForecast
     {

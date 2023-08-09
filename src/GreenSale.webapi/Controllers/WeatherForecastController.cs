@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.webapi.Controllers
+namespace GreenSale.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
