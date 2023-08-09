@@ -5,5 +5,5 @@ using GreenSale.Domain.Entites.Storages;
 namespace GreenSale.DataAccess.Interfaces.Storages
 {
     public interface IStorageRepository : IRepository<Storage, StoragesViewModel>, ISearchable<StoragesViewModel>
-    {}
+    { }
 }

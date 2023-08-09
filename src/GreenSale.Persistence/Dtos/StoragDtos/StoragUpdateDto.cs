@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace GreenSale.Persistence.Dtos.StoragDtos;
+﻿namespace GreenSale.Persistence.Dtos.StoragDtos;
 
 public class StoragUpdateDto
 {

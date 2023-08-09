@@ -1,5 +1,4 @@
 ﻿using GreenSale.DataAccess.ViewModels.UserRoles;
-using GreenSale.Domain.Entites.Users;
 
 namespace GreenSale.Service.Interfaces.Auth;
 
