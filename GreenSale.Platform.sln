@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "test\UnitTest\U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenSale.Service", "src\GreenSale.Service\GreenSale.Service.csproj", "{BDD77104-079B-4A14-95E4-3D5CD32D9B6C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenSale.WebApi", "src\GreenSale.WebApi\GreenSale.WebApi.csproj", "{F2185598-9166-40F1-86CF-6DD1B53E3AD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{BDD77104-079B-4A14-95E4-3D5CD32D9B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDD77104-079B-4A14-95E4-3D5CD32D9B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDD77104-079B-4A14-95E4-3D5CD32D9B6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2185598-9166-40F1-86CF-6DD1B53E3AD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2185598-9166-40F1-86CF-6DD1B53E3AD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2185598-9166-40F1-86CF-6DD1B53E3AD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2185598-9166-40F1-86CF-6DD1B53E3AD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{159F8684-067E-435F-A605-33D88175372B} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
 		{CD6692C7-B22C-4F70-B183-DCEA9F16B4AB} = {9B9EC2D0-9837-4461-A183-7E7A2D59BA42}
 		{BDD77104-079B-4A14-95E4-3D5CD32D9B6C} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
+		{F2185598-9166-40F1-86CF-6DD1B53E3AD3} = {8AABD48C-86F4-40D6-AA87-2ACC9F8263DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EC91FC6-7F27-4FB5-9FDE-5DC0C50470DB}
