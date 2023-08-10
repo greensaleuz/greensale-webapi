@@ -3,6 +3,7 @@ using GreenSale.DataAccess.Repositories.Users;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Service.Auth;
 using GreenSale.WebApi.Configurations.Layers;
+using GreenSale.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,12 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
+
+app.UseStaticFiles();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseAuthorization();
 
