@@ -14,4 +14,8 @@
     <ProjectReference Include="..\GreenSale.Persistence\GreenSale.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\Auth\" />
+  </ItemGroup>
+
 </Project>
