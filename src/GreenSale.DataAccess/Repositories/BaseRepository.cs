@@ -10,7 +10,7 @@ public class BaseRepository
     {
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
-        this._connection = new NpgsqlConnection("Host=localhost; Port=5432; Database=GreenSale-db; " +
-            " User Id=postgres; Password=2151;");
+        this._connection = new NpgsqlConnection("Host=localhost; Port=5432; Database=greensale-db; " +
+            " User Id=postgres; Password=1234;");
     }
 }
