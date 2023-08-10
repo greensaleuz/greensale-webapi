@@ -27,7 +27,7 @@ public class AuthServise : IAuthServices
     public async Task<(bool Result, int CachedMinutes)> RegisterAsync(UserRegisterDto dto)
     {
         var dbResult = await _userRepository.GetByPhoneAsync(dto.PhoneNumber);
-        if(dbResult is null)
+        if(dbResult is not null)
             throw new UserAlreadyExistsException();
 
         if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto registerDto))
