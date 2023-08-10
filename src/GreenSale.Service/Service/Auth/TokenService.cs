@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace GreenSale.Service.Service.Auth;
@@ -33,7 +32,7 @@ public class TokenService : ITokenService
         var keyCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         int expiresHours = int.Parse(_config["Lifetime"]!);
 
-        var token =  new JwtSecurityToken(
+        var token = new JwtSecurityToken(
             issuer: _config["Issuer"],
             audience: _config["Audience"],
             claims: identityClaims,

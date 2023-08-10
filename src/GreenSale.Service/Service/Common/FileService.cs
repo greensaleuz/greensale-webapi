@@ -1,6 +1,6 @@
 ﻿using GreenSale.Service.Interfaces.Common;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 namespace GreenSale.Service.Service.Common;
 
 public class FileService : IFileService
@@ -16,9 +16,9 @@ public class FileService : IFileService
 
     public async Task<bool> DeleteImageAsync(string subpath)
     {
-        string path =  Path.Combine(ROOTPATH, subpath);
+        string path = Path.Combine(ROOTPATH, subpath);
 
-        if(File.Exists(path))
+        if (File.Exists(path))
         {
             await Task.Run(() =>
             {

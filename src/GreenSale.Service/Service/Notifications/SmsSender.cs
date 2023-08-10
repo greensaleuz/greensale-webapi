@@ -44,7 +44,7 @@ public class SmsSender : ISmsSender
     }
     public async Task<bool> SendAsync(SmsSenderDto message)
     {
-       
+
         var client = new HttpClient();
         client.BaseAddress = new Uri(BASE_URL);
         var request = new HttpRequestMessage(HttpMethod.Post, "api/message/sms/send");
@@ -63,9 +63,9 @@ public class SmsSender : ISmsSender
             await LoginAsync();
             return await SendAsync(message);
         }
-        else if (response.IsSuccessStatusCode) 
+        else if (response.IsSuccessStatusCode)
             return true;
-        else 
+        else
             return true;
     }
 

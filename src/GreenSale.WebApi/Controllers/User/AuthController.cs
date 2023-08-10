@@ -5,7 +5,6 @@ using GreenSale.Service.Interfaces.Auth;
 using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
 
@@ -59,15 +58,19 @@ namespace GreenSale.WebApi.Controllers.User
         [AllowAnonymous]
         public async Task<IActionResult> VerifyRegisterAsync([FromBody] VerfyUserDto dto)
         {
-            var valid = PhoneNumberValidator.IsValid(dto.PhoneNumber);
-            if (valid)
-            {
-                var srResult = await _authService.VerifyRegisterAsync(dto.PhoneNumber, dto.Code);
+            var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
+            if (res == false) return BadRequest("Phone number is invalid!");
+            var srResult = await _authService.VerifyRegisterAsync(dto.PhoneNumber, dto.Code);
+            return Ok(new { srResult.Result, srResult.Token });
+        }
 
-                return Ok(new { srResult.Result, srResult.Token });
-            }
-            else
-                return BadRequest("Phone number invalid");
+        [HttpPost("login/verify")]
+        public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto dto)
+        {
+            var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
+            if (res == false) return BadRequest("Phone number is invalid!");
+            var serviceResult = await _authService.LoginAsync(dto);
+            return Ok(new { serviceResult.Result, serviceResult.Token });
         }
     }
 }

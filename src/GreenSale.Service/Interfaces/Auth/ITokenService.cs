@@ -2,7 +2,7 @@
 
 namespace GreenSale.Service.Interfaces.Auth;
 
-internal interface ITokenService
+public interface ITokenService
 {
     public string GenerateToken(UserRoleViewModel user);
 }
