@@ -4,9 +4,7 @@ using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Numerics;
 
 namespace GreenSale.WebApi.Controllers.User
 {
@@ -27,13 +25,13 @@ namespace GreenSale.WebApi.Controllers.User
         {
             UserRegisterValidator validations = new UserRegisterValidator();
             var resltvalid = validations.Validate(dto);
-            if(resltvalid.IsValid)
+            if (resltvalid.IsValid)
             {
                 var result = await _authService.RegisterAsync(dto);
 
                 return Ok(new { result.Result, result.CachedMinutes });
             }
-            else 
+            else
                 return BadRequest(resltvalid.Errors);
 
         }
@@ -68,8 +66,11 @@ namespace GreenSale.WebApi.Controllers.User
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto dto)
         {
             var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
-            if (res == false) return BadRequest("Phone number is invalid!");
+            if (res == false)
+                return BadRequest("Phone number is invalid!");
+
             var serviceResult = await _authService.LoginAsync(dto);
+
             return Ok(new { serviceResult.Result, serviceResult.Token });
         }
     }

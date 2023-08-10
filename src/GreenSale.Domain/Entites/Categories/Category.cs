@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace GreenSale.Domain.Entites.Categories
+﻿namespace GreenSale.Domain.Entites.Categories
 {
     public class Category : Auditable
     {

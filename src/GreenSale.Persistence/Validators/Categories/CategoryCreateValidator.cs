@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using GreenSale.Domain.Entites.Categories;
 using GreenSale.Persistence.Dtos.CategoryDtos;
 
 namespace GreenSale.Persistence.Validators.Categories;
