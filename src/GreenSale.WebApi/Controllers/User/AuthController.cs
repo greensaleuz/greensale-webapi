@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace GreenSale.WebApi.Controllers.User
 {
@@ -58,8 +59,15 @@ namespace GreenSale.WebApi.Controllers.User
         [AllowAnonymous]
         public async Task<IActionResult> VerifyRegisterAsync([FromBody] VerfyUserDto dto)
         {
-            var srResult = await _authService.VerifyRegisterAsync(dto.PhoneNumber, dto.Code);
-            return Ok(new {srResult.Result, srResult.Token});
+            var valid = PhoneNumberValidator.IsValid(dto.PhoneNumber);
+            if (valid)
+            {
+                var srResult = await _authService.VerifyRegisterAsync(dto.PhoneNumber, dto.Code);
+
+                return Ok(new { srResult.Result, srResult.Token });
+            }
+            else
+                return BadRequest("Phone number invalid");
         }
     }
 }
