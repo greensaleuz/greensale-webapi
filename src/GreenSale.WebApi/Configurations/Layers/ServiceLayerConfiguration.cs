@@ -13,6 +13,7 @@ namespace GreenSale.WebApi.Configurations.Layers
         {
             builder.Services.AddScoped<IAuthServices, AuthServise>();
             builder.Services.AddScoped<ISmsSender, SmsSender>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
         }
     }
 }
