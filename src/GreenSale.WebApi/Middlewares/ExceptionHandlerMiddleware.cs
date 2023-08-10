@@ -1,45 +1,48 @@
 ﻿using GreenSale.Application.Exceptions;
 using Newtonsoft.Json;
 
-namespace GreenSale.WebApi.Middlewares
+namespace GreenSale.WebApi.Middlewares;
+
+public class ExceptionHandlerMiddleware
 {
-    public class ExceptionHandlerMiddleware
+    private readonly RequestDelegate _next;
+
+    public ExceptionHandlerMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        this._next = next;
+    }
+
+    public async Task InvokeAsync(HttpContext httpContext, IWebHostEnvironment environment)
+    {
+        try
         {
-            this._next = next;
+            await _next(httpContext);
         }
-        public async Task InvokeAsync(HttpContext httpContext, IWebHostEnvironment environment)
+        catch (ClientException exception)
         {
-            try
+            var obj = new
             {
-                await _next(httpContext);
+                StatusCode = (int)exception.StatusCode,
+                ErrorMessage = exception.TitleMessage
+            };
+
+            httpContext.Response.StatusCode = (int)exception.StatusCode;
+            httpContext.Response.Headers.ContentType = "application/json";
+            var json = JsonConvert.SerializeObject(obj);
+            await httpContext.Response.WriteAsync(json);
+        }
+        catch (Exception exception)
+        {
+            httpContext.Response.StatusCode = 500;
+            httpContext.Response.Headers.ContentType = "application/json";
+           
+            if (environment.IsDevelopment())
+            {
+                await httpContext.Response.WriteAsync(exception.Message);
             }
-            catch (ClientException exception)
+            else if(environment.IsProduction()) { }
             {
-                var obj = new
-                {
-                    StatusCode = (int)exception.StatusCode,
-                    ErrorMessage = exception.TitleMessage
-                };
-                httpContext.Response.StatusCode = (int)exception.StatusCode;
-                httpContext.Response.Headers.ContentType = "application/json";
-                var json = JsonConvert.SerializeObject(obj);
-                await httpContext.Response.WriteAsync(json);
-            }
-            catch (Exception exception)
-            {
-                httpContext.Response.StatusCode = 500;
-                httpContext.Response.Headers.ContentType = "application/json";
-                if (environment.IsDevelopment())
-                {
-                    await httpContext.Response.WriteAsync(exception.Message);
-                }
-                else if(environment.IsProduction()) { }
-                {
-                    await httpContext.Response.WriteAsync(exception.Message);
-                }
+                await httpContext.Response.WriteAsync(exception.Message);
             }
         }
     }
