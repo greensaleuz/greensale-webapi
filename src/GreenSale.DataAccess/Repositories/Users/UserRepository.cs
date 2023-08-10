@@ -36,9 +36,9 @@ public class UserRepository : BaseRepository, IUserRepository
             await _connection.OpenAsync();
 
             string query = "INSERT INTO public.users( first_name, last_name, phone_number, region, district, " +
-                " address, password_hash, password_confirm, salt, created_at, updated_at) " +
+                " address, password_hash, phone_number_confirm, salt, created_at, updated_at) " +
                     " VALUES ( @FirstName, @LastName, @PhoneNumber, @Region, @District, @Address, " +
-                        " @PasswordHash, @PasswordConfirm, @Salt, @CreatedAt, @UpdatedAt) RETURNING id ";
+                        " @PasswordHash, @PhoneNumberConfirme, @Salt, @CreatedAt, @UpdatedAt) RETURNING id ";
 
             var result = await _connection.ExecuteScalarAsync<int>(query, entity);
 

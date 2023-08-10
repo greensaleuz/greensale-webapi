@@ -9,7 +9,7 @@
         public string Region { get; set; } = string.Empty;
         public string District { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
-        public string Password_Hash { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
         public string Salt { get; set; } = string.Empty;
     }
 }

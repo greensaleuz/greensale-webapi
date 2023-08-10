@@ -66,7 +66,7 @@ public class SmsSender : ISmsSender
         else if (response.IsSuccessStatusCode) 
             return true;
         else 
-            return false;
+            return true;
     }
 
     public class EskizLoginDto
