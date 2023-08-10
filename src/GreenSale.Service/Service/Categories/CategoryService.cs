@@ -14,11 +14,14 @@ namespace GreenSale.Service.Service.Categories
         private ICategoryRepository _repository;
         private IPaginator _paginator;
 
-        public CategoryService(ICategoryRepository repository, IPaginator paginator)
+        public CategoryService(
+            ICategoryRepository repository, 
+            IPaginator paginator)
         {
             _repository = repository;
             _paginator = paginator;
         }
+
         public async Task<long> CountAsync()
         {
             return await _repository.CountAsync();
@@ -36,14 +39,16 @@ namespace GreenSale.Service.Service.Categories
             var result = await _repository.CreateAsync(category);
 
             return result > 0;
-
         }
 
         public async Task<bool> DeleteAsync(long categoryId)
         {
             var category = await _repository.GetByIdAsync(categoryId);
 
-            if (category is null) throw new CategoryNotFoundException();
+            if (category is null)
+            {
+                throw new CategoryNotFoundException();
+            }
 
             var result = await _repository.DeleteAsync(categoryId);
 
@@ -57,7 +62,6 @@ namespace GreenSale.Service.Service.Categories
             _paginator.Paginate(count, @params);
 
             return categories;
-
         }
 
         public async Task<Category> GetBYIdAsync(long categoryId)
@@ -74,7 +78,8 @@ namespace GreenSale.Service.Service.Categories
         {
             var categories = await _repository.GetByIdAsync(categoryID);
            
-            if( categories is null) throw new CategoryNotFoundException();
+            if( categories is null) 
+                throw new CategoryNotFoundException();
             
             categories.Name = dto.Name;
             categories.UpdatedAt = TimeHelper.GetDateTime();
