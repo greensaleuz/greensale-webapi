@@ -40,7 +40,6 @@ public class IdentityService
                 return "";
             else
                 return claim.Value;
-
         }
     }
 
@@ -57,7 +56,6 @@ public class IdentityService
                 return "";
             else
                 return claim.Value;
-
         }
     }
 
@@ -90,6 +88,6 @@ public class IdentityService
                 return "";
             else
                 return claim.Value;
-            }
+        }
     }
 }
