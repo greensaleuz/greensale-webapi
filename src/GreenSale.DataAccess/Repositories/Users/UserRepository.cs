@@ -120,6 +120,29 @@ public class UserRepository : BaseRepository, IUserRepository
         }
     }
 
+    public async Task<User> GetByPhoneAsync(string phone)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = "SELECT id, first_name, last_name, phone_number, region, district, address " +
+                $" FROM public.users where phone_number = @phone;";
+
+            var result = await _connection.QuerySingleOrDefaultAsync<User>(query, new { PhoneNumber = phone });
+
+            return result;
+        }
+        catch
+        {
+            return new User();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<(int ItemsCount, List<UserViewModel>)> SearchAsync(string search, PaginationParams @params)
     {
         try
