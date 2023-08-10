@@ -40,13 +40,13 @@ namespace GreenSale.DataAccess.Repositories.Roles
 
                 return result;
             }
-            catch 
+            catch
             {
-                return 0; 
+                return 0;
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 
@@ -60,13 +60,13 @@ namespace GreenSale.DataAccess.Repositories.Roles
 
                 return result;
             }
-            catch 
+            catch
             {
-                return 0; 
+                return 0;
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 
@@ -83,13 +83,13 @@ namespace GreenSale.DataAccess.Repositories.Roles
 
                 return result;
             }
-            catch 
-            { 
-                return new List<Role>(); 
+            catch
+            {
+                return new List<Role>();
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 
@@ -103,13 +103,13 @@ namespace GreenSale.DataAccess.Repositories.Roles
 
                 return result;
             }
-            catch 
-            { 
-                return new Role(); 
+            catch
+            {
+                return new Role();
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
 
@@ -126,13 +126,13 @@ namespace GreenSale.DataAccess.Repositories.Roles
 
                 return result;
             }
-            catch 
-            { 
-                return 0; 
+            catch
+            {
+                return 0;
             }
-            finally 
-            { 
-                await _connection.CloseAsync(); 
+            finally
+            {
+                await _connection.CloseAsync();
             }
         }
     }

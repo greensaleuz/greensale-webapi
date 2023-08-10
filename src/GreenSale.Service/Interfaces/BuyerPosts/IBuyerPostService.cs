@@ -1,8 +1,6 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
-using GreenSale.Domain.Entites.Categories;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
-using GreenSale.Persistence.Dtos.CategoryDtos;
 
 namespace GreenSale.Service.Interfaces.BuyerPosts;
 

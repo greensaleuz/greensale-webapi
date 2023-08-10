@@ -11,5 +11,5 @@ public interface ICategoryService
     public Task<bool> UpdateAsync(long categoryID, CategoryUpdateDto dto);
     public Task<long> CountAsync();
     public Task<List<Category>> GetAllAsync(PaginationParams @params);
-    public Task<Category>GetBYIdAsync(long categoryId);
+    public Task<Category> GetBYIdAsync(long categoryId);
 }
