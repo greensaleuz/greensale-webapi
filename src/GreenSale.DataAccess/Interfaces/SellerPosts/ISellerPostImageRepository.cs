@@ -3,5 +3,5 @@
 namespace GreenSale.DataAccess.Interfaces.SellerPosts
 {
     public interface ISellerPostImageRepository : IRepository<SellerPostImage, SellerPostImage>
-    {}
+    { }
 }
