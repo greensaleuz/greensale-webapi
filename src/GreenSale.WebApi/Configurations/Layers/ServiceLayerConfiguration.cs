@@ -10,7 +10,6 @@ namespace GreenSale.WebApi.Configurations.Layers
     {
         public static void ConfigureServiceLayer(this WebApplicationBuilder builder)
         {
-            //-> DI containers, IoC containers
             builder.Services.AddScoped<IAuthServices, AuthServise>();
         }
     }

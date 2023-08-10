@@ -9,7 +9,6 @@ namespace GreenSale.WebApi.Configurations.Layers
     {
         public static void ConfigureDataAccess(this WebApplicationBuilder builder)
         {
-            //-> DI containers, IoC containers
             builder.Services.AddScoped<IUserRepository, UserRepository>();
         }
     }
