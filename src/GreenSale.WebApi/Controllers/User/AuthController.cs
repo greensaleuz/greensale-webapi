@@ -3,7 +3,6 @@ using GreenSale.Persistence.Dtos.Auth;
 using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Auth;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.User
@@ -45,7 +44,7 @@ namespace GreenSale.WebApi.Controllers.User
             var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
             if (res == false) return BadRequest("Phone number is invalid!");
             var srResult = await _authService.VerifyRegisterAsync(dto.PhoneNumber, dto.Code);
-            return Ok(new {srResult.Result, srResult.Token});
+            return Ok(new { srResult.Result, srResult.Token });
         }
 
         [HttpPost("login/verify")]

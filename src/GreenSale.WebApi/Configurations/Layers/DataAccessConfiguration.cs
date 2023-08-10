@@ -1,6 +1,4 @@
-﻿using GreenSale.DataAccess.Interfaces.Categories;
-using GreenSale.DataAccess.Interfaces.Users;
-using GreenSale.DataAccess.Repositories.Categories;
+﻿using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.Repositories.Users;
 
 namespace GreenSale.WebApi.Configurations.Layers

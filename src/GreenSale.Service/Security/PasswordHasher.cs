@@ -1,4 +1,4 @@
-﻿namespace GreenSale.Service.Security; 
+﻿namespace GreenSale.Service.Security;
 
 public class PasswordHasher
 {

@@ -1,6 +1,4 @@
 ﻿using GreenSale.Service.Interfaces.Auth;
-using GreenSale.Service.Interfaces.Categories;
-using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Notifications;
 using GreenSale.Service.Service.Auth;
 using GreenSale.Service.Service.Notifications;

@@ -11,9 +11,7 @@ using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Notifications;
 using GreenSale.Service.Security;
-using GreenSale.Service.Service.Notifications;
 using Microsoft.Extensions.Caching.Memory;
-using System.Numerics;
 
 namespace GreenSale.Service.Service.Auth;
 
@@ -27,11 +25,11 @@ public class AuthServise : IAuthServices
     private const string VERIFY_REGISTER_CACHE_KEY = "verify_register_";
     private readonly ITokenService _tokenService;
     private readonly ISmsSender _smsSender;
-    private  readonly IMemoryCache _memoryCache;
+    private readonly IMemoryCache _memoryCache;
     private readonly IUserRepository _userRepository;
 
     public AuthServise(
-        IMemoryCache memoryCache, 
+        IMemoryCache memoryCache,
         IUserRepository userRepository,
         ITokenService tokenService,
         ISmsSender smsSender)
@@ -46,7 +44,7 @@ public class AuthServise : IAuthServices
     {
         var dbResult = await _userRepository.GetByPhoneAsync(dto.PhoneNumber);
 
-        if(dbResult is not null)
+        if (dbResult is not null)
             throw new UserAlreadyExistsException();
 
         if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto registerDto))
@@ -65,15 +63,15 @@ public class AuthServise : IAuthServices
 
     public async Task<(bool Result, int CachedVerificationMinutes)> SendCodeForRegisterAsync(string phoneNumber)
     {
-        if(_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phoneNumber, out UserRegisterDto registerDto))
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phoneNumber, out UserRegisterDto registerDto))
         {
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
             verificationDto.CreatedAt = TimeHelper.GetDateTime();
             verificationDto.Code = 1234; // than genereted code, at nowdefoukt code
-            _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));          
+            _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
-            if(_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
                 out VerificationDto OldverificationDto))
             {
                 _memoryCache.Remove(phoneNumber);
@@ -90,7 +88,7 @@ public class AuthServise : IAuthServices
 
             if (result is true)
                 return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
-            else 
+            else
                 return (Result: false, CACHED_FOR_MINUTS_VEFICATION: 0);
         }
         else
@@ -101,7 +99,7 @@ public class AuthServise : IAuthServices
 
     public async Task<(bool Result, string Token)> VerifyRegisterAsync(string phoneNumber, int code)
     {
-        if(_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phoneNumber, out UserRegisterDto userRegisterDto))
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phoneNumber, out UserRegisterDto userRegisterDto))
         {
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber, out VerificationDto verificationDto))
             {
@@ -170,7 +168,7 @@ public class AuthServise : IAuthServices
             District = userRegisterDto.District,
             Address = userRegisterDto.Address,
             PhoneNumberConfirme = true,
-            
+
             CreatedAt = TimeHelper.GetDateTime(),
             UpdatedAt = TimeHelper.GetDateTime(),
         };
