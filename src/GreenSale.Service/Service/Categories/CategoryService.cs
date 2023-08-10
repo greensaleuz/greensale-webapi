@@ -45,7 +45,7 @@ namespace GreenSale.Service.Service.Categories
         {
             var category = await _repository.GetByIdAsync(categoryId);
 
-            if (category.Id == 0 )
+            if (category.Id == 0)
             {
                 throw new CategoryNotFoundException();
             }
@@ -77,8 +77,13 @@ namespace GreenSale.Service.Service.Categories
         public async Task<bool> UpdateAsync(long categoryID, CategoryCreateDto dto)
         {
             var categories = await _repository.GetByIdAsync(categoryID);
+<<<<<<< HEAD
+
+            if (categories is null)
+=======
            
             if( categories.Id == 0) 
+>>>>>>> main
                 throw new CategoryNotFoundException();
 
             categories.Name = dto.Name;
