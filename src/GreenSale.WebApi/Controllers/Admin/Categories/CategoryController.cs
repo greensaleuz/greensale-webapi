@@ -36,7 +36,7 @@ namespace GreenSale.WebApi.Controllers.Admin.Categories
         public async Task<IActionResult>CountAsync()
             => Ok(await _service.CountAsync());
 
-        [HttpDelete("categoryId")]
+        [HttpDelete("{categoryId}")]
         [AllowAnonymous]
         public async Task<IActionResult> DeleteAsync(long categoryId)
             => Ok(await _service.DeleteAsync(categoryId));
