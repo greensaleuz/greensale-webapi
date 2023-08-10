@@ -24,7 +24,10 @@ public class AuthServise : IAuthServices
     private  readonly IMemoryCache _memoryCache;
     private readonly IUserRepository _userRepository;
 
-    public AuthServise(IMemoryCache memoryCache, IUserRepository userRepository, ISmsSender smsSender)
+    public AuthServise(
+        IMemoryCache memoryCache, 
+        IUserRepository userRepository, 
+        ISmsSender smsSender)
     {
         this._smsSender = smsSender;
         this._memoryCache = memoryCache;
