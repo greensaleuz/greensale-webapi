@@ -135,7 +135,7 @@ public class UserRepository : BaseRepository, IUserRepository
         }
         catch
         {
-            return new User();
+            return null;
         }
         finally
         {

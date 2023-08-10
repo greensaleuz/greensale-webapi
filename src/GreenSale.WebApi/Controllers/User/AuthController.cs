@@ -1,8 +1,11 @@
 ﻿using GreenSale.Persistence.Dtos;
 using GreenSale.Persistence.Dtos.Auth;
+using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Auth;
+using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.User
@@ -22,17 +25,33 @@ namespace GreenSale.WebApi.Controllers.User
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync([FromForm] UserRegisterDto dto)
         {
-            var result = await _authService.RegisterAsync(dto);
+            UserRegisterValidator validations = new UserRegisterValidator();
+            var resltvalid = validations.Validate(dto);
+            if(resltvalid.IsValid)
+            {
+                var result = await _authService.RegisterAsync(dto);
 
-            return Ok(new { result.Result, result.CachedMinutes });
+                return Ok(new { result.Result, result.CachedMinutes });
+            }
+            else 
+                return BadRequest(resltvalid.Errors);
+
         }
 
         [HttpPost("register/send-code")]
         [AllowAnonymous]
         public async Task<IActionResult> SendCodeAsync(string phone)
         {
-            var result = await _authService.SendCodeForRegisterAsync(phone);
-            return Ok(new { result.Result, result.CachedVerificationMinutes });
+            var valid = PhoneNumberValidator.IsValid(phone);
+            if (valid)
+            {
+                var result = await _authService.SendCodeForRegisterAsync(phone);
+
+                return Ok(new { result.Result, result.CachedVerificationMinutes });
+            }
+            else
+                return BadRequest("Phone number invalid");
+
         }
 
         [HttpPost("register/verify")]
