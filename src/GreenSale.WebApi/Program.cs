@@ -2,6 +2,7 @@ using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.Repositories.Users;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Service.Auth;
+using GreenSale.WebApi.Configurations.Layers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +16,9 @@ builder.Services.AddMemoryCache();
 
 
 //-->dataacces
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.ConfigureDataAccess();
 //-> service
-builder.Services.AddScoped<IAuthServices, AuthServise>();
+builder.ConfigureServiceLayer();
 
 var app = builder.Build();
 

@@ -19,7 +19,6 @@ namespace GreenSale.WebApi.Controllers.User
 
         [HttpPost]
         [AllowAnonymous]
-
         public async Task<IActionResult> RegisterAsync([FromForm] UserRegisterDto dto)
         {
             var result = await _authService.RegisterAsync(dto);
