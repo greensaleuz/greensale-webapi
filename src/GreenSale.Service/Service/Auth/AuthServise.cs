@@ -1,6 +1,8 @@
 ﻿using GreenSale.Application.Exceptions;
+using GreenSale.Application.Exceptions.Auth;
 using GreenSale.Application.Exceptions.Users;
 using GreenSale.DataAccess.Interfaces.Users;
+using GreenSale.Domain.Entites.Users;
 using GreenSale.Persistence.Dtos;
 using GreenSale.Persistence.Dtos.Notifications;
 using GreenSale.Persistence.Dtos.Security;
@@ -9,6 +11,7 @@ using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Notifications;
 using GreenSale.Service.Service.Notifications;
 using Microsoft.Extensions.Caching.Memory;
+using System.Numerics;
 
 namespace GreenSale.Service.Service.Auth;
 
@@ -77,7 +80,7 @@ public class AuthServise : IAuthServices
             smsSenderDto.Title = "Green sale\n";
             smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
             smsSenderDto.Recipent = phoneNumber.Substring(1);
-            var result = await _smsSender.SendAsync(smsSenderDto);
+            var result = true; //await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
                 return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
@@ -90,13 +93,59 @@ public class AuthServise : IAuthServices
         }
     }
 
-    public Task<(bool Result, string Token)> VerifyRegisterAsync(string phoneNumber, int code)
+    public async Task<(bool Result, string Token)> VerifyRegisterAsync(string phoneNumber, int code)
     {
-        throw new NotImplementedException();
+        if(_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phoneNumber, out UserRegisterDto userRegisterDto))
+        {
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber, out VerificationDto verificationDto))
+            {
+                if (verificationDto.Attempt >= VERIFICATION_MAXIMUM_ATTEMPTS)
+                    throw new VerificationTooManyRequestsException();
+                else if (verificationDto.Code == code)
+                {
+                    var dbresult = await RegisterToDatabaseAsync(userRegisterDto);
+                    if (dbresult == 0)
+                        throw new UserNotFoundException();
+                    return (Result: true, Token: "");
+                }
+                else
+                {
+                    _memoryCache.Remove(VERIFY_REGISTER_CACHE_KEY + phoneNumber);
+                    verificationDto.Attempt++;
+                    _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + phoneNumber, verificationDto,
+                        TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
+                    return (Result: false, Token: "");
+                }
+            }
+            else throw new VerificationCodeExpiredException();
+        }
+        else throw new ExpiredException();
     }
 
     public Task<(bool Result, string Token)> LoginAsync(UserLoginDto dto)
     {
         throw new NotImplementedException();
+    }
+
+    private async Task<int> RegisterToDatabaseAsync(UserRegisterDto userRegisterDto)
+    {
+        User user = new User()
+        {
+            FirstName = userRegisterDto.FirstName,
+            LastName = userRegisterDto.LastName,
+            PhoneNumber = userRegisterDto.PhoneNumber,
+            Region = userRegisterDto.Region,
+            District = userRegisterDto.District,
+            Address = userRegisterDto.Address,
+            PhoneNumberConfirme = true,
+            PasswordHash = "juefhgeauk",
+            Salt = "dsfkvj",
+            CreatedAt = TimeHelper.GetDateTime(),
+            UpdatedAt = TimeHelper.GetDateTime(),
+        };
+
+        var dbResult = await _userRepository.CreateAsync(user);
+
+        return dbResult;
     }
 }

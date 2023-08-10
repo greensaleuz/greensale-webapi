@@ -1,4 +1,5 @@
 ﻿using GreenSale.Persistence.Dtos;
+using GreenSale.Persistence.Dtos.Auth;
 using GreenSale.Service.Interfaces.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,14 @@ namespace GreenSale.WebApi.Controllers.User
         {
             var result = await _authService.SendCodeForRegisterAsync(phone);
             return Ok(new { result.Result, result.CachedVerificationMinutes });
+        }
+
+        [HttpPost("register/verify")]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyRegisterAsync([FromBody] VerfyUserDto dto)
+        {
+            var srResult = await _authService.VerifyRegisterAsync(dto.PhoneNumber, dto.Code);
+            return Ok(new {srResult.Result, srResult.Token});
         }
     }
 }
