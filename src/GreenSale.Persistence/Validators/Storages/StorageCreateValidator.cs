@@ -16,7 +16,7 @@ public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
 
         RuleFor(dto => dto.Region).NotNull().NotEmpty().WithMessage("Region filed is required");
         RuleFor(dto => dto.District).NotNull().NotEmpty().WithMessage("District filed is required");
-        RuleFor(dto => dto.Address).NotNull().NotEmpty().WithMessage("Adress filed is required");
+        RuleFor(dto => dto.Address).NotNull().NotEmpty().WithMessage("Address filed is required");
         
         RuleFor(dto => dto.Info).NotNull().NotEmpty().WithMessage("Info filed is required")
             .MinimumLength(3).WithMessage("Info must be more than 3 characters");
