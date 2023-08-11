@@ -6,21 +6,21 @@ using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.User
+namespace GreenSale.WebApi.Controllers.Common.Auth
+
 {
-    [Route("api/auth")]
+    [Route("api/common/auth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
         private readonly IAuthServices _authService;
 
         public AuthController(IAuthServices authServices)
         {
-            this._authService = authServices;
+            _authService = authServices;
         }
 
         [HttpPost("register")]
-        [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync([FromForm] UserRegisterDto dto)
         {
             UserRegisterValidator validations = new UserRegisterValidator();
@@ -37,7 +37,6 @@ namespace GreenSale.WebApi.Controllers.User
         }
 
         [HttpPost("register/send-code")]
-        [AllowAnonymous]
         public async Task<IActionResult> SendCodeAsync(string phone)
         {
             var valid = PhoneNumberValidator.IsValid(phone);
@@ -53,7 +52,6 @@ namespace GreenSale.WebApi.Controllers.User
         }
 
         [HttpPost("register/verify")]
-        [AllowAnonymous]
         public async Task<IActionResult> VerifyRegisterAsync([FromBody] VerfyUserDto dto)
         {
             var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);

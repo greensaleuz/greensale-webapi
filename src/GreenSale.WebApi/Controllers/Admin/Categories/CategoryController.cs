@@ -9,7 +9,7 @@ namespace GreenSale.WebApi.Controllers.Admin.Categories
 {
     [Route("api/category")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryController : AdminBaseController
     {
         private ICategoryService _service;
         private readonly int maxPage = 30;
@@ -20,12 +20,10 @@ namespace GreenSale.WebApi.Controllers.Admin.Categories
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
             => Ok(await _service.GetAllAsync(new PaginationParams(page, maxPage)));
 
         [HttpGet("{categoryId}")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetByIdAsync(long categoryId)
             => Ok(await _service.GetBYIdAsync(categoryId));
 
@@ -34,12 +32,10 @@ namespace GreenSale.WebApi.Controllers.Admin.Categories
             => Ok(await _service.CountAsync());
 
         [HttpDelete("{categoryId}")]
-        [AllowAnonymous]
         public async Task<IActionResult> DeleteAsync(long categoryId)
             => Ok(await _service.DeleteAsync(categoryId));
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> CreateAsync([FromForm] CategoryCreateDto dto)
         {
             CategoryCreateValidator validations = new CategoryCreateValidator();
@@ -52,8 +48,8 @@ namespace GreenSale.WebApi.Controllers.Admin.Categories
 
             return BadRequest(result.Errors);
         }
+
         [HttpPatch("{categoryId}")]
-        [AllowAnonymous]
         public async Task<IActionResult> UpdateAsync(long categoryId, [FromForm] CategoryCreateDto dto)
         {
             CategoryCreateValidator update = new CategoryCreateValidator();
