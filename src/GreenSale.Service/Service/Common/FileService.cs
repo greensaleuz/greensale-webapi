@@ -8,8 +8,8 @@ namespace GreenSale.Service.Service.Common;
 
 public class FileService : IFileService
 {
-    private readonly string MEDIA = "medias";
-    private readonly string IMAGES = "images";
+    private readonly string MEDIA = "Media";
+    private readonly string IMAGES = "Images";
     private readonly string ROOTPATH;
 
     public FileService(IWebHostEnvironment env)

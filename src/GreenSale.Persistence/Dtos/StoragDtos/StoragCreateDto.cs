@@ -4,6 +4,7 @@ namespace GreenSale.Persistence.Dtos.StoragDtos;
 
 public class StoragCreateDto
 {
+    public long UserId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Region { get; set; } = string.Empty;
