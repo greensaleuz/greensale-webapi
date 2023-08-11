@@ -1,4 +1,4 @@
-﻿namespace GreenSale.Service.Helpers;
+﻿namespace GreenSale.Persistence.Helpers;
 
 public class MediaHelper
 {
