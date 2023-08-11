@@ -1,10 +1,10 @@
-﻿namespace GreenSale.Service.Helpers;
+﻿namespace GreenSale.Persistence.Helpers;
 
 public class MediaHelper
 {
-    public static string MakeImageName (string fileName)
+    public static string MakeImageName(string fileName)
     {
-        FileInfo file = new FileInfo (fileName);
+        FileInfo file = new FileInfo(fileName);
         string extension = file.Extension;
         string name = "IMG_" + Guid.NewGuid() + extension;
 

@@ -39,7 +39,7 @@ namespace GreenSale.DataAccess.Repositories.Storages
                         " VALUES (@Name, @Description, @Region, @District, @Address, @AddressLatitude, " +
                             " @AddressLongitude, @Info, @ImagePath, @UserId, @CreatedAt, @UpdatedAt) RETURNING id ";
 
-                var result = await _connection.ExecuteScalarAsync<int>(query, entity);
+                var result = await _connection.QuerySingleAsync<int>(query, entity);
 
                 return result;
             }

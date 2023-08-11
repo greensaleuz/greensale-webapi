@@ -8,7 +8,7 @@ public interface ICategoryService
 {
     public Task<bool> CreateAsync(CategoryCreateDto dto);
     public Task<bool> DeleteAsync(long categoryId);
-    public Task<bool> UpdateAsync(long categoryID, CategoryUpdateDto dto);
+    public Task<bool> UpdateAsync(long categoryID, CategoryCreateDto dto);
     public Task<long> CountAsync();
     public Task<List<Category>> GetAllAsync(PaginationParams @params);
     public Task<Category> GetBYIdAsync(long categoryId);

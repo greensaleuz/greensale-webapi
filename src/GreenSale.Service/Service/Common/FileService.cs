@@ -1,12 +1,15 @@
-﻿using GreenSale.Service.Interfaces.Common;
-using Microsoft.AspNetCore.Http;
+﻿using GreenSale.Persistence.Helpers;
+using GreenSale.Service.Interfaces.Common;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography.X509Certificates;
+
 namespace GreenSale.Service.Service.Common;
 
 public class FileService : IFileService
 {
-    private readonly string MEDIA = "media";
-    private readonly string IMAGES = "image";
+    private readonly string MEDIA = "Media";
+    private readonly string IMAGES = "Images";
     private readonly string ROOTPATH;
 
     public FileService(IWebHostEnvironment env)
@@ -16,9 +19,9 @@ public class FileService : IFileService
 
     public async Task<bool> DeleteImageAsync(string subpath)
     {
-        string path =  Path.Combine(ROOTPATH, subpath);
+        string path = Path.Combine(ROOTPATH, subpath);
 
-        if(File.Exists(path))
+        if (File.Exists(path))
         {
             await Task.Run(() =>
             {
@@ -31,8 +34,15 @@ public class FileService : IFileService
         return false;
     }
 
-    public Task<string> UploadImageAsync(IFormFile image)
+    public async Task<string> UploadImageAsync(IFormFile image)
     {
-        throw new NotImplementedException();
+        string newImageName = MediaHelper.MakeImageName(image.FileName);
+        string subPath = Path.Combine(MEDIA, IMAGES, newImageName);
+        string path = Path.Combine(ROOTPATH, subPath);
+        var stream = new FileStream(path, FileMode.Create);
+        await image.CopyToAsync(stream);
+        stream.Close();
+
+        return subPath;
     }
 }
