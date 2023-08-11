@@ -20,8 +20,7 @@ public class RoleService : IRoleService
         IPaginator paginator )
     {
         this._roleRepository = roleRepository;
-        this._paginator = paginator;
-            
+        this._paginator = paginator;       
     }
 
     public async Task<long> CountAsync()
