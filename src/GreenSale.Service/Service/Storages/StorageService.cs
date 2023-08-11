@@ -36,6 +36,7 @@ public class StorageService : IStoragesService
         string imagePath = await _fileService.UploadImageAsync(dto.ImagePath);
         Storage storage = new Storage()
         {
+            UserId= dto.UserId,
             Name = dto.Name,
             Description = dto.Description,
             Region = dto.Region,
