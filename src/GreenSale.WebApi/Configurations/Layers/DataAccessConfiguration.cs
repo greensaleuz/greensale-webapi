@@ -1,6 +1,8 @@
 ﻿using GreenSale.DataAccess.Interfaces.Categories;
+using GreenSale.DataAccess.Interfaces.Roles;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.Repositories.Categories;
+using GreenSale.DataAccess.Repositories.Roles;
 using GreenSale.DataAccess.Repositories.Users;
 
 namespace GreenSale.WebApi.Configurations.Layers
@@ -11,6 +13,7 @@ namespace GreenSale.WebApi.Configurations.Layers
         {
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepositories>();
         }
     }
 }

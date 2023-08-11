@@ -73,7 +73,7 @@ public class RoleService : IRoleService
         return rolesGet;
     }
 
-    public async Task<bool> UpdateAsync(long roleId, RoleUpdateDto dto)
+    public async Task<bool> UpdateAsync(long roleId, RoleCreatDto dto)
     {
         var roleUpdate = await _roleRepository.GetByIdAsync(roleId);
 
