@@ -33,7 +33,6 @@ public class RoleValidatorTest
         Assert.True(result.IsValid);
     }
 
-
     [Theory]
     [InlineData("")]
     [InlineData("No")]

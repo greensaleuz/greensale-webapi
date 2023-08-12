@@ -30,7 +30,6 @@ public class CategoryValidatorTest
         Assert.True(result.IsValid);
     }
 
-
     [Theory]
     [InlineData("")]
     [InlineData("No")]
