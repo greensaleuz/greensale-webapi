@@ -100,5 +100,4 @@ public class StorageCreatedValidatorTest
 
         Assert.False(result.IsValid);
     }
-
 }
