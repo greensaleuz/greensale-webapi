@@ -6,7 +6,6 @@ using GreenSale.Persistence.Dtos.RoleDtos;
 using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Roles;
-using System.Net.Http.Headers;
 
 namespace GreenSale.Service.Service.Roles;
 
@@ -17,10 +16,10 @@ public class RoleService : IRoleService
 
     public RoleService(
         IRoleRepository roleRepository,
-        IPaginator paginator )
+        IPaginator paginator)
     {
         this._roleRepository = roleRepository;
-        this._paginator = paginator;       
+        this._paginator = paginator;
     }
 
     public async Task<long> CountAsync()
@@ -36,10 +35,10 @@ public class RoleService : IRoleService
             CreatedAt = TimeHelper.GetDateTime(),
             UpdatedAt = TimeHelper.GetDateTime()
         };
-        
+
         var result = await _roleRepository.CreateAsync(role);
 
-        return result>0;
+        return result > 0;
     }
 
     public async Task<bool> DeleteAsync(long roleId)
@@ -57,7 +56,7 @@ public class RoleService : IRoleService
     public async Task<List<Role>> GetAllAsync(PaginationParams @params)
     {
         var rolesGet = await _roleRepository.GetAllAsync(@params);
-        var count  =await _roleRepository.CountAsync();
+        var count = await _roleRepository.CountAsync();
         _paginator.Paginate(count, @params);
 
         return rolesGet;
@@ -67,7 +66,7 @@ public class RoleService : IRoleService
     {
         var rolesGet = await _roleRepository.GetByIdAsync(roleId);
 
-        if(rolesGet.Id ==0) 
+        if (rolesGet.Id == 0)
             throw new RoleNotFoundException();
 
         return rolesGet;
@@ -77,10 +76,10 @@ public class RoleService : IRoleService
     {
         var roleUpdate = await _roleRepository.GetByIdAsync(roleId);
 
-        if(roleUpdate.Id ==0)
+        if (roleUpdate.Id == 0)
             throw new RoleNotFoundException();
 
-        roleUpdate.Name= dto.Name;
+        roleUpdate.Name = dto.Name;
         roleUpdate.UpdatedAt = TimeHelper.GetDateTime();
         var result = await _roleRepository.UpdateAsync(roleId, roleUpdate);
 

@@ -4,7 +4,7 @@ using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 namespace GreenSale.Test.ValidatorsTest.AuthTest;
 
 public class UserRegisterValidatorTests
-{   
+{
     [Theory]
     [InlineData("Uligaliyev", "Hasa", "+998901234567", "NAdijan", "Asska", "Address123", "StrongP@ss123")]
     [InlineData("Samit", "tooShort", "+998901234567", "Region", "District", "Address123", "StrongP@ss123")]
@@ -17,8 +17,8 @@ public class UserRegisterValidatorTests
     [InlineData("Javlonhn", "Doe", "+998904563412", "Region", "District", "Address123", "StrongP@ss123")]
     [InlineData("Aohn", "Doe", "+998901234567", "Region", "District", "Address123", "dfkbhjGJV78875^&*^&*")]
 
-    public void ValidUserRegisterDto_ReturnsNoValidationErrors( 
-        string firstName, string lastName, string phoneNumber, string region, string district,                         
+    public void ValidUserRegisterDto_ReturnsNoValidationErrors(
+        string firstName, string lastName, string phoneNumber, string region, string district,
         string address, string password)
     {
         var dto = new UserRegisterDto
@@ -32,7 +32,7 @@ public class UserRegisterValidatorTests
             Password = password
         };
 
-        UserRegisterValidator  validationRules = new UserRegisterValidator();
+        UserRegisterValidator validationRules = new UserRegisterValidator();
         var result = validationRules.Validate(dto);
 
         Assert.True(result.IsValid);

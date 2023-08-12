@@ -16,7 +16,7 @@ public class PhoneNumberTest
     [InlineData("+998911211314")]
     [InlineData("+998501911314")]
 
-    public void  ShoulReturnCorrect(string phoneNumber)
+    public void ShoulReturnCorrect(string phoneNumber)
     {
         var result = PhoneNumberValidator.IsValid(phoneNumber);
         Assert.True(result);

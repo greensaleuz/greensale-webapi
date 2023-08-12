@@ -2,8 +2,8 @@
 
 public class RoleNotFoundException : NotFoundException
 {
-	public RoleNotFoundException()
-	{
+    public RoleNotFoundException()
+    {
         TitleMessage = "Role not found!";
     }
 }

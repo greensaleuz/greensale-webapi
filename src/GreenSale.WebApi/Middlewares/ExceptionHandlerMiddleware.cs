@@ -35,12 +35,12 @@ public class ExceptionHandlerMiddleware
         {
             httpContext.Response.StatusCode = 500;
             httpContext.Response.Headers.ContentType = "application/json";
-           
+
             if (environment.IsDevelopment())
             {
                 await httpContext.Response.WriteAsync(exception.Message);
             }
-            else if(environment.IsProduction()) { }
+            else if (environment.IsProduction()) { }
             {
                 await httpContext.Response.WriteAsync(exception.Message);
             }
