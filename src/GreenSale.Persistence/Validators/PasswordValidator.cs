@@ -13,8 +13,6 @@ public class PasswordValidator
         bool isLowerCaseExists = false;
         bool isNumberExists = false;
         bool isCharacterExists = false;
-        if(password.ToString() == null)
-            return (IsValid: false, Message: string.Empty);
 
         foreach (var item in password)
         {
