@@ -11,5 +11,5 @@ public interface IRoleService
     public Task<bool> DeleteAsync(long roleId);
     public Task<List<Role>> GetAllAsync(PaginationParams @params);
     public Task<Role> GetByIdAsync(long roleId);
-    public Task<long>CountAsync();
+    public Task<long> CountAsync();
 }

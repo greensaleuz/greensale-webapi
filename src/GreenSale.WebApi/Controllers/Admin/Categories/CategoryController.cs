@@ -2,7 +2,6 @@
 using GreenSale.Persistence.Dtos.CategoryDtos;
 using GreenSale.Persistence.Validators.Categories;
 using GreenSale.Service.Interfaces.Categories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Admin.Categories

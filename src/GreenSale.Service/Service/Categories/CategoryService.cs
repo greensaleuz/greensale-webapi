@@ -77,8 +77,8 @@ namespace GreenSale.Service.Service.Categories
         public async Task<bool> UpdateAsync(long categoryID, CategoryCreateDto dto)
         {
             var categories = await _repository.GetByIdAsync(categoryID);
-            
-            if(categories.Id == 0) 
+
+            if (categories.Id == 0)
                 throw new CategoryNotFoundException();
 
             categories.Name = dto.Name;
