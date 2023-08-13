@@ -19,8 +19,8 @@ public class SmsSender : ISmsSender
     {
         BASE_URL = "https://notify.eskiz.uz"!;
         SENDER = "4546"!;
-        EMAIL = "able.devops@gmail.com"!;
-        PASSWORD = "3nUhur3fB9hiFZZAbBAHJ5fRaik0oTsamS8w6En9"!;
+        EMAIL = "bobonazarovhasan54@gmail.com"!;
+        PASSWORD = "JsVpx4CgbFyOaudPHp4tjoHYJ03nM4xa2jkvtfve"!;
     }
 
     private async Task LoginAsync()
