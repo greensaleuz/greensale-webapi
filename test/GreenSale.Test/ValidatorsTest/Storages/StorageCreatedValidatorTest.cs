@@ -71,7 +71,6 @@ public class StorageCreatedValidatorTest
     [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "Info", 41.12345, -71.98765, 7)]
     [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "Info", 41.12345, -71.98765, 6.5)]
 
-
     public void CheckFalsTest(
         string name, string description, string region, string district, string address, string info, double latitude, 
         double longitude, double imgasize)
