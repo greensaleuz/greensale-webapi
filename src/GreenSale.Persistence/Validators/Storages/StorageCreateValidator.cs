@@ -12,7 +12,7 @@ public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
                 .MaximumLength(50).WithMessage("Name be less than 50 characters");
 
         RuleFor(dto => dto.Description).NotNull().NotEmpty().WithMessage("Description filed is required")
-                .MinimumLength(15).WithMessage("Description must be more than 15 characters");
+            .MinimumLength(15).WithMessage("Description must be more than 15 characters");
 
         RuleFor(dto => dto.Region).NotNull().NotEmpty().WithMessage("Region filed is required");
         RuleFor(dto => dto.District).NotNull().NotEmpty().WithMessage("District filed is required");
@@ -28,7 +28,7 @@ public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
         RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("Image filed is required!");
 
         RuleFor(dto => dto.ImagePath.Length).LessThan(maxImageSize * 1024 * 1024 + 1)
-                .WithMessage($"Image size must be less than {maxImageSize} * MB");
+            .WithMessage($"Image size must be less than {maxImageSize} * MB");
 
         RuleFor(dto => dto.ImagePath.FileName).Must(predicate =>
         {
