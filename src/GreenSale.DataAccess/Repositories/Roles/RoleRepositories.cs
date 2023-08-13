@@ -99,7 +99,7 @@ namespace GreenSale.DataAccess.Repositories.Roles
             {
                 await _connection.OpenAsync();
                 string query = $"select * from roles where id =@ID";
-                var result = await _connection.QuerySingleAsync<Role>(query, new {ID = Id});
+                var result = await _connection.QuerySingleAsync<Role>(query, new { ID = Id });
 
                 return result;
             }

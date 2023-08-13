@@ -4,17 +4,14 @@ using GreenSale.Application.Exceptions.Users;
 using GreenSale.DataAccess.Interfaces.Roles;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.UserRoles;
-using GreenSale.Domain.Entites.Roles;
 using GreenSale.Domain.Entites.Roles.UserRoles;
 using GreenSale.Domain.Entites.Users;
 using GreenSale.Persistence.Dtos;
 using GreenSale.Persistence.Dtos.Notifications;
-using GreenSale.Persistence.Dtos.RoleDtos;
 using GreenSale.Persistence.Dtos.Security;
 using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Notifications;
-using GreenSale.Service.Interfaces.Roles;
 using GreenSale.Service.Security;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -136,7 +133,7 @@ public class AuthServise : IAuthServices
                             UpdatedAt = TimeHelper.GetDateTime(),
                         };
                         var DbUserRoles = await _userRoles.CreateAsync(userRole);
-                        if(DbUserRoles > 0)
+                        if (DbUserRoles > 0)
                             return (Result: true, Token: "");
                         else
                             return (Result: false, Token: "");

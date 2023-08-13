@@ -1,15 +1,9 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using GreenSale.Persistence.Dtos.RoleDtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenSale.Persistence.Validators.Roles
 {
-    public class RoleValidator:AbstractValidator<RoleCreatDto>
+    public class RoleValidator : AbstractValidator<RoleCreatDto>
     {
         public RoleValidator()
         {
