@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using GreenSale.Persistence.Helpers;
 using GreenSale.Persistence.Dtos.StoragDtos;
+using GreenSale.Persistence.Helpers;
 namespace GreenSale.Persistence.Validators.Storages;
 
 public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
@@ -12,12 +12,12 @@ public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
                 .MaximumLength(50).WithMessage("Name be less than 50 characters");
 
         RuleFor(dto => dto.Description).NotNull().NotEmpty().WithMessage("Description filed is required")
-                .MinimumLength(15).WithMessage("Description must be more than 15 characters");
+            .MinimumLength(15).WithMessage("Description must be more than 15 characters");
 
         RuleFor(dto => dto.Region).NotNull().NotEmpty().WithMessage("Region filed is required");
         RuleFor(dto => dto.District).NotNull().NotEmpty().WithMessage("District filed is required");
         RuleFor(dto => dto.Address).NotNull().NotEmpty().WithMessage("Address filed is required");
-        
+
         RuleFor(dto => dto.Info).NotNull().NotEmpty().WithMessage("Info filed is required")
             .MinimumLength(3).WithMessage("Info must be more than 3 characters");
 
@@ -28,7 +28,7 @@ public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
         RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("Image filed is required!");
 
         RuleFor(dto => dto.ImagePath.Length).LessThan(maxImageSize * 1024 * 1024 + 1)
-                .WithMessage($"Image size must be less than {maxImageSize} * MB");
+            .WithMessage($"Image size must be less than {maxImageSize} * MB");
 
         RuleFor(dto => dto.ImagePath.FileName).Must(predicate =>
         {

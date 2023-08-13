@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
-
+builder.ConfigureCORSPolicy();
 //-->dataacces
 builder.ConfigureDataAccess();
 //-> service

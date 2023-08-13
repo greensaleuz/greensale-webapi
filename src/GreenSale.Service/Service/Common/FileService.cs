@@ -2,7 +2,6 @@
 using GreenSale.Service.Interfaces.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Security.Cryptography.X509Certificates;
 
 namespace GreenSale.Service.Service.Common;
 

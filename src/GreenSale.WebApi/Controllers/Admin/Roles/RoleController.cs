@@ -2,7 +2,6 @@
 using GreenSale.Persistence.Dtos.RoleDtos;
 using GreenSale.Persistence.Validators.Roles;
 using GreenSale.Service.Interfaces.Roles;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Admin.Roles
@@ -18,14 +17,14 @@ namespace GreenSale.WebApi.Controllers.Admin.Roles
         {
             this._service = roleService;
         }
-        
+
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync([FromQuery] int page =1)
-            => Ok(await _service.GetAllAsync(new PaginationParams(page,maxPage)));
+        public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
+            => Ok(await _service.GetAllAsync(new PaginationParams(page, maxPage)));
 
         [HttpGet("{roleId}")]
         public async Task<IActionResult> GetByIdAsync(long roleId)
-            => Ok (await _service.GetByIdAsync(roleId));
+            => Ok(await _service.GetByIdAsync(roleId));
 
         [HttpGet("count")]
         public async Task<IActionResult> CountAsync()
@@ -34,17 +33,17 @@ namespace GreenSale.WebApi.Controllers.Admin.Roles
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromForm] RoleCreatDto dto)
         {
-            RoleValidator validationRules   = new RoleValidator();
+            RoleValidator validationRules = new RoleValidator();
             var result = validationRules.Validate(dto);
-            
-            if(result.IsValid)
+
+            if (result.IsValid)
                 return Ok(await _service.CreateAsync(dto));
-            
+
             return BadRequest(result.Errors);
         }
 
         [HttpPut("{roleId}")]
-        public async Task<IActionResult> UpdateAsync(long roleId, RoleCreatDto dto )
+        public async Task<IActionResult> UpdateAsync(long roleId, RoleCreatDto dto)
         {
             RoleValidator validationRules = new RoleValidator();
             var result = validationRules.Validate(dto);
@@ -54,9 +53,9 @@ namespace GreenSale.WebApi.Controllers.Admin.Roles
 
             return BadRequest(result.Errors);
         }
-        
+
         [HttpDelete("{roleId}")]
-        public async Task<IActionResult>DeleteAsync(long roleId)
+        public async Task<IActionResult> DeleteAsync(long roleId)
             => Ok(await _service.DeleteAsync(roleId));
     }
 }

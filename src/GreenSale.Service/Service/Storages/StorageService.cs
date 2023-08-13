@@ -36,7 +36,7 @@ public class StorageService : IStoragesService
         string imagePath = await _fileService.UploadImageAsync(dto.ImagePath);
         Storage storage = new Storage()
         {
-            UserId= dto.UserId,
+            UserId = dto.UserId,
             Name = dto.Name,
             Description = dto.Description,
             Region = dto.Region,
@@ -108,12 +108,12 @@ public class StorageService : IStoragesService
             UpdatedAt = TimeHelper.GetDateTime()
         };
 
-        if(dto.ImagePath is not null)
+        if (dto.ImagePath is not null)
         {
             //delete old image
             var deleteImage = await _fileService.DeleteImageAsync(getId.ImagePath);
-            
-            if(deleteImage is false) 
+
+            if (deleteImage is false)
                 throw new ImageNotFoundException();
 
             //upload new image

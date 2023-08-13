@@ -3,7 +3,6 @@ using GreenSale.Persistence.Dtos.StoragDtos;
 using GreenSale.Persistence.Validators.Storages;
 using GreenSale.Service.Interfaces.Storages;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 namespace GreenSale.WebApi.Controllers.Common.Storages
 {
@@ -50,7 +49,7 @@ namespace GreenSale.WebApi.Controllers.Common.Storages
         {
             var validator = new StorageUpdateValidator();
             var valid = await validator.ValidateAsync(dto);
-            if (valid.IsValid) 
+            if (valid.IsValid)
             {
                 return Ok(await _service.UpdateAsync(storageId, dto));
             }

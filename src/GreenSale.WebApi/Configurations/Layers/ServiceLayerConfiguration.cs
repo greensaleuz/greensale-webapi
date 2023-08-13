@@ -10,7 +10,6 @@ using GreenSale.Service.Service.Common;
 using GreenSale.Service.Service.Notifications;
 using GreenSale.Service.Service.Roles;
 using GreenSale.Service.Service.Storages;
-using System.Data.SqlTypes;
 
 namespace GreenSale.WebApi.Configurations.Layers;
 

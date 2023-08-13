@@ -16,6 +16,7 @@ namespace GreenSale.WebApi.Configurations.Layers
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepositories>();
+            builder.Services.AddScoped<IUserRoles, UserRoleRepository>();
             builder.Services.AddScoped<IStorageRepository, StorageRepository>();
         }
     }

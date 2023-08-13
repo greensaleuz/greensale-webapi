@@ -1,8 +1,10 @@
 ﻿using GreenSale.Application.Exceptions;
 using GreenSale.Application.Exceptions.Auth;
 using GreenSale.Application.Exceptions.Users;
+using GreenSale.DataAccess.Interfaces.Roles;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.UserRoles;
+using GreenSale.Domain.Entites.Roles.UserRoles;
 using GreenSale.Domain.Entites.Users;
 using GreenSale.Persistence.Dtos;
 using GreenSale.Persistence.Dtos.Notifications;
@@ -23,6 +25,8 @@ public class AuthServise : IAuthServices
 
     private const string REGISTER_CACHE_KEY = "register_";
     private const string VERIFY_REGISTER_CACHE_KEY = "verify_register_";
+    private readonly IUserRoles _userRoles;
+    private readonly IRoleRepository _roleRepository;
     private readonly ITokenService _tokenService;
     private readonly ISmsSender _smsSender;
     private readonly IMemoryCache _memoryCache;
@@ -32,8 +36,10 @@ public class AuthServise : IAuthServices
         IMemoryCache memoryCache,
         IUserRepository userRepository,
         ITokenService tokenService,
-        ISmsSender smsSender)
+        ISmsSender smsSender,
+        IUserRoles userRoles)
     {
+        this._userRoles = userRoles;
         this._tokenService = tokenService;
         this._smsSender = smsSender;
         this._memoryCache = memoryCache;
@@ -68,7 +74,7 @@ public class AuthServise : IAuthServices
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
             verificationDto.CreatedAt = TimeHelper.GetDateTime();
-            verificationDto.Code = 1234; // than genereted code, at nowdefoukt code
+            verificationDto.Code = CodeGenerator.CodeGeneratorPhoneNumber();
             _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
@@ -84,7 +90,7 @@ public class AuthServise : IAuthServices
             smsSenderDto.Title = "Green sale\n";
             smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
             smsSenderDto.Recipent = phoneNumber.Substring(1);
-            var result = true; //await _smsSender.SendAsync(smsSenderDto);
+            var result = await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
                 return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
@@ -109,11 +115,49 @@ public class AuthServise : IAuthServices
                 else if (verificationDto.Code == code)
                 {
                     var dbresult = await RegisterToDatabaseAsync(userRegisterDto);
+                    /*Role role = new Role()
+                    {
+                        Name = "User",
+                        CreatedAt = TimeHelper.GetDateTime(),
+                        UpdatedAt = TimeHelper.GetDateTime(),
+                    };
+                    var DbRoleResult = await _roleRepository.CreateAsync(role);*/
+                    var DbRoleResult = 1;
+                    if (dbresult != 0 && DbRoleResult != 0)
+                    {
+                        UserRole userRole = new UserRole()
+                        {
+                            UserId = dbresult,
+                            RoleId = DbRoleResult,
+                            CreatedAt = TimeHelper.GetDateTime(),
+                            UpdatedAt = TimeHelper.GetDateTime(),
+                        };
+                        var DbUserRoles = await _userRoles.CreateAsync(userRole);
+                        if (DbUserRoles > 0)
+                        {
+                            var user = await _userRepository.GetByIdAsync(dbresult);
+                            UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                            {
+                                Id = user.Id,
+                                FirstName = user.FirstName,
+                                LastName = user.LastName,
+                                PhoneNumber = user.PhoneNumber,
+                                Region = user.Region,
+                                District = user.District,
+                                Address = user.Address,
+                                RoleName = "User",
+                                CreatedAt = TimeHelper.GetDateTime(),
+                                UpdatedAt = TimeHelper.GetDateTime(),
+                            };
 
-                    if (dbresult == 0)
-                        throw new UserNotFoundException();
-
-                    return (Result: true, Token: "");
+                            string token = _tokenService.GenerateToken(userRoleViewModel);
+                            return (Result: true, Token: token);
+                        }
+                        else
+                            return (Result: false, Token: "");
+                    }
+                    else
+                        return (Result: false, Token: "");
                 }
                 else
                 {
