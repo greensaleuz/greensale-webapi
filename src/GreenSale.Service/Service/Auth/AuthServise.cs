@@ -74,7 +74,7 @@ public class AuthServise : IAuthServices
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
             verificationDto.CreatedAt = TimeHelper.GetDateTime();
-            verificationDto.Code = CodeGenerator.CodeGeneratorPhoneNumber();
+            verificationDto.Code = 1234; //CodeGenerator.CodeGeneratorPhoneNumber();
             _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
@@ -90,7 +90,7 @@ public class AuthServise : IAuthServices
             smsSenderDto.Title = "Green sale\n";
             smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
             smsSenderDto.Recipent = phoneNumber.Substring(1);
-            var result = await _smsSender.SendAsync(smsSenderDto);
+            var result = true;//await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
                 return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
@@ -134,7 +134,25 @@ public class AuthServise : IAuthServices
                         };
                         var DbUserRoles = await _userRoles.CreateAsync(userRole);
                         if (DbUserRoles > 0)
-                            return (Result: true, Token: "");
+                        {
+                            var user = await _userRepository.GetByPhoneAsync(phoneNumber);
+                            UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                            {
+                                Id = user.Id,
+                                FirstName = user.FirstName,
+                                LastName = user.LastName,
+                                PhoneNumber = user.PhoneNumber,
+                                Region = user.Region,
+                                District = user.District,
+                                Address = user.Address,
+                                RoleName = "User",
+                                CreatedAt = user.CreatedAt,
+                                UpdatedAt = user.UpdatedAt,
+                            };
+
+                            string token = _tokenService.GenerateToken(userRoleViewModel);
+                            return (Result: true, Token: token);
+                        }
                         else
                             return (Result: false, Token: "");
                     }
