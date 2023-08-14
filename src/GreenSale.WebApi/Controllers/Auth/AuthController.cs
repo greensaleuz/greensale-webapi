@@ -2,13 +2,14 @@
 using GreenSale.Persistence.Dtos.Auth;
 using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Auth;
+using GreenSale.WebApi.Controllers.Common;
 using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Common.Auth
+namespace GreenSale.WebApi.Controllers.Auth
 
 {
-    [Route("api/common/auth")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : BaseController
     {
@@ -69,6 +70,31 @@ namespace GreenSale.WebApi.Controllers.Common.Auth
             var serviceResult = await _authService.LoginAsync(dto);
 
             return Ok(new { serviceResult.Result, serviceResult.Token });
+        }
+
+        [HttpPost("password/reset")]
+        public async Task<IActionResult> ResetPassword([FromBody] ForgotPassword forgot)
+        {
+            var res = PhoneNumberValidator.IsValid(forgot.PhoneNumber);
+            var password = PasswordValidator.IsStrongPassword(forgot.NewPassword);
+            if (res == false)
+                return BadRequest("Phone number is invalid!");
+            else if (password.IsValid == false)
+                return BadRequest(password.Message);
+
+            var serviceResult = await _authService.ResetPasswordAsync(forgot);
+
+            return Ok(new { serviceResult.Result, serviceResult.CachedMinutes });
+        }
+
+        [HttpPost("password/verify")]
+        public async Task<IActionResult> PasswordVerifyAsync([FromBody] VerfyUserDto verfyUser)
+        {
+            var res = PhoneNumberValidator.IsValid(verfyUser.PhoneNumber);
+            if (res == false) return BadRequest("Phone number is invalid!");
+            var srResult = await _authService.VerifyResetPasswordAsync(verfyUser.PhoneNumber, verfyUser.Code);
+
+            return Ok(new { srResult.Result, srResult.Token });
         }
     }
 }

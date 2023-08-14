@@ -6,25 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Admin.Categories
 {
-    [Route("api/category")]
+    [Route("api/admin/categories")]
     [ApiController]
-    public class CategoryController : AdminBaseController
+    public class AdminCategoriesController : AdminBaseController
     {
         private ICategoryService _service;
         private readonly int maxPage = 30;
 
-        public CategoryController(ICategoryService service)
+        public AdminCategoriesController(ICategoryService service)
         {
             _service = service;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
-            => Ok(await _service.GetAllAsync(new PaginationParams(page, maxPage)));
-
-        [HttpGet("{categoryId}")]
-        public async Task<IActionResult> GetByIdAsync(long categoryId)
-            => Ok(await _service.GetBYIdAsync(categoryId));
 
         [HttpGet("count")]
         public async Task<IActionResult> CountAsync()

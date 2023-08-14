@@ -32,7 +32,7 @@ app.UseCors("AllowAll");
 
 app.UseStaticFiles();
 
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+//app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseAuthorization();
 
