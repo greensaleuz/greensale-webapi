@@ -193,10 +193,12 @@ public class AuthServise : IAuthServices
             Region = user.Region,
             District = user.District,
             Address = user.Address,
-            RoleName = "User",
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt,
         };
+
+        var Dbrole = await _userRoles.GetByIdAsync(user.Id);
+        userRoleViewModel.RoleName = Dbrole.RoleName;
 
         string token = _tokenService.GenerateToken(userRoleViewModel);
 

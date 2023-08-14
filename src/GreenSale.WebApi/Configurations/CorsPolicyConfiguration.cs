@@ -1,4 +1,4 @@
-﻿namespace GreenSale.WebApi.Configurations.Layers
+﻿namespace GreenSale.WebApi.Configurations
 {
     public static class CorsPolicyConfiguration
     {

@@ -99,7 +99,7 @@ public class UserRoleRepository : BaseRepository, IUserRoles
         try
         {
             await _connection.OpenAsync();
-            string query = "select * from user_roles  where id = @ID";
+            string query = "select * from user_role_viewmodel  where id = @ID";
             var result = await _connection.QuerySingleAsync<UserRoleViewModel>(query, new { Id = Id });
 
             return result;
