@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Admin.Roles
 {
-    [Route("api/role")]
+    [Route("api/admin/roles")]
     [ApiController]
-    public class RoleController : AdminBaseController
+    public class AdminRolesController : AdminBaseController
     {
         public int maxPage = 30;
         private readonly IRoleService _service;
 
-        public RoleController(IRoleService roleService)
+        public AdminRolesController(IRoleService roleService)
         {
             this._service = roleService;
         }

@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Common.Storages
 {
-    [Route("api/storage")]
+    [Route("api/common/storage")]
     [ApiController]
-    public class StorageController : BaseController
+    public class CommonStoragesController : BaseController
     {
         private IStoragesService _service;
         private int maxPageSize = 30;
 
-        public StorageController(IStoragesService service)
+        public CommonStoragesController(IStoragesService service)
         {
             this._service = service;
         }

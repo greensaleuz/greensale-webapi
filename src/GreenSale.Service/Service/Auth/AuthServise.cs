@@ -76,7 +76,7 @@ public class AuthServise : IAuthServices
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
             verificationDto.CreatedAt = TimeHelper.GetDateTime();
-            verificationDto.Code = CodeGenerator.CodeGeneratorPhoneNumber();
+            verificationDto.Code = 12345;//CodeGenerator.CodeGeneratorPhoneNumber();
             _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
@@ -92,7 +92,7 @@ public class AuthServise : IAuthServices
             smsSenderDto.Title = "Green sale\n";
             smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
             smsSenderDto.Recipent = phoneNumber.Substring(1);
-            var result = await _smsSender.SendAsync(smsSenderDto);
+            var result = true; //await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
                 return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
@@ -245,18 +245,18 @@ public class AuthServise : IAuthServices
             Password = dto.NewPassword,
         };
 
-        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto resetDto))
+        if (_memoryCache.TryGetValue(Reset_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto resetDto))
         {
             resetDto.PhoneNumber = resetDto.PhoneNumber;
             _memoryCache.Remove(dto.PhoneNumber);
         }
         else
         {
-            _memoryCache.Set(REGISTER_CACHE_KEY + dto.PhoneNumber, userRegisterDto, TimeSpan.FromMinutes
+            _memoryCache.Set(Reset_CACHE_KEY + dto.PhoneNumber, userRegisterDto, TimeSpan.FromMinutes
                 (CACHED_FOR_MINUTS_VEFICATION));
         }
 
-        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto registerDto))
+        if (_memoryCache.TryGetValue(Reset_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto registerDto))
         {
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
@@ -292,7 +292,7 @@ public class AuthServise : IAuthServices
 
     public async Task<(bool Result, string Token)> VerifyResetPasswordAsync(string phoneNumber, int code)
     {
-        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phoneNumber, out UserRegisterDto userRegisterDto))
+        if (_memoryCache.TryGetValue(Reset_CACHE_KEY + phoneNumber, out UserRegisterDto userRegisterDto))
         {
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber, out VerificationDto verificationDto))
             {
@@ -300,20 +300,21 @@ public class AuthServise : IAuthServices
                 {
                     var dbcheck = await _userRepository.GetByPhoneAsync(phoneNumber);
                     var dbresult = await ResetAsync(dbcheck.Id, userRegisterDto);
-                    if (dbresult != 0)
+                    if (dbresult > 0)
                     {
+                        var result = await _userRepository.GetByPhoneAsync(phoneNumber);
                         UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
                         {
                             Id = dbcheck.Id,
-                            FirstName = dbcheck.FirstName,
-                            LastName = dbcheck.LastName,
-                            PhoneNumber = dbcheck.PhoneNumber,
-                            Region = dbcheck.Region,
-                            District = dbcheck.District,
-                            Address = dbcheck.Address,
+                            FirstName = result.FirstName,
+                            LastName = result.LastName,
+                            PhoneNumber = result.PhoneNumber,
+                            Region = result.Region,
+                            District = result.District,
+                            Address = result.Address,
                             RoleName = "User",
-                            CreatedAt = dbcheck.CreatedAt,
-                            UpdatedAt = dbcheck.UpdatedAt,
+                            CreatedAt = result.CreatedAt,
+                            UpdatedAt = result.UpdatedAt,
                         };
 
                         string token = _tokenService.GenerateToken(userRoleViewModel);

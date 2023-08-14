@@ -2,13 +2,14 @@
 using GreenSale.Persistence.Dtos.Auth;
 using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Auth;
+using GreenSale.WebApi.Controllers.Common;
 using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Common.Auth
+namespace GreenSale.WebApi.Controllers.Auth
 
 {
-    [Route("api/common/auth")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : BaseController
     {

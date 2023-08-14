@@ -184,7 +184,7 @@ public class UserRepository : BaseRepository, IUserRepository
                     "phone_number_confirm=@PhoneNumberConfirme, salt=@Salt,  updated_at=@UpdatedAt " +
                         $"WHERE id={Id} RETURNING id ";
 
-            var result = await _connection.ExecuteAsync(query, entity);
+            var result = await _connection.ExecuteScalarAsync<int>(query, entity);
 
             return result;
         }
