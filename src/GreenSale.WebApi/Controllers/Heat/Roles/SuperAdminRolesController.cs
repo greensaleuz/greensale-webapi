@@ -8,12 +8,12 @@ namespace GreenSale.WebApi.Controllers.Heat.Roles;
 
 [Route("api/heat/superadmin/roles")]
 [ApiController]
-public class RolesController : SuperAdminBaseController
+public class SuperAdminRolesController : SuperAdminBaseController
 {
     public int maxPage = 30;
     private readonly IRoleService _service;
 
-    public RolesController(IRoleService roleService)
+    public SuperAdminRolesController(IRoleService roleService)
     {
         this._service = roleService;
     }
