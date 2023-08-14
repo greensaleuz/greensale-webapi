@@ -1,3 +1,4 @@
+using GreenSale.WebApi.Configurations;
 using GreenSale.WebApi.Configurations.Layers;
 using GreenSale.WebApi.Middlewares;
 
@@ -11,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
+builder.ConfigureJwtAuth();
+builder.ConfigureSwaggerAuth();
 builder.ConfigureCORSPolicy();
 //-->dataacces
 builder.ConfigureDataAccess();
