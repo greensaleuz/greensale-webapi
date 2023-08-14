@@ -19,6 +19,7 @@ public static class ServiceLayerConfiguration
     {
         builder.Services.AddScoped<ISmsSender, SmsSender>();
         builder.Services.AddScoped<IAuthServices, AuthServise>();
+        builder.Services.AddScoped<IUserRoleService, UserRoleService>();
         builder.Services.AddScoped<ITokenService, TokenService>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<IPaginator, Pagination>();
