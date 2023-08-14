@@ -92,6 +92,7 @@ namespace GreenSale.WebApi.Controllers.Common.Auth
             var res = PhoneNumberValidator.IsValid(verfyUser.PhoneNumber);
             if (res == false) return BadRequest("Phone number is invalid!");
             var srResult = await _authService.VerifyResetPasswordAsync(verfyUser.PhoneNumber, verfyUser.Code);
+
             return Ok(new { srResult.Result, srResult.Token });
         }
     }
