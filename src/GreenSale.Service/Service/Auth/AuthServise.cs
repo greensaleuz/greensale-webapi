@@ -7,6 +7,7 @@ using GreenSale.DataAccess.ViewModels.UserRoles;
 using GreenSale.Domain.Entites.Roles.UserRoles;
 using GreenSale.Domain.Entites.Users;
 using GreenSale.Persistence.Dtos;
+using GreenSale.Persistence.Dtos.Auth;
 using GreenSale.Persistence.Dtos.Notifications;
 using GreenSale.Persistence.Dtos.Security;
 using GreenSale.Service.Helpers;
@@ -25,6 +26,7 @@ public class AuthServise : IAuthServices
 
     private const string REGISTER_CACHE_KEY = "register_";
     private const string VERIFY_REGISTER_CACHE_KEY = "verify_register_";
+    private const string Reset_CACHE_KEY = "reset_";
     private readonly IUserRoles _userRoles;
     private readonly IRoleRepository _roleRepository;
     private readonly ITokenService _tokenService;
@@ -221,6 +223,138 @@ public class AuthServise : IAuthServices
         user.PasswordHash = hasher.Hash;
         user.Salt = hasher.Salt;
         var dbResult = await _userRepository.CreateAsync(user);
+
+        return dbResult;
+    }
+
+    public async Task<(bool Result, int CachedMinutes)> ResetPasswordAsync(ForgotPassword dto)
+    {
+        var dbResult = await _userRepository.GetByPhoneAsync(dto.PhoneNumber);
+
+        if (dbResult is  null)
+            throw new UserNotFoundException();
+
+        UserRegisterDto userRegisterDto = new UserRegisterDto()
+        {
+            FirstName = dbResult.FirstName,
+            LastName = dbResult.LastName,
+            PhoneNumber = dto.PhoneNumber,
+            Region = dbResult.Region,
+            District = dbResult.District,
+            Address = dbResult.Address,
+            Password = dto.NewPassword,
+        };
+
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto resetDto))
+        {
+            resetDto.PhoneNumber = resetDto.PhoneNumber;
+            _memoryCache.Remove(dto.PhoneNumber);
+        }
+        else
+        {
+            _memoryCache.Set(REGISTER_CACHE_KEY + dto.PhoneNumber, userRegisterDto, TimeSpan.FromMinutes
+                (CACHED_FOR_MINUTS_VEFICATION));
+        }
+
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.PhoneNumber, out UserRegisterDto registerDto))
+        {
+            VerificationDto verificationDto = new VerificationDto();
+            verificationDto.Attempt = 0;
+            verificationDto.CreatedAt = TimeHelper.GetDateTime();
+            verificationDto.Code = 12345;//CodeGenerator.CodeGeneratorPhoneNumber();
+            _memoryCache.Set(dto.PhoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
+
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + dto.PhoneNumber,
+                out VerificationDto OldverificationDto))
+            {
+                _memoryCache.Remove(dto.PhoneNumber);
+            }
+
+            _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + dto.PhoneNumber, verificationDto,
+                TimeSpan.FromMinutes(VERIFICATION_MAXIMUM_ATTEMPTS));
+
+            SmsSenderDto smsSenderDto = new SmsSenderDto();
+            smsSenderDto.Title = "Green sale\n";
+            smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
+            smsSenderDto.Recipent = dto.PhoneNumber.Substring(1);
+            var result = true;//await _smsSender.SendAsync(smsSenderDto);
+
+            if (result is true)
+                return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
+            else
+                return (Result: false, CACHED_FOR_MINUTS_VEFICATION: 0);
+        }
+        else
+        {
+            throw new ExpiredException();
+        }
+    }
+
+    public async Task<(bool Result, string Token)> VerifyResetPasswordAsync(string phoneNumber, int code)
+    {
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phoneNumber, out UserRegisterDto userRegisterDto))
+        {
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber, out VerificationDto verificationDto))
+            {
+                if (verificationDto.Code == code)
+                {
+                    var dbcheck = await _userRepository.GetByPhoneAsync(phoneNumber);
+                    var dbresult = await ResetAsync(dbcheck.Id, userRegisterDto);
+                    if (dbresult != 0)
+                    {
+                        UserRoleViewModel userRoleViewModel = new UserRoleViewModel()
+                        {
+                            Id = dbcheck.Id,
+                            FirstName = dbcheck.FirstName,
+                            LastName = dbcheck.LastName,
+                            PhoneNumber = dbcheck.PhoneNumber,
+                            Region = dbcheck.Region,
+                            District = dbcheck.District,
+                            Address = dbcheck.Address,
+                            RoleName = "User",
+                            CreatedAt = dbcheck.CreatedAt,
+                            UpdatedAt = dbcheck.UpdatedAt,
+                        };
+
+                        string token = _tokenService.GenerateToken(userRoleViewModel);
+
+                        return (Result: true, Token: token);
+                    }
+                    else
+                        return (Result: false, Token: "");
+                }
+                else
+                {
+                    _memoryCache.Remove(VERIFY_REGISTER_CACHE_KEY + phoneNumber);
+                    verificationDto.Attempt++;
+                    _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + phoneNumber, verificationDto,
+                        TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
+
+                    return (Result: false, Token: "");
+                }
+            }
+            else throw new VerificationCodeExpiredException();
+        }
+        else throw new ExpiredException();
+    }
+    private async Task<int> ResetAsync(long id, UserRegisterDto userRegisterDto)
+    {
+        User user = new User()
+        {
+            FirstName = userRegisterDto.FirstName,
+            LastName = userRegisterDto.LastName,
+            PhoneNumber = userRegisterDto.PhoneNumber,
+            Region = userRegisterDto.Region,
+            District = userRegisterDto.District,
+            Address = userRegisterDto.Address,
+            PhoneNumberConfirme = true,
+            UpdatedAt = TimeHelper.GetDateTime(),
+        };
+
+        var hasher = PasswordHasher.Hash(userRegisterDto.Password);
+        user.PasswordHash = hasher.Hash;
+        user.Salt = hasher.Salt;
+        var dbResult = await _userRepository.UpdateAsync(id, user);
 
         return dbResult;
     }
