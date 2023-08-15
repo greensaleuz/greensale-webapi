@@ -5,6 +5,7 @@ using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.Users;
 using GreenSale.Domain.Entites.Users;
 using GreenSale.Persistence.Dtos;
+using GreenSale.Persistence.Dtos.UserDtos;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Users;
 using GreenSale.Service.Security;
@@ -61,7 +62,7 @@ public class UserService : IUserService
         return DbResult;
     }
 
-    public async Task<bool> UpdateAsync(long userId, UserRegisterDto dto)
+    public async Task<bool> UpdateAsync(long userId, UserUpdateDto dto)
     {
         var DbFound = await _userRepository.GetByIdAsync(userId);
 
