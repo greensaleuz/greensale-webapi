@@ -15,12 +15,12 @@ public static class JwtConfiguration
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
-                ValidIssuer = config["Issuer"],
+                ValidIssuer = "http://GreenSale.uz",
                 ValidateAudience = true,
-                ValidAudience = config["Audience"],
+                ValidAudience = "GreenSale",
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["SecurityKey"]!))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("23f926fb-dcd2-49f4-8fe2-992aac18f08f"!))
             };
         });
     }

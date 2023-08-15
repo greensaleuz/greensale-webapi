@@ -35,7 +35,7 @@ public class UserRoleRepository : BaseRepository, IUserRoles
             await _connection.OpenAsync();
 
             string query = "insert into user_roles(user_id, role_id, created_at, updated_at) " +
-                                "values(@UserId, @RoleId, @CreatedAt, @UpdatedAt) RETURNING id ";
+                "values(@UserId, @RoleId, @CreatedAt, @UpdatedAt) RETURNING id ";
 
             var result = await _connection.ExecuteScalarAsync<int>(query, entity);
 
@@ -77,8 +77,8 @@ public class UserRoleRepository : BaseRepository, IUserRoles
         {
             await _connection.OpenAsync();
 
-            string qauery = "SELECT * FROM user_roles order by id desc " +
-                                $"offset {@params.GetSkipCount()} limit {@params.PageSize} ";
+            string qauery = "SELECT * FROM user_role_viewmodel order by id desc " +
+                $"offset {@params.GetSkipCount()} limit {@params.PageSize} ";
 
             var result = (await _connection.QueryAsync<UserRoleViewModel>(qauery)).ToList();
 
@@ -121,8 +121,8 @@ public class UserRoleRepository : BaseRepository, IUserRoles
             await _connection.OpenAsync();
 
             string query = $"UPDATE user_roles " +
-                    "SET user_id=@SellerPostId, role_id=@RoleId created_at=@CreatedAt, updated_at=@UpdatedAt " +
-                        $"WHERE id={Id} RETURNING id ";
+                "SET  role_id = @RoleId,  updated_at = @UpdatedAt " +
+                    $"WHERE user_id ={Id} RETURNING id ";
 
             var result = await _connection.ExecuteScalarAsync<int>(query, entity);
 

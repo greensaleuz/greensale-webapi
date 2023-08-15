@@ -4,8 +4,10 @@ using GreenSale.DataAccess.Interfaces.Roles;
 using GreenSale.DataAccess.ViewModels.UserRoles;
 using GreenSale.Domain.Entites.Roles.UserRoles;
 using GreenSale.Persistence.Dtos.RoleDtos;
+using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Roles;
+using Npgsql.Internal.TypeHandlers.DateTimeHandlers;
 
 namespace GreenSale.Service.Service.Roles;
 
@@ -70,6 +72,8 @@ public class UserRoleService : IUserRoleService
         UserRole userRole = new UserRole()
         {
             RoleId = dto.RoleId,
+            CreatedAt = DbResultFound.CreatedAt,
+            UpdatedAt = TimeHelper.GetDateTime()
         };
 
         var DbResult = await _userRole.UpdateAsync(UserroleId, userRole);
