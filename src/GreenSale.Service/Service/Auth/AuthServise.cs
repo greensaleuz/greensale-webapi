@@ -340,6 +340,7 @@ public class AuthServise : IAuthServices
         }
         else throw new ExpiredException();
     }
+    
     private async Task<int> ResetAsync(long id, UserRegisterDto userRegisterDto)
     {
         User user = new User()
