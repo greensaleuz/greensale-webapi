@@ -1,4 +1,6 @@
 ﻿using GreenSale.Persistence.Dtos;
+using GreenSale.Persistence.Dtos.UserDtos;
+using GreenSale.Persistence.Validators.Users;
 using GreenSale.Service.Interfaces.Users;
 using GreenSale.WebApi.Controllers.Common;
 using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
@@ -19,9 +21,9 @@ namespace GreenSale.WebApi.Controllers.Client
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(long userId, [FromQuery] UserRegisterDto dto)
+        public async Task<IActionResult> UpdateAsync(long userId, [FromQuery] UserUpdateDto dto)
         {
-            UserRegisterValidator validations = new UserRegisterValidator();
+            UserUpdateValidator validations = new UserUpdateValidator();
             var resltvalid = validations.Validate(dto);
             if (resltvalid.IsValid)
             {
