@@ -1,5 +1,5 @@
 ﻿using GreenSale.WebApi.Controllers.Common;
-using GreenSale.WebApi.Controllers.Heat;
+using GreenSale.WebApi.Controllers.SuperAdmin   ;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GreenSale.WebApi.Controllers.Admin;

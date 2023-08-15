@@ -3,9 +3,9 @@ using GreenSale.Persistence.Dtos.RoleDtos;
 using GreenSale.Service.Interfaces.Roles;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Heat.Roles;
+namespace GreenSale.WebApi.Controllers.SuperAdmin.Roles;
 
-[Route("api/heat/superadmin/UserRoles")]
+[Route("api/superadmin/UserRoles")]
 [ApiController]
 public class SuperAdminUsersRoleController : SuperAdminBaseController
 {

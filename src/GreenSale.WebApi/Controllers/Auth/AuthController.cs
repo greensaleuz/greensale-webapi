@@ -60,7 +60,7 @@ namespace GreenSale.WebApi.Controllers.Auth
             return Ok(new { srResult.Result, srResult.Token });
         }
 
-        [HttpPost("login/verify")]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto dto)
         {
             var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
