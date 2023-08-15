@@ -4,9 +4,9 @@ using GreenSale.Persistence.Validators.Roles;
 using GreenSale.Service.Interfaces.Roles;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Heat.Roles;
+namespace GreenSale.WebApi.Controllers.SuperAdmin.Roles;
 
-[Route("api/heat/superadmin/roles")]
+[Route("api/superadmin/roles")]
 [ApiController]
 public class SuperAdminRolesController : SuperAdminBaseController
 {
