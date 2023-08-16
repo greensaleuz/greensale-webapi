@@ -14,5 +14,4 @@ public class SellerPostUpdateDto
     public string Region { get; set; } = string.Empty;
     public string District { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
-    public List<IFormFile?> ImagePath { get; set; }
 }
