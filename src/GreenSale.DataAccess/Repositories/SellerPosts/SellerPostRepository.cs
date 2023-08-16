@@ -80,7 +80,7 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         {
             await _connection.OpenAsync();
 
-            string query = "SELECT * FROM seller_posts ORDER BY id DESC " +
+            string query = "SELECT * FROM seller_post_viewmodel ORDER BY id DESC " +
                 $" OFFSET {@params.GetSkipCount()} LIMIT {@params.PageSize};";
 
             var result = (await _connection.QueryAsync<SellerPostViewModel>(query)).ToList();
@@ -102,7 +102,7 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         try
         {
             await _connection.OpenAsync();
-            string query = "SELECT * FROM seller_posts where id=@ID;";
+            string query = "SELECT * FROM seller_post_viewmodel where id=@ID;";
             var result = await _connection.QuerySingleAsync<SellerPostViewModel>(query, new { ID = Id });
 
             return result;
