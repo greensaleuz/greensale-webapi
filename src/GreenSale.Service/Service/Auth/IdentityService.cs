@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GreenSale.Service.Interfaces.Auth;
+using Microsoft.AspNetCore.Http;
 
 namespace GreenSale.Service.Service.Auth;
 
-public class IdentityService
+public class IdentityService : IIdentityService
 {
     private IHttpContextAccessor _accessor;
 
