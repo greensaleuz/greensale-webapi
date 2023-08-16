@@ -98,6 +98,7 @@ public class BuyerPostService : IBuyerPostService
 
         if (DbFound is null)
             throw new BuyerPostNotFoundException();
+
         var DbResult = await _postRepository.DeleteAsync(buyerId);
 
         return DbResult > 0;
@@ -137,6 +138,7 @@ public class BuyerPostService : IBuyerPostService
             BuyerpostId = dto.BuyerPostId,
             ImagePath = img,
         };
+
         var DbResult = await _imageRepository.UpdateAsync(dto.BuyerPostImageId, buyerPostImage);
 
         return DbResult > 0;
@@ -168,6 +170,7 @@ public class BuyerPostService : IBuyerPostService
         };
 
         var DbResult = await _postRepository.UpdateAsync(buyerID, buyerPost);
+
         if (DbResult > 0)
             return true;
 
