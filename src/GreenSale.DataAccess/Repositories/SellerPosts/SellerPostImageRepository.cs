@@ -34,7 +34,7 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
                 await _connection.OpenAsync();
 
                 string query = "Insert into seller_posts_images(seller_post_id, image_path, created_at, updated_at) " +
-                    "values(@SellerPostId, @ImagePath, @CreatedAt, @UpdatedAt) RETURNING id  ";
+                    "values ( @SellerPostId, @ImagePath, @CreatedAt, @UpdatedAt) RETURNING id  ";
 
                 var result = await _connection.ExecuteScalarAsync<int>(query, entity);
 

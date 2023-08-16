@@ -21,13 +21,13 @@ namespace GreenSale.WebApi.Controllers.Client
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(long userId, [FromQuery] UserUpdateDto dto)
+        public async Task<IActionResult> UpdateAsync([FromForm] UserUpdateDto dto)
         {
             UserUpdateValidator validations = new UserUpdateValidator();
             var resltvalid = validations.Validate(dto);
             if (resltvalid.IsValid)
             {
-                var result = await _userService.UpdateAsync(userId, dto);
+                var result = await _userService.UpdateAsync(dto);
 
                 return Ok(result);
             }

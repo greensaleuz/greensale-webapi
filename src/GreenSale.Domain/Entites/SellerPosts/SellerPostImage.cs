@@ -2,7 +2,7 @@
 {
     public class SellerPostImage : Auditable
     {
-        public long SallerPostId { get; set; }
+        public long SellerPostId { get; set; }
         public string ImagePath { get; set; } = string.Empty;
     }
 }
