@@ -3,12 +3,13 @@ using GreenSale.Persistence.Dtos.BuyerPostsDto;
 
 namespace GreenSale.Persistence.Validators.BuyerPosts;
 
-public class BuyerPostCreateValidator : AbstractValidator<BuyerPostCreateDto>
+public class BuyerPostUpdateValidator:AbstractValidator<BuyerPostUpdateDto>
 {
-    public BuyerPostCreateValidator()
-    {
+	public BuyerPostUpdateValidator()
+	{
+
         RuleFor(dto => dto.PhoneNumber).Must(phone => PhoneNumberValidator.IsValid(phone))
-        .WithMessage("Phone number is invalid! ex: +998xxYYYAABB");
+            .WithMessage("Phone number is invalid! ex: +998xxYYYAABB");
 
         RuleFor(dto => dto.Title).NotEmpty().NotNull().WithMessage("Title field is required")
             .MinimumLength(3).WithMessage("Title must be more than 3 characters")
@@ -42,7 +43,7 @@ public class BuyerPostCreateValidator : AbstractValidator<BuyerPostCreateDto>
         RuleFor(dto => dto.CategoryID).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
         RuleFor(dto => dto.Status).NotEmpty().NotNull().WithMessage("Status field is requires");
         RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("ImagePath filed is required");
-
+       
         RuleFor(dto => dto.ImagePath).Must((dto, IFormFile) => IFormFile.Count <= 5)
             .WithMessage("There should be at least 5 images");
     }
