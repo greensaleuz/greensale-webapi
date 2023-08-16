@@ -72,8 +72,10 @@ public class SellerPostService : ISellerPostService
 
                 SellerPostImage sellerPostImage = new SellerPostImage()
                 {
-                    SallerPostId = DbResult,
+                    SellerPostId = DbResult,
                     ImagePath = img,
+                    CreatedAt = TimeHelper.GetDateTime(),
+                    UpdatedAt = TimeHelper.GetDateTime(),
                 };
 
                 var DbImgResult = await _imageRepository.CreateAsync(sellerPostImage);
@@ -128,8 +130,10 @@ public class SellerPostService : ISellerPostService
 
         SellerPostImage sellerPostImage = new SellerPostImage()
         {
-            SallerPostId = dto.SellerPostId,
+            SellerPostId = dto.SellerPostId,
             ImagePath = img,
+            UpdatedAt = TimeHelper.GetDateTime(),
+            CreatedAt = DbFoundImg.CreatedAt,
         };
         var DbResult = await _imageRepository.UpdateAsync(dto.SellerPostImageId, sellerPostImage);
 

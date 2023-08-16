@@ -40,7 +40,7 @@ namespace GreenSale.WebApi.Controllers.Admin.Users
             var resltvalid = validations.Validate(dto);
             if (resltvalid.IsValid)
             {
-                var result = await _userService.UpdateAsync(userId, dto);
+                var result = await _userService.UpdateByAdminAsync(userId, dto);
 
                 return Ok(result);
             }

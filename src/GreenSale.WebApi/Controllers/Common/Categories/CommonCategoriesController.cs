@@ -6,7 +6,7 @@ namespace GreenSale.WebApi.Controllers.Common.Categories;
 
 [Route("api/common/categories")]
 [ApiController]
-public class CommonCategoriesController : ControllerBase
+public class CommonCategoriesController : BaseController
 {
     private ICategoryService _service;
     private readonly int maxPage = 30;
@@ -15,6 +15,10 @@ public class CommonCategoriesController : ControllerBase
     {
         _service = service;
     }
+
+    [HttpGet("count")]
+    public async Task<IActionResult> CountAsync()
+        =>Ok(await  _service.CountAsync());
 
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
