@@ -96,5 +96,9 @@ namespace GreenSale.WebApi.Controllers.Auth
 
             return Ok(new { srResult.Result, srResult.Token });
         }
+
+        [HttpPost("token/verify")]
+        public async Task<IActionResult> CheckToken([FromQuery] string token)
+            => Ok(await _authService.CheckTokenAsync(token));
     }
 }

@@ -15,6 +15,11 @@ using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Notifications;
 using GreenSale.Service.Security;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace GreenSale.Service.Service.Auth;
 
@@ -361,5 +366,36 @@ public class AuthServise : IAuthServices
         var dbResult = await _userRepository.UpdateAsync(id, user);
 
         return dbResult;
+    }
+    public async Task<bool> CheckTokenAsync(string token)
+    {
+        ClaimsPrincipal principal = ValidateToken(token);
+        if (principal != null)
+        {
+            var chrk = principal.Identity;
+          
+            Console.WriteLine(chrk.Name.ToString());
+            return true;
+        }
+        return false;
+    }
+
+    public static ClaimsPrincipal ValidateToken(string jwtToken)
+    {
+        IdentityModelEventSource.ShowPII = true;
+
+        SecurityToken validatedToken;
+        TokenValidationParameters validationParameters = new TokenValidationParameters();
+
+        validationParameters.ValidateLifetime = true;
+
+        validationParameters.ValidAudience = "GreenSale";
+        validationParameters.ValidIssuer = "http://GreenSale.uz";
+        validationParameters.IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes("23f926fb-dcd2-49f4-8fe2-992aac18f08f"));
+
+        ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
+
+
+        return principal;
     }
 }

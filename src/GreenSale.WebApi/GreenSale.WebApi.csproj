@@ -15,6 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\GreenSale.Service\GreenSale.Service.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\Media\Images\SellerPostIMages\" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
