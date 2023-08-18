@@ -1,6 +1,5 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.Service.Interfaces.BuyerPosts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Common.BuyerPosts

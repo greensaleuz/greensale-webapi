@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using GreenSale.Persistence.Dtos.CategoryDtos;
-using GreenSale.Persistence.Dtos.RoleDtos;
-using GreenSale.Persistence.Validators.Categories;
+﻿using GreenSale.Persistence.Dtos.RoleDtos;
 using GreenSale.Persistence.Validators.Roles;
 
 namespace GreenSale.Test.ValidatorsTest.Roles;

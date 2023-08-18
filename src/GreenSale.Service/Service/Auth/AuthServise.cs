@@ -233,7 +233,7 @@ public class AuthServise : IAuthServices
     {
         var dbResult = await _userRepository.GetByPhoneAsync(dto.PhoneNumber);
 
-        if (dbResult is  null)
+        if (dbResult is null)
             throw new UserNotFoundException();
 
         UserRegisterDto userRegisterDto = new UserRegisterDto()
@@ -340,7 +340,7 @@ public class AuthServise : IAuthServices
         }
         else throw new ExpiredException();
     }
-    
+
     private async Task<int> ResetAsync(long id, UserRegisterDto userRegisterDto)
     {
         User user = new User()

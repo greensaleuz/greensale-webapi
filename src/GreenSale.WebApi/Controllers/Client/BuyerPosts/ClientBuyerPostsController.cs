@@ -31,20 +31,22 @@ public class ClientBuyerPostsController : BaseClientController
         return BadRequest(isValidator.Errors);
     }
 
-    [HttpPut("{buyerpostid}")]
-    public async Task<IActionResult> UpdateAsync([FromForm] BuyerPostUpdateDto dto, long buyerpostid)
-    {
-        var validator = new BuyerPostUpdateValidator();
-        var isValidator = validator.Validate(dto);
-        if (isValidator.IsValid)
+        [HttpPut("buyerpostid")]
+        public async Task<IActionResult> UpdateAsync([FromForm] BuyerPostUpdateDto dto, long buyerpostid)
         {
-            return Ok(await _service.UpdateAsync(buyerpostid, dto));
+            var validator = new BuyerPostUpdateValidator();
+            var isValidator= validator.Validate(dto);
+            if (isValidator.IsValid)
+            {
+                return Ok(await _service.UpdateAsync(buyerpostid,dto));
+            }
+           
+            return BadRequest(isValidator.Errors);
         }
 
-        return BadRequest(isValidator.Errors);
-    }
+        [HttpDelete("buyerpostid")]
+        public async Task<IActionResult> DeleteAsync(long buyerpostid)
+            => Ok( await _service.DeleteAsync(buyerpostid));
 
-    [HttpDelete("{buyerpostid}")]
-    public async Task<IActionResult> DeleteAsync(long buyerpostid)
-        => Ok(await _service.DeleteAsync(buyerpostid));
+    }
 }

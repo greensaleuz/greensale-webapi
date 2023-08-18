@@ -1,7 +1,6 @@
 ﻿using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
 using GreenSale.Service.Interfaces.SellerPosts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Client.SellerPosts;

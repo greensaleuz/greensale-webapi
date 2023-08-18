@@ -1,16 +1,13 @@
 ﻿using GreenSale.Application.Exceptions.Users;
 using GreenSale.Application.Utils;
-using GreenSale.DataAccess.Interfaces;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.Users;
 using GreenSale.Domain.Entites.Users;
-using GreenSale.Persistence.Dtos;
 using GreenSale.Persistence.Dtos.UserDtos;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Users;
 using GreenSale.Service.Security;
-using static Dapper.SqlMapper;
 
 namespace GreenSale.Service.Service.Users;
 
@@ -42,7 +39,7 @@ public class UserService : IUserService
         var DbFound = await _userRepository.GetByIdAsync(userId);
         if (DbFound is null)
             throw new UserNotFoundException();
-       
+
         var DbResult = await _userRepository.DeleteAsync(userId);
 
         return DbResult > 0;
@@ -60,7 +57,7 @@ public class UserService : IUserService
     public async Task<UserViewModel> GetByIdAsync(long userId)
     {
         var DbFound = await _userRepository.GetByIdAsync(userId);
-        if(DbFound is null)
+        if (DbFound is null)
             throw new UserNotFoundException();
         var DbResult = await _userRepository.GetByIdAsync(userId);
 
@@ -71,7 +68,7 @@ public class UserService : IUserService
     {
         var DbFound = await _userRepository.GetByIdAsync(_identity.Id);
 
-        if( DbFound is null)
+        if (DbFound is null)
             throw new UserNotFoundException();
 
         User user = new User()
@@ -87,7 +84,7 @@ public class UserService : IUserService
         var hasher = PasswordHasher.Hash(dto.Password);
         user.PasswordHash = hasher.Hash;
         user.Salt = hasher.Salt;
-        var DbResult = await _userRepository.UpdateAsync(_identity.Id,user);
+        var DbResult = await _userRepository.UpdateAsync(_identity.Id, user);
 
         return DbResult > 0;
     }

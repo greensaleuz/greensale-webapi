@@ -64,9 +64,9 @@ public class SellerPostService : ISellerPostService
 
         var DbResult = await _repository.CreateAsync(sellerPost);
 
-        if(DbResult > 0)
+        if (DbResult > 0)
         {
-            foreach(var item in dto.ImagePath)
+            foreach (var item in dto.ImagePath)
             {
                 var img = await _fileservice.UploadImageAsync(item);
 
@@ -145,7 +145,7 @@ public class SellerPostService : ISellerPostService
     public async Task<bool> UpdateAsync(long sellerID, SellerPostUpdateDto dto)
     {
         var DbFound = await _repository.GetByIdAsync(sellerID);
-     
+
         if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
