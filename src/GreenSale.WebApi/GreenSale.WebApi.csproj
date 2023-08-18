@@ -17,8 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
-    <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
+    <Folder Include="wwwroot\Media\Images\" />
   </ItemGroup>
 
 </Project>

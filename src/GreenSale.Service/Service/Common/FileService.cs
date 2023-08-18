@@ -8,7 +8,6 @@ namespace GreenSale.Service.Service.Common;
 public class FileService : IFileService
 {
     private readonly string MEDIA = "Media";
-    private readonly string SELLERPOSTIMAGES = "SellerPostImages";
     private readonly string IMAGES = "Images";
     private readonly string ROOTPATH;
 
@@ -37,7 +36,7 @@ public class FileService : IFileService
     public async Task<string> UploadImageAsync(IFormFile image)
     {
         string newImageName = MediaHelper.MakeImageName(image.FileName);
-        string subPath = Path.Combine(MEDIA, IMAGES, SELLERPOSTIMAGES, newImageName);
+        string subPath = Path.Combine(MEDIA, IMAGES, newImageName);
         string path = Path.Combine(ROOTPATH, subPath);
         var stream = new FileStream(path, FileMode.Create);
         await image.CopyToAsync(stream);

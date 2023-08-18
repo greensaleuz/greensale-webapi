@@ -124,7 +124,7 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbFoundImg = await _imageRepository.GetByIdAsync(dto.BuyerPostImageId);
 
-        if (DbFoundImg is null)
+        if (DbFoundImg.Id == 0)
             throw new ImageNotFoundException();
 
         var RootDEl = await _fileService.DeleteImageAsync(DbFoundImg.ImagePath);
@@ -134,6 +134,7 @@ public class BuyerPostService : IBuyerPostService
         {
             BuyerpostId = dto.BuyerPostId,
             ImagePath = img,
+            UpdatedAt = TimeHelper.GetDateTime(),
         };
 
         var DbResult = await _imageRepository.UpdateAsync(dto.BuyerPostImageId, buyerPostImage);
