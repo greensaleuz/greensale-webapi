@@ -2,7 +2,6 @@
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
-using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 
 namespace GreenSale.Service.Interfaces.BuyerPosts;
 

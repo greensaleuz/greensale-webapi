@@ -6,7 +6,7 @@ namespace GreenSale.Test.ValidatorsTest.CategoryTestl;
 public class CategoryValidatorTest
 {
     [Theory]
-    [InlineData("Uzum")]   
+    [InlineData("Uzum")]
     [InlineData("Nok")]
     [InlineData("Olma")]
     [InlineData("Gilos")]

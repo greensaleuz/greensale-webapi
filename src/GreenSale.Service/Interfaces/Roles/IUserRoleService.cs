@@ -1,12 +1,6 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.ViewModels.UserRoles;
-using GreenSale.Domain.Entites.Roles;
 using GreenSale.Persistence.Dtos.RoleDtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenSale.Service.Interfaces.Roles
 {

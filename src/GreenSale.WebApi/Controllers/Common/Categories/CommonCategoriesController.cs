@@ -18,7 +18,7 @@ public class CommonCategoriesController : BaseController
 
     [HttpGet("count")]
     public async Task<IActionResult> CountAsync()
-        =>Ok(await  _service.CountAsync());
+        => Ok(await _service.CountAsync());
 
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)

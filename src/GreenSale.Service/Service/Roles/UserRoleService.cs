@@ -7,7 +7,6 @@ using GreenSale.Persistence.Dtos.RoleDtos;
 using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Roles;
-using Npgsql.Internal.TypeHandlers.DateTimeHandlers;
 
 namespace GreenSale.Service.Service.Roles;
 

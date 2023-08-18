@@ -1,10 +1,6 @@
-﻿using GreenSale.Persistence.Dtos;
-using GreenSale.Persistence.Dtos.UserDtos;
+﻿using GreenSale.Persistence.Dtos.UserDtos;
 using GreenSale.Persistence.Validators.Users;
 using GreenSale.Service.Interfaces.Users;
-using GreenSale.WebApi.Controllers.Common;
-using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Client

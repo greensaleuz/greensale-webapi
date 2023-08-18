@@ -1,6 +1,4 @@
 ﻿using GreenSale.Application.Utils;
-using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
-using GreenSale.Persistence.Dtos.SellerPostsDtos;
 using GreenSale.Service.Interfaces.SellerPosts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +18,7 @@ public class CommonSellerPostController : BaseController
 
     [HttpGet("count")]
     public async Task<IActionResult> CountAsync()
-        =>Ok(await _postService.CountAsync());
+        => Ok(await _postService.CountAsync());
 
     [HttpGet]
     public async Task<IActionResult> GetAllasync([FromQuery] int page = 1)
@@ -28,5 +26,5 @@ public class CommonSellerPostController : BaseController
 
     [HttpGet("{postId}")]
     public async Task<IActionResult> GetByIdAsync(long postId)
-        =>Ok(await _postService.GetBYIdAsync(postId));
+        => Ok(await _postService.GetBYIdAsync(postId));
 }
