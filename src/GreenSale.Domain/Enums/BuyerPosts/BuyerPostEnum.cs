@@ -2,6 +2,6 @@
 {
     public enum BuyerPostEnum
     {
-        Agreed = 0, New = 1, Buyed = 2
+        Agreed = 1, New = 0, Buyed = 2
     }
 }

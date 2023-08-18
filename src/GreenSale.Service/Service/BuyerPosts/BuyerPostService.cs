@@ -76,6 +76,8 @@ public class BuyerPostService : IBuyerPostService
                 {
                     BuyerpostId = DbResult,
                     ImagePath = img,
+                    CreatedAt = TimeHelper.GetDateTime(),
+                    UpdatedAt = TimeHelper.GetDateTime(),
                 };
 
                 var DbImgResult = await _imageRepository.CreateAsync(BuyerPostImage);
@@ -160,7 +162,7 @@ public class BuyerPostService : IBuyerPostService
             Address = dto.Address,
             District = dto.District,
             PhoneNumber = dto.PhoneNumber,
-            Status = Domain.Enums.BuyerPosts.BuyerPostEnum.New,
+            Status = dto.Status,
             UpdatedAt = TimeHelper.GetDateTime(),
         };
 
