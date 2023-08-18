@@ -1,6 +1,5 @@
 ﻿using GreenSale.Persistence.Dtos.CategoryDtos;
 using GreenSale.Persistence.Dtos.StoragDtos;
-using GreenSale.Persistence.Validators.Categories;
 using GreenSale.Persistence.Validators.Storages;
 using Microsoft.AspNetCore.Http;
 using System.Text;
@@ -28,7 +27,7 @@ public class StorageCreatedValidatorTest
         42.22345, -70.78765, 3)]
     [InlineData("Storage Name 9", "Valid description here 9", "Region 9", "District 9", "Address 9", "Info 9",
         40.32345, -72.18765, 2)]
-    [InlineData("Storage Name 10", "Valid descriptionh10", "Region10", "District 10", "Address 10", "Info 10", 
+    [InlineData("Storage Name 10", "Valid descriptionh10", "Region10", "District 10", "Address 10", "Info 10",
         39.42345, -74.38765, 3.8)]
 
     public void CheckTrueTest(
@@ -39,7 +38,7 @@ public class StorageCreatedValidatorTest
         IFormFile imageFile = new FormFile(new MemoryStream(byteImage), 0, imageSizeInBytes, "data", "file.png");
 
         CategoryCreateDto categoryCreateDto = new CategoryCreateDto();
-        
+
         var dto = new StoragCreateDto
         {
             Name = name,
@@ -64,15 +63,15 @@ public class StorageCreatedValidatorTest
     [InlineData("Storage Name", "", "Region", "District", "Address", "Info", 41.12345, -71.98765, 4.9)]
     [InlineData("Storage Name", "Valid description here", "", "District", "Address", "Info", 41.12345, -71.98765, 32.4)]
     [InlineData("Storage Name", "Valid description here", "Region", "", "Address", "Info", 41.12345, -71.98765, 90)]
-    [InlineData("Storage Name", "Valid description here", "Region", "District", "", "Info", 41.12345, -71.98765,3.7)]
+    [InlineData("Storage Name", "Valid description here", "Region", "District", "", "Info", 41.12345, -71.98765, 3.7)]
     [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "", 41.12345, -71.98765, 5.1)]
-    [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "Info", 0, -71.98765,67)]
+    [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "Info", 0, -71.98765, 67)]
     [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "Info", 41.12345, 0, 6.0)]
     [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "Info", 41.12345, -71.98765, 7)]
     [InlineData("Storage Name", "Valid description here", "Region", "District", "Address", "Info", 41.12345, -71.98765, 6.5)]
 
     public void CheckFalsTest(
-        string name, string description, string region, string district, string address, string info, double latitude, 
+        string name, string description, string region, string district, string address, string info, double latitude,
         double longitude, double imgasize)
     {
         byte[] byteImage = Encoding.UTF8.GetBytes("we sell an electronic psdvsdts to our clients");

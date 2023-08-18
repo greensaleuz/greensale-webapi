@@ -37,7 +37,7 @@ public class FileService : IFileService
     public async Task<string> UploadImageAsync(IFormFile image)
     {
         string newImageName = MediaHelper.MakeImageName(image.FileName);
-        string subPath = Path.Combine(MEDIA,  IMAGES, SELLERPOSTIMAGES, newImageName);
+        string subPath = Path.Combine(MEDIA, IMAGES, SELLERPOSTIMAGES, newImageName);
         string path = Path.Combine(ROOTPATH, subPath);
         var stream = new FileStream(path, FileMode.Create);
         await image.CopyToAsync(stream);

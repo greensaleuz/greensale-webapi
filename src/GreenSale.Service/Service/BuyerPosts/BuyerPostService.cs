@@ -2,20 +2,15 @@
 using GreenSale.Application.Exceptions.BuyerPosts;
 using GreenSale.Application.Exceptions.SellerPosts;
 using GreenSale.Application.Utils;
-using GreenSale.DataAccess.Interfaces;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
-using GreenSale.Domain.Entites.SelerPosts;
-using GreenSale.Domain.Entites.SellerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
 using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.BuyerPosts;
 using GreenSale.Service.Interfaces.Common;
-using GreenSale.Service.Service.Common;
-using System.Security.Principal;
 
 namespace GreenSale.Service.Service.BuyerPosts;
 
@@ -23,7 +18,7 @@ public class BuyerPostService : IBuyerPostService
 {
     private readonly IBuyerPostRepository _postRepository;
     private readonly IPaginator _paginator;
-    private readonly IFileService _fileService; 
+    private readonly IFileService _fileService;
     private readonly IBuyerPostImageRepository _imageRepository;
     private readonly IIdentityService _identity;
 

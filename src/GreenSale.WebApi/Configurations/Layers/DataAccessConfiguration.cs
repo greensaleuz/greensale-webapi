@@ -26,7 +26,7 @@ namespace GreenSale.WebApi.Configurations.Layers
             builder.Services.AddScoped<ISellerPostsRepository, SellerPostRepository>();
             builder.Services.AddScoped<IStorageRepository, StorageRepository>();
             builder.Services.AddScoped<IBuyerPostRepository, BuyerPostsRepository>();
-            builder.Services.AddScoped<IBuyerPostImageRepository,BuyerPostImageRepository>();
+            builder.Services.AddScoped<IBuyerPostImageRepository, BuyerPostImageRepository>();
         }
     }
 }

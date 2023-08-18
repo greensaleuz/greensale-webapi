@@ -5,6 +5,6 @@ namespace GreenSale.DataAccess.Interfaces.Roles
 {
     public interface IUserRoles : IRepository<UserRole, UserRoleViewModel>
     {
-        
+
     }
 }

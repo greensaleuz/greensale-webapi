@@ -1,6 +1,4 @@
-﻿using GreenSale.WebApi.Controllers.Common;
-using GreenSale.WebApi.Controllers.SuperAdmin   ;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Admin;
