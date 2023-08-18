@@ -36,6 +36,7 @@ public class ClientBuyerPostsController : BaseClientController
     {
         var validator = new BuyerPostUpdateValidator();
         var isValidator = validator.Validate(dto);
+
         if (isValidator.IsValid)
         {
             return Ok(await _service.UpdateAsync(postId, dto));
