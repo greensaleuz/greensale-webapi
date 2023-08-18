@@ -3,50 +3,50 @@ using GreenSale.Persistence.Validators.BuyerPosts;
 using GreenSale.Service.Interfaces.BuyerPosts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Client.BuyerPosts
+namespace GreenSale.WebApi.Controllers.Client.BuyerPosts;
+
+[Route("api/client/buyer/post")]
+[ApiController]
+public class ClientBuyerPostsController : BaseClientController
 {
-    [Route("api/client/buyerposts")]
-    [ApiController]
-    public class ClientBuyerPostsController : BaseClientController
+    private IBuyerPostService _service;
+    public readonly int maxPage = 30;
+
+    public ClientBuyerPostsController(IBuyerPostService service)
     {
-        private IBuyerPostService _service;
-        public readonly int maxPage = 30;
+        this._service = service;
+    }
 
-        public ClientBuyerPostsController(IBuyerPostService service)
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync([FromForm] BuyerPostCreateDto dto)
+    {
+        var validator = new BuyerPostCreateValidator();
+        var isValidator = validator.Validate(dto);
+
+        if (isValidator.IsValid)
         {
-            this._service = service;
+            return Ok(await _service.CreateAsync(dto));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromForm] BuyerPostCreateDto dto)
-        {
-            var validator = new BuyerPostCreateValidator();
-            var isValidator = validator.Validate(dto);
+        return BadRequest(isValidator.Errors);
+    }
 
-            if (isValidator.IsValid)
-            {
-                return Ok(await _service.CreateAsync(dto));
-            }
-
-            return BadRequest(isValidator.Errors);
-        }
-
-        [HttpPut("{buyerpostid}")]
+        [HttpPut("buyerpostid")]
         public async Task<IActionResult> UpdateAsync([FromForm] BuyerPostUpdateDto dto, long buyerpostid)
         {
             var validator = new BuyerPostUpdateValidator();
-            var isValidator = validator.Validate(dto);
+            var isValidator= validator.Validate(dto);
             if (isValidator.IsValid)
             {
-                return Ok(await _service.UpdateAsync(buyerpostid, dto));
+                return Ok(await _service.UpdateAsync(buyerpostid,dto));
             }
-
+           
             return BadRequest(isValidator.Errors);
         }
 
-        [HttpDelete("{buyerpostid}")]
+        [HttpDelete("buyerpostid")]
         public async Task<IActionResult> DeleteAsync(long buyerpostid)
-            => Ok(await _service.DeleteAsync(buyerpostid));
+            => Ok( await _service.DeleteAsync(buyerpostid));
 
     }
 }
