@@ -91,7 +91,7 @@ public class SellerPostService : ISellerPostService
     {
         var DbFound = await _repository.GetByIdAsync(sellerId);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
         var Dbresult = await _repository.DeleteAsync(sellerId);
@@ -112,7 +112,7 @@ public class SellerPostService : ISellerPostService
     {
         var DbFound = await _repository.GetByIdAsync(sellerId);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
         return DbFound;
@@ -122,7 +122,7 @@ public class SellerPostService : ISellerPostService
     {
         var DbFoundImg = await _imageRepository.GetByIdAsync(dto.SellerPostImageId);
 
-        if (DbFoundImg is null)
+        if (DbFoundImg.Id == 0)
             throw new ImageNotFoundException();
 
         var RootDEl = await _fileservice.DeleteImageAsync(DbFoundImg.ImagePath);
@@ -133,8 +133,10 @@ public class SellerPostService : ISellerPostService
             SellerPostId = dto.SellerPostId,
             ImagePath = img,
             UpdatedAt = TimeHelper.GetDateTime(),
-            CreatedAt = DbFoundImg.CreatedAt,
+            CreatedAt = DbFoundImg.CreatedAt
         };
+
+        sellerPostImage.UpdatedAt = TimeHelper.GetDateTime();
         var DbResult = await _imageRepository.UpdateAsync(dto.SellerPostImageId, sellerPostImage);
 
         return DbResult > 0;
@@ -143,8 +145,8 @@ public class SellerPostService : ISellerPostService
     public async Task<bool> UpdateAsync(long sellerID, SellerPostUpdateDto dto)
     {
         var DbFound = await _repository.GetByIdAsync(sellerID);
-
-        if (DbFound is null)
+     
+        if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
         SellerPost sellerPost = new SellerPost()

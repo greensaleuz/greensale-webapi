@@ -1,4 +1,5 @@
 ﻿using GreenSale.Service.Interfaces.Auth;
+using GreenSale.Service.Interfaces.BuyerPosts;
 using GreenSale.Service.Interfaces.Categories;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Notifications;
@@ -7,6 +8,7 @@ using GreenSale.Service.Interfaces.SellerPosts;
 using GreenSale.Service.Interfaces.Storages;
 using GreenSale.Service.Interfaces.Users;
 using GreenSale.Service.Service.Auth;
+using GreenSale.Service.Service.BuyerPosts;
 using GreenSale.Service.Service.Categories;
 using GreenSale.Service.Service.Common;
 using GreenSale.Service.Service.Notifications;
@@ -33,5 +35,6 @@ public static class ServiceLayerConfiguration
         builder.Services.AddScoped<ISellerPostService, SellerPostService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IIdentityService, IdentityService>();
+        builder.Services.AddScoped<IBuyerPostService, BuyerPostService>();
     }
 }
