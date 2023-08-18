@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Client.BuyerPosts;
 
-[Route("api/client/buyerposts")]
+[Route("api/client/buyer/post")]
 [ApiController]
 public class ClientBuyerPostsController : BaseClientController
 {
