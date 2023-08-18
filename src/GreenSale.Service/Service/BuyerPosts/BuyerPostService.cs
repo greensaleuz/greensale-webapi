@@ -23,7 +23,7 @@ public class BuyerPostService : IBuyerPostService
 {
     private readonly IBuyerPostRepository _postRepository;
     private readonly IPaginator _paginator;
-    private readonly IFileService _fileService;
+    private readonly IFileService _fileService; 
     private readonly IBuyerPostImageRepository _imageRepository;
     private readonly IIdentityService _identity;
 
@@ -96,7 +96,7 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbFound = await _postRepository.GetByIdAsync(buyerId);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new BuyerPostNotFoundException();
 
         var DbResult = await _postRepository.DeleteAsync(buyerId);
@@ -117,7 +117,7 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbFound = await _postRepository.GetByIdAsync(buyerId);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new BuyerPostNotFoundException();
 
         return DbFound;
@@ -148,7 +148,7 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbFound = await _postRepository.GetByIdAsync(buyerID);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
         BuyerPost buyerPost = new BuyerPost()
