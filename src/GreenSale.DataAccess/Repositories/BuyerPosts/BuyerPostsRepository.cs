@@ -60,6 +60,7 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"DELETE FROM public.buyer_posts WHERE id = @ID;";
             var result = await _connection.ExecuteAsync(query, new { ID = Id });
 

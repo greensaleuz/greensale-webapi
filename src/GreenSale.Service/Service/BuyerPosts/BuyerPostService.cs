@@ -21,6 +21,7 @@ public class BuyerPostService : IBuyerPostService
     private readonly IFileService _fileService;
     private readonly IBuyerPostImageRepository _imageRepository;
     private readonly IIdentityService _identity;
+    private readonly string BUYERPOSTIMAGES = "BuyerPostImages";
 
     public BuyerPostService(
         IBuyerPostRepository postRepository,
@@ -70,7 +71,7 @@ public class BuyerPostService : IBuyerPostService
         {
             foreach (var item in dto.ImagePath)
             {
-                var img = await _fileService.UploadImageAsync(item);
+                var img = await _fileService.UploadImageAsync(item, BUYERPOSTIMAGES);
 
                 BuyerPostImage BuyerPostImage = new BuyerPostImage()
                 {
@@ -96,7 +97,21 @@ public class BuyerPostService : IBuyerPostService
         if (DbFound.Id == 0)
             throw new BuyerPostNotFoundException();
 
+        var DbImgAll = await _imageRepository.GetByIdAllAsync(buyerId);
+
+        if(DbImgAll.Count == 0)
+            throw new BuyerPostNotFoundException();
+
+        var DbImgResult = await _imageRepository.DeleteAsync(buyerId);
         var DbResult = await _postRepository.DeleteAsync(buyerId);
+
+        if (DbResult > 0 && 0 < DbImgResult)
+        {
+            foreach (var item in DbImgAll)
+            {
+                await _fileService.DeleteImageAsync(item.ImagePath);
+            }
+        }
 
         return DbResult > 0;
     }
@@ -128,7 +143,7 @@ public class BuyerPostService : IBuyerPostService
             throw new ImageNotFoundException();
 
         var RootDEl = await _fileService.DeleteImageAsync(DbFoundImg.ImagePath);
-        var img = await _fileService.UploadImageAsync(dto.ImagePath);
+        var img = await _fileService.UploadImageAsync(dto.ImagePath, BUYERPOSTIMAGES);
 
         BuyerPostImage buyerPostImage = new BuyerPostImage()
         {

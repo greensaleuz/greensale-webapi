@@ -42,9 +42,9 @@ public class BuyerPostUpdateValidator : AbstractValidator<BuyerPostUpdateDto>
 
         RuleFor(dto => dto.CategoryID).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
         RuleFor(dto => dto.Status).NotEmpty().NotNull().WithMessage("Status field is requires");
-/*        RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("ImagePath filed is required");
+        /*        RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("ImagePath filed is required");
 
-        RuleFor(dto => dto.ImagePath).Must((dto, IFormFile) => IFormFile.Count <= 5)
-            .WithMessage("There should be at least 5 images");*/
+                RuleFor(dto => dto.ImagePath).Must((dto, IFormFile) => IFormFile.Count <= 5)
+                    .WithMessage("There should be at least 5 images");*/
     }
 }

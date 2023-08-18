@@ -21,6 +21,7 @@ public class SellerPostService : ISellerPostService
     private readonly IPaginator _paginator;
     private readonly IIdentityService _identity;
     private readonly ISellerPostsRepository _repository;
+    private readonly string SELLERPOSTIMAGES = "SellPostImages";
 
     public SellerPostService(
         ISellerPostsRepository repository,
@@ -68,7 +69,7 @@ public class SellerPostService : ISellerPostService
         {
             foreach (var item in dto.ImagePath)
             {
-                var img = await _fileservice.UploadImageAsync(item);
+                var img = await _fileservice.UploadImageAsync(item, SELLERPOSTIMAGES);
 
                 SellerPostImage sellerPostImage = new SellerPostImage()
                 {
@@ -126,7 +127,7 @@ public class SellerPostService : ISellerPostService
             throw new ImageNotFoundException();
 
         var RootDEl = await _fileservice.DeleteImageAsync(DbFoundImg.ImagePath);
-        var img = await _fileservice.UploadImageAsync(dto.ImagePath);
+        var img = await _fileservice.UploadImageAsync(dto.ImagePath, SELLERPOSTIMAGES);
 
         SellerPostImage sellerPostImage = new SellerPostImage()
         {

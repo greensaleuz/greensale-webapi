@@ -1,5 +1,4 @@
 ﻿using GreenSale.Domain.Enums.BuyerPosts;
-using Microsoft.AspNetCore.Http;
 
 namespace GreenSale.Persistence.Dtos.BuyerPostsDto;
 

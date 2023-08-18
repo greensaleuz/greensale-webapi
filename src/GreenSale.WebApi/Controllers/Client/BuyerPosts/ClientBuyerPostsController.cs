@@ -1,6 +1,5 @@
 ﻿using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
-using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Validators.BuyerPosts;
 using GreenSale.Service.Interfaces.BuyerPosts;
 using Microsoft.AspNetCore.Mvc;
