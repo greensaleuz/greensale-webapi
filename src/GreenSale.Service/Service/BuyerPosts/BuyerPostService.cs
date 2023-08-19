@@ -119,10 +119,55 @@ public class BuyerPostService : IBuyerPostService
     public async Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params)
     {
         var DbResult = await _postRepository.GetAllAsync(@params);
+        var dBim = await _imageRepository.GetAllAsync(@params);
+        List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
+        BuyerPostViewModel buyerPostViewModel = new BuyerPostViewModel();
+
+        foreach (var item in DbResult)
+        {
+            buyerPostViewModel = new BuyerPostViewModel()
+            {
+                Id = item.Id,
+                FullName = item.FullName,
+                CategoryName = item.CategoryName,
+                Title = item.Title,
+                Description = item.Description,
+                Price = item.Price,
+                Capacity = item.Capacity,
+                CapacityMeasure = item.CapacityMeasure,
+                Type = item.Type,
+                Region = item.Region,
+                District = item.District,
+                Address = item.Address,
+                Status = item.Status,
+                CreatedAt = item.CreatedAt,
+                UpdatedAt = item.UpdatedAt,
+            };
+            buyerPostViewModel.BuyerPostsImages = new List<BuyerPostImage>();
+            foreach (var img in dBim)
+            {
+                if(img.BuyerpostId == item.Id)
+                {
+                    
+                    BuyerPostImage buyerPostImage = new BuyerPostImage()
+                    {
+                        Id = img.Id,
+                        BuyerpostId = img.BuyerpostId,
+                        ImagePath = img.ImagePath,
+                        CreatedAt = img.CreatedAt,
+                        UpdatedAt = img.UpdatedAt,
+                    };
+
+                    buyerPostViewModel.BuyerPostsImages.Add(buyerPostImage);
+                }
+            }
+            Result.Add(buyerPostViewModel);
+        }
+
         var DBCount = await _postRepository.CountAsync();
         _paginator.Paginate(DBCount, @params);
 
-        return DbResult;
+        return Result;
     }
 
     public async Task<BuyerPostViewModel> GetBYIdAsync(long buyerId)
