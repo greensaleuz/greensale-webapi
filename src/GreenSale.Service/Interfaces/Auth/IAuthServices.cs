@@ -1,5 +1,6 @@
 ﻿using GreenSale.Persistence.Dtos;
 using GreenSale.Persistence.Dtos.Auth;
+using System.Security.Claims;
 
 namespace GreenSale.Service.Interfaces.Auth;
 

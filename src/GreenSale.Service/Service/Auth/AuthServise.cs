@@ -15,10 +15,11 @@ using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Notifications;
 using GreenSale.Service.Security;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.IdentityModel.Logging;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 
 namespace GreenSale.Service.Service.Auth;
@@ -32,6 +33,7 @@ public class AuthServise : IAuthServices
     private const string REGISTER_CACHE_KEY = "register_";
     private const string VERIFY_REGISTER_CACHE_KEY = "verify_register_";
     private const string Reset_CACHE_KEY = "reset_";
+
     private readonly IUserRoles _userRoles;
     private readonly IRoleRepository _roleRepository;
     private readonly ITokenService _tokenService;
@@ -44,7 +46,8 @@ public class AuthServise : IAuthServices
         IUserRepository userRepository,
         ITokenService tokenService,
         ISmsSender smsSender,
-        IUserRoles userRoles)
+        IUserRoles userRoles,
+        IConfiguration configuration)
     {
         this._userRoles = userRoles;
         this._tokenService = tokenService;
@@ -367,35 +370,60 @@ public class AuthServise : IAuthServices
 
         return dbResult;
     }
-    public async Task<bool> CheckTokenAsync(string token)
+
+    public Task<bool> CheckTokenAsync(string token, out ClaimsPrincipal claimsPrincipal)
     {
-        ClaimsPrincipal principal = ValidateToken(token);
-        if (principal != null)
+        claimsPrincipal = null;
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Convert.FromBase64String("");
+        var validationParameters = new TokenValidationParameters
         {
-            var chrk = principal.Identity;
-          
-            Console.WriteLine(chrk.Name.ToString());
-            return true;
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+
+        try
+        {
+            claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+
+            return Task.FromResult(true);
         }
-        return false;
+        catch
+        {
+            return Task.FromResult(false);
+        }
     }
 
-    public static ClaimsPrincipal ValidateToken(string jwtToken)
+    public async Task<bool> CheckTokenAsync(string token)
     {
-        IdentityModelEventSource.ShowPII = true;
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validationParameters = GetValidationParameters();
+            SecurityToken validatedToken;
+            IPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
 
-        SecurityToken validatedToken;
-        TokenValidationParameters validationParameters = new TokenValidationParameters();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 
-        validationParameters.ValidateLifetime = true;
-
-        validationParameters.ValidAudience = "GreenSale";
-        validationParameters.ValidIssuer = "http://GreenSale.uz";
-        validationParameters.IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes("23f926fb-dcd2-49f4-8fe2-992aac18f08f"));
-
-        ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
-
-
-        return principal;
+    private static TokenValidationParameters GetValidationParameters()
+    {
+        return new TokenValidationParameters()
+        {
+            ValidateLifetime = true,
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidIssuer = "http://GreenSale.uz",
+            ValidAudience = "GreenSale",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("23f926fb-dcd2-49f4-8fe2-992aac18f08f")) // The same key as the one that generate the token
+        };
     }
 }
