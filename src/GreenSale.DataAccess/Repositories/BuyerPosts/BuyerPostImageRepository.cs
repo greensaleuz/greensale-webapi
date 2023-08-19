@@ -134,6 +134,31 @@ namespace GreenSale.DataAccess.Repositories.BuyerPosts
             }
         }
 
+        public async Task<List<BuyerPostImage>> GetFirstAllAsync()
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string qauery = "SELECT id, buyer_post_id, image_path, created_at, updated_at " +
+                    "FROM public.buyer_posts_images WHERE (buyer_post_id, id) " +
+                        "IN (SELECT buyer_post_id, MIN(id) FROM public.buyer_posts_images " +
+                            "GROUP BY buyer_post_id ) ORDER BY id DESC";
+
+                var result = (await _connection.QueryAsync<BuyerPostImage>(qauery)).ToList();
+
+                return result;
+            }
+            catch
+            {
+                return new List<BuyerPostImage>();
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
         public async Task<int> UpdateAsync(long Id, BuyerPostImage entity)
         {
             try

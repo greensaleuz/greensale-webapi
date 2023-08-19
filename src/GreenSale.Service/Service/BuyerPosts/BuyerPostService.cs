@@ -119,7 +119,7 @@ public class BuyerPostService : IBuyerPostService
     public async Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params)
     {
         var DbResult = await _postRepository.GetAllAsync(@params);
-        var dBim = await _imageRepository.GetAllAsync(@params);
+        var dBim = await _imageRepository.GetFirstAllAsync();
         List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
         BuyerPostViewModel buyerPostViewModel = new BuyerPostViewModel();
 
