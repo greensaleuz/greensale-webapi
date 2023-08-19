@@ -1,6 +1,4 @@
 ﻿using GreenSale.Application.Utils;
-using GreenSale.Persistence.Dtos.StoragDtos;
-using GreenSale.Persistence.Validators.Storages;
 using GreenSale.Service.Interfaces.Storages;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +15,7 @@ public class CommonStoragesController : BaseController
     {
         this._service = service;
     }
-   
+
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
         => Ok(await _service.GetAllAsync(new PaginationParams(page, maxPageSize)));

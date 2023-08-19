@@ -16,6 +16,7 @@ public class StorageService : IStoragesService
     private IStorageRepository _repository;
     private IPaginator _paginator;
     private IFileService _fileService;
+    private readonly string STORAGEPOSTIMAGES = "StoragePostImages";
 
     public StorageService(
         IStorageRepository repository,
@@ -33,7 +34,7 @@ public class StorageService : IStoragesService
 
     public async Task<bool> CreateAsync(StoragCreateDto dto)
     {
-        string imagePath = await _fileService.UploadImageAsync(dto.ImagePath);
+        string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
         Storage storage = new Storage()
         {
             UserId = dto.UserId,
@@ -117,7 +118,7 @@ public class StorageService : IStoragesService
                 throw new ImageNotFoundException();
 
             //upload new image
-            string imagePath = await _fileService.UploadImageAsync(dto.ImagePath);
+            string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
             storage.ImagePath = imagePath;
         }
 

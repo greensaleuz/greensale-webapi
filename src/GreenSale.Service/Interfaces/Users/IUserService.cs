@@ -1,6 +1,5 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.ViewModels.Users;
-using GreenSale.Persistence.Dtos;
 using GreenSale.Persistence.Dtos.UserDtos;
 
 namespace GreenSale.Service.Interfaces.Users;

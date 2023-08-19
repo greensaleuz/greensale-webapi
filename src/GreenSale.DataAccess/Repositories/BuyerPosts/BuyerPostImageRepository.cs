@@ -55,8 +55,8 @@ namespace GreenSale.DataAccess.Repositories.BuyerPosts
             try
             {
                 await _connection.OpenAsync();
-                string query = "Delete from buyer_posts_images where id = @ID";
-                var result = await _connection.QuerySingleAsync<int>(query, new { ID = Id });
+                string query = "Delete from buyer_posts_images where buyer_post_id = @ID";
+                var result = await _connection.ExecuteAsync(query, new { ID = Id });
 
                 return result;
             }
@@ -80,6 +80,27 @@ namespace GreenSale.DataAccess.Repositories.BuyerPosts
                                     $"offset {@params.GetSkipCount()} limit {@params.PageSize} ";
 
                 var result = (await _connection.QueryAsync<BuyerPostImage>(qauery)).ToList();
+
+                return result;
+            }
+            catch
+            {
+                return new List<BuyerPostImage>();
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task<List<BuyerPostImage>> GetByIdAllAsync(long Id)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string query = "select * from buyer_posts_images  where buyer_post_id = @ID";
+                var result = (await _connection.QueryAsync<BuyerPostImage>(query, new { ID = Id })).ToList();
 
                 return result;
             }

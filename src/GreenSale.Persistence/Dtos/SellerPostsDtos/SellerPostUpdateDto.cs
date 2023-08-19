@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace GreenSale.Persistence.Dtos.SellerPostsDtos;
+﻿namespace GreenSale.Persistence.Dtos.SellerPostsDtos;
 
 public class SellerPostUpdateDto
 {

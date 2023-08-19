@@ -21,6 +21,7 @@ public class SellerPostService : ISellerPostService
     private readonly IPaginator _paginator;
     private readonly IIdentityService _identity;
     private readonly ISellerPostsRepository _repository;
+    private readonly string SELLERPOSTIMAGES = "SellPostImages";
 
     public SellerPostService(
         ISellerPostsRepository repository,
@@ -64,11 +65,11 @@ public class SellerPostService : ISellerPostService
 
         var DbResult = await _repository.CreateAsync(sellerPost);
 
-        if(DbResult > 0)
+        if (DbResult > 0)
         {
-            foreach(var item in dto.ImagePath)
+            foreach (var item in dto.ImagePath)
             {
-                var img = await _fileservice.UploadImageAsync(item);
+                var img = await _fileservice.UploadImageAsync(item, SELLERPOSTIMAGES);
 
                 SellerPostImage sellerPostImage = new SellerPostImage()
                 {
@@ -91,7 +92,7 @@ public class SellerPostService : ISellerPostService
     {
         var DbFound = await _repository.GetByIdAsync(sellerId);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
         var Dbresult = await _repository.DeleteAsync(sellerId);
@@ -112,7 +113,7 @@ public class SellerPostService : ISellerPostService
     {
         var DbFound = await _repository.GetByIdAsync(sellerId);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
         return DbFound;
@@ -122,19 +123,21 @@ public class SellerPostService : ISellerPostService
     {
         var DbFoundImg = await _imageRepository.GetByIdAsync(dto.SellerPostImageId);
 
-        if (DbFoundImg is null)
+        if (DbFoundImg.Id == 0)
             throw new ImageNotFoundException();
 
         var RootDEl = await _fileservice.DeleteImageAsync(DbFoundImg.ImagePath);
-        var img = await _fileservice.UploadImageAsync(dto.ImagePath);
+        var img = await _fileservice.UploadImageAsync(dto.ImagePath, SELLERPOSTIMAGES);
 
         SellerPostImage sellerPostImage = new SellerPostImage()
         {
             SellerPostId = dto.SellerPostId,
             ImagePath = img,
             UpdatedAt = TimeHelper.GetDateTime(),
-            CreatedAt = DbFoundImg.CreatedAt,
+            CreatedAt = DbFoundImg.CreatedAt
         };
+
+        sellerPostImage.UpdatedAt = TimeHelper.GetDateTime();
         var DbResult = await _imageRepository.UpdateAsync(dto.SellerPostImageId, sellerPostImage);
 
         return DbResult > 0;
@@ -144,7 +147,7 @@ public class SellerPostService : ISellerPostService
     {
         var DbFound = await _repository.GetByIdAsync(sellerID);
 
-        if (DbFound is null)
+        if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
         SellerPost sellerPost = new SellerPost()

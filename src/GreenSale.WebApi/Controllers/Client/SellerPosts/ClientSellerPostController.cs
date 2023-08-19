@@ -1,7 +1,6 @@
 ﻿using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
 using GreenSale.Service.Interfaces.SellerPosts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Client.SellerPosts;
@@ -26,10 +25,10 @@ public class ClientSellerPostController : BaseClientController
         return Ok(result);
     }
 
-    [HttpPut("{sellerId}")]
-    public async Task<IActionResult> UpdateAsync(long sellerId, [FromForm] SellerPostUpdateDto dto)
+    [HttpPut("{postId}")]
+    public async Task<IActionResult> UpdateAsync(long postId, [FromForm] SellerPostUpdateDto dto)
     {
-        var result = await _postService.UpdateAsync(sellerId, dto);
+        var result = await _postService.UpdateAsync(postId, dto);
 
         return Ok(result);
     }
@@ -42,7 +41,7 @@ public class ClientSellerPostController : BaseClientController
         return Ok(result);
     }
 
-    [HttpDelete("{sellerId}")]
-    public async Task<IActionResult> DeleteAsync(long sellerId)
-        => Ok(await _postService.DeleteAsync(sellerId));
+    [HttpDelete("{postId}")]
+    public async Task<IActionResult> DeleteAsync(long postId)
+        => Ok(await _postService.DeleteAsync(postId));
 }

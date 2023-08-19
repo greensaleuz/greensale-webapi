@@ -1,5 +1,4 @@
-﻿using GreenSale.Domain.Enums.BuyerPosts;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace GreenSale.Persistence.Dtos.BuyerPostsDto;
 
@@ -16,6 +15,5 @@ public class BuyerPostCreateDto
     public string District { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public long CategoryID { get; set; }
-    public BuyerPostEnum Status { get; set; }
     public List<IFormFile> ImagePath { get; set; } = default!;
 }
