@@ -11,5 +11,5 @@ public interface IAuthServices
     public Task<(bool Result, string Token)> LoginAsync(UserLoginDto dto);
     public Task<(bool Result, int CachedMinutes)> ResetPasswordAsync(ForgotPassword dto);
     public Task<(bool Result, string Token)> VerifyResetPasswordAsync(string phoneNumber, int code);
-    public Task<bool> CheckTokenAsync(string token);
+    public Task<bool> CheckTokenAsync(AuthorizationDto token);
 }
