@@ -103,7 +103,7 @@ public class UserRepository : BaseRepository, IUserRepository
         {
             await _connection.OpenAsync();
 
-            string query = "SELECT id, first_name, last_name, phone_number, region, district, address " +
+            string query = "SELECT id, first_name, last_name, phone_number, region, district, address, created_at, updated_at " +
                 $" FROM public.users where id = {Id};";
 
             var result = await _connection.QuerySingleOrDefaultAsync<UserViewModel>(query, new { id = Id });

@@ -57,8 +57,10 @@ public class UserService : IUserService
     public async Task<UserViewModel> GetByIdAsync(long userId)
     {
         var DbFound = await _userRepository.GetByIdAsync(userId);
+
         if (DbFound is null)
             throw new UserNotFoundException();
+
         var DbResult = await _userRepository.GetByIdAsync(userId);
 
         return DbResult;
