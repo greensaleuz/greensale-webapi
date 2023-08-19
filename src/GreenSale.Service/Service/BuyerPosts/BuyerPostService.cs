@@ -172,12 +172,52 @@ public class BuyerPostService : IBuyerPostService
 
     public async Task<BuyerPostViewModel> GetBYIdAsync(long buyerId)
     {
-        var DbFound = await _postRepository.GetByIdAsync(buyerId);
+        var item = await _postRepository.GetByIdAsync(buyerId);
+        var dBim = await _imageRepository.GetByIdAllAsync(buyerId);
 
-        if (DbFound.Id == 0)
+        if (item.Id == 0)
             throw new BuyerPostNotFoundException();
 
-        return DbFound;
+        BuyerPostViewModel buyerPostViewModel = new BuyerPostViewModel();
+
+        buyerPostViewModel = new BuyerPostViewModel()
+        {
+            Id = item.Id,
+            FullName = item.FullName,
+            CategoryName = item.CategoryName,
+            Title = item.Title,
+            Description = item.Description,
+            Price = item.Price,
+            Capacity = item.Capacity,
+            CapacityMeasure = item.CapacityMeasure,
+            Type = item.Type,
+            Region = item.Region,
+            District = item.District,
+            Address = item.Address,
+            Status = item.Status,
+            CreatedAt = item.CreatedAt,
+            UpdatedAt = item.UpdatedAt,
+        };
+        buyerPostViewModel.BuyerPostsImages = new List<BuyerPostImage>();
+        foreach (var img in dBim)
+        {
+            if (img.BuyerpostId == item.Id)
+            {
+
+                BuyerPostImage buyerPostImage = new BuyerPostImage()
+                {
+                    Id = img.Id,
+                    BuyerpostId = img.BuyerpostId,
+                    ImagePath = img.ImagePath,
+                    CreatedAt = img.CreatedAt,
+                    UpdatedAt = img.UpdatedAt,
+                };
+
+                buyerPostViewModel.BuyerPostsImages.Add(buyerPostImage);
+            }
+        }
+
+        return buyerPostViewModel;
     }
 
     public async Task<bool> ImageUpdateAsync(BuyerPostImageDto dto)
