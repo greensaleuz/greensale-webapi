@@ -18,7 +18,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 
@@ -371,40 +370,14 @@ public class AuthServise : IAuthServices
         return dbResult;
     }
 
-    public Task<bool> CheckTokenAsync(string token, out ClaimsPrincipal claimsPrincipal)
-    {
-        claimsPrincipal = null;
-
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Convert.FromBase64String("");
-        var validationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-
-        try
-        {
-            claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
-
-            return Task.FromResult(true);
-        }
-        catch
-        {
-            return Task.FromResult(false);
-        }
-    }
-
-    public async Task<bool> CheckTokenAsync(string token)
+    public async Task<bool> CheckTokenAsync(AuthorizationDto token)
     {
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var validationParameters = GetValidationParameters();
             SecurityToken validatedToken;
-            IPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+            IPrincipal principal = tokenHandler.ValidateToken(token.Authorization, validationParameters, out validatedToken);
 
             return true;
         }

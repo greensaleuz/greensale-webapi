@@ -100,7 +100,7 @@ public class AuthController : BaseController
     }
 
     [HttpPost("token/verify")]
-    public async Task<IActionResult> CheckToken([FromBody] string token)
+    public async Task<IActionResult> CheckToken([FromBody] AuthorizationDto token)
     {
         var requedt = await _authService.CheckTokenAsync(token);
         return Ok(requedt);
