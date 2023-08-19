@@ -67,7 +67,7 @@ public class IdentityService : IIdentityService
             if (_accessor.HttpContext is null)
                 return "";
 
-            var claim = _accessor.HttpContext.User.Claims.FirstOrDefault(op => op.Type == "LatName");
+            var claim = _accessor.HttpContext.User.Claims.FirstOrDefault(op => op.Type == "LastName");
 
             if (claim is null)
                 return "";
