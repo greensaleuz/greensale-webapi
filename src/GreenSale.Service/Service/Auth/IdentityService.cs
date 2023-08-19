@@ -21,8 +21,8 @@ public class IdentityService : IIdentityService
 
             var claim = _accessor.HttpContext.User.Claims.FirstOrDefault(op => op.Type == "Id");
 
-            if (claim is null)
-                return 0;
+            if ( claim is null ) 
+                return 0;  
             else
                 return long.Parse(claim.Value);
         }
