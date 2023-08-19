@@ -2,7 +2,6 @@
 using GreenSale.Persistence.Dtos.Auth;
 using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Auth;
-using GreenSale.Service.Service.Auth;
 using GreenSale.WebApi.Controllers.Common;
 using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Mvc;
