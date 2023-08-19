@@ -1,4 +1,5 @@
-﻿using GreenSale.Persistence.Dtos.BuyerPostsDto;
+﻿using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
+using GreenSale.Persistence.Dtos.BuyerPostsDto;
 using GreenSale.Persistence.Validators.BuyerPosts;
 using GreenSale.Service.Interfaces.BuyerPosts;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,14 @@ public class ClientBuyerPostsController : BaseClientController
         }
 
         return BadRequest(isValidator.Errors);
+    }
+
+    [HttpPut("image")]
+    public async Task<IActionResult> ImageUpdateAsync([FromForm] BuyerPostImageDto dto)
+    {
+        var result = await _service.ImageUpdateAsync(dto);
+
+        return Ok(result);
     }
 
     [HttpDelete("{postId}")]

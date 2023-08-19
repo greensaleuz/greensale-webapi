@@ -1,4 +1,5 @@
-﻿using GreenSale.Domain.Enums.BuyerPosts;
+﻿using GreenSale.Domain.Entites.BuyerPosts;
+using GreenSale.Domain.Enums.BuyerPosts;
 
 namespace GreenSale.DataAccess.ViewModels.BuyerPosts
 {
@@ -19,5 +20,6 @@ namespace GreenSale.DataAccess.ViewModels.BuyerPosts
         public BuyerPostEnum Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public List<BuyerPostImage> BuyerPostsImages { get; set; }
     }
 }
