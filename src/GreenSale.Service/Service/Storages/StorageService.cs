@@ -6,6 +6,7 @@ using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.Domain.Entites.Storages;
 using GreenSale.Persistence.Dtos.StoragDtos;
 using GreenSale.Service.Helpers;
+using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Storages;
 
@@ -13,6 +14,7 @@ namespace GreenSale.Service.Service.Storages;
 
 public class StorageService : IStoragesService
 {
+    private IIdentityService _identity;
     private IStorageRepository _repository;
     private IPaginator _paginator;
     private IFileService _fileService;
@@ -21,8 +23,10 @@ public class StorageService : IStoragesService
     public StorageService(
         IStorageRepository repository,
         IPaginator paginator,
-        IFileService fileService)
+        IFileService fileService,
+        IIdentityService identity)
     {
+        this._identity = identity;
         this._repository = repository;
         this._paginator = paginator;
         this._fileService = fileService;
@@ -37,7 +41,7 @@ public class StorageService : IStoragesService
         string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
         Storage storage = new Storage()
         {
-            UserId = dto.UserId,
+            UserId = _identity.Id,
             Name = dto.Name,
             Description = dto.Description,
             Region = dto.Region,

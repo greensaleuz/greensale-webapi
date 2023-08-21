@@ -7,22 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\Media\Images\BuyerPostImages\**" />
     <Compile Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <Compile Remove="wwwroot\Media\Images\SellPostImages\**" />
-    <Compile Remove="wwwroot\Media\Images\StoragePostImages\**" />
-    <Content Remove="wwwroot\Media\Images\BuyerPostImages\**" />
     <Content Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <Content Remove="wwwroot\Media\Images\SellPostImages\**" />
-    <Content Remove="wwwroot\Media\Images\StoragePostImages\**" />
-    <EmbeddedResource Remove="wwwroot\Media\Images\BuyerPostImages\**" />
     <EmbeddedResource Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <EmbeddedResource Remove="wwwroot\Media\Images\SellPostImages\**" />
-    <EmbeddedResource Remove="wwwroot\Media\Images\StoragePostImages\**" />
-    <None Remove="wwwroot\Media\Images\BuyerPostImages\**" />
     <None Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <None Remove="wwwroot\Media\Images\SellPostImages\**" />
-    <None Remove="wwwroot\Media\Images\StoragePostImages\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,9 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GreenSale.Service\GreenSale.Service.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\Media\Images\" />
   </ItemGroup>
 
 </Project>
