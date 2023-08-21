@@ -275,11 +275,27 @@ public class BuyerPostService : IBuyerPostService
             Address = dto.Address,
             District = dto.District,
             PhoneNumber = dto.PhoneNumber,
-            Status = dto.Status,
+            CreatedAt = DbFound.CreatedAt,
             UpdatedAt = TimeHelper.GetDateTime(),
         };
 
         var DbResult = await _postRepository.UpdateAsync(buyerID, buyerPost);
+
+        if (DbResult > 0)
+            return true;
+
+        return false;
+    }
+
+    public async Task<bool> UpdateStatusAsync(long buyerID, BuyerPostStatusUpdateDto dto)
+    {
+        var DbFound = await _postRepository.GetIdAsync(buyerID);
+
+        if (DbFound.Id == 0)
+            throw new SellerPostsNotFoundException();
+
+        DbFound.Status = dto.PostStatus;
+        var DbResult = await _postRepository.UpdateAsync(buyerID, DbFound);
 
         if (DbResult > 0)
             return true;

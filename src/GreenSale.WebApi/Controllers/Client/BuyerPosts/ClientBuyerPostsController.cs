@@ -45,6 +45,10 @@ public class ClientBuyerPostsController : BaseClientController
         return BadRequest(isValidator.Errors);
     }
 
+    [HttpPut("status/{postId}")]
+    public async Task<IActionResult> UpdateStatusAsync([FromForm] BuyerPostStatusUpdateDto dto, long postId)
+        =>Ok(await _service.UpdateStatusAsync(postId,dto));
+
     [HttpPut("image")]
     public async Task<IActionResult> ImageUpdateAsync([FromForm] BuyerPostImageDto dto)
     {

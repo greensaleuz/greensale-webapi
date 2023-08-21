@@ -5,5 +5,7 @@ using GreenSale.Domain.Entites.BuyerPosts;
 namespace GreenSale.DataAccess.Interfaces.BuyerPosts
 {
     public interface IBuyerPostRepository : IRepository<BuyerPost, BuyerPostViewModel>, ISearchable<BuyerPostViewModel>
-    { }
+    {
+        public Task<BuyerPost> GetIdAsync(long buyerId);
+    }
 }
