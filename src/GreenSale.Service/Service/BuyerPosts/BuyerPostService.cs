@@ -130,6 +130,8 @@ public class BuyerPostService : IBuyerPostService
             {
                 Id = item.Id,
                 FullName = item.FullName,
+                UserPhoneNumber = item.UserPhoneNumber,
+                PostPhoneNumber = item.PostPhoneNumber,
                 CategoryName = item.CategoryName,
                 Title = item.Title,
                 Description = item.Description,
@@ -162,6 +164,8 @@ public class BuyerPostService : IBuyerPostService
                     };
 
                     buyerPostViewModel.BuyerPostsImages.Add(buyerPostImage);
+                    dBim.RemoveAt(0);
+                    break;
                 }
             }
 
@@ -188,6 +192,8 @@ public class BuyerPostService : IBuyerPostService
         {
             Id = item.Id,
             FullName = item.FullName,
+            UserPhoneNumber = item.UserPhoneNumber,
+            PostPhoneNumber = item.PostPhoneNumber,
             CategoryName = item.CategoryName,
             Title = item.Title,
             Description = item.Description,
