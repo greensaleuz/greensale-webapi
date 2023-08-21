@@ -41,10 +41,5 @@ public class BuyerPostUpdateValidator : AbstractValidator<BuyerPostUpdateDto>
                 .MaximumLength(50).WithMessage("Address must be less than 3 characters");
 
         RuleFor(dto => dto.CategoryID).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
-        RuleFor(dto => dto.Status).NotEmpty().NotNull().WithMessage("Status field is requires");
-        /*        RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("ImagePath filed is required");
-
-                RuleFor(dto => dto.ImagePath).Must((dto, IFormFile) => IFormFile.Count <= 5)
-                    .WithMessage("There should be at least 5 images");*/
     }
 }

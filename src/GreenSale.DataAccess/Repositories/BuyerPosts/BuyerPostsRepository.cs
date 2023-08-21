@@ -119,6 +119,26 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         }
     }
 
+    public async Task<BuyerPost> GetIdAsync(long buyerId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT * FROM public.buyer_posts where id=@ID;";
+            var result = await _connection.QuerySingleAsync<BuyerPost>(query, new { ID = buyerId });
+
+            return result;
+        }
+        catch
+        {
+            return new BuyerPost();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<(int ItemsCount, List<BuyerPostViewModel>)> SearchAsync(string search, PaginationParams @params)
     {
         try
