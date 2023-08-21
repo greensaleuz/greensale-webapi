@@ -30,7 +30,7 @@ public class UserUpdateValidator : AbstractValidator<UserUpdateDto>
             .MinimumLength(3).WithMessage("Address must be less than 3 characters")
                 .MaximumLength(30).WithMessage("Address must be less than 30 characters");
 
-       // RuleFor(dto => dto.Password).Must(passsword => PasswordValidator.IsStrongPassword(passsword).IsValid);
+        // RuleFor(dto => dto.Password).Must(passsword => PasswordValidator.IsStrongPassword(passsword).IsValid);
         RuleFor(dto => dto.Password).Must((dto, password) => string.IsNullOrEmpty(password) || PasswordValidator.IsStrongPassword(password).IsValid)
             .WithMessage("Password is invalid or doesn't meet the requirements.");
     }

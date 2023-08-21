@@ -120,6 +120,7 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbResult = await _postRepository.GetAllAsync(@params);
         var dBim = await _imageRepository.GetFirstAllAsync();
+
         List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
         BuyerPostViewModel buyerPostViewModel = new BuyerPostViewModel();
 
@@ -143,7 +144,9 @@ public class BuyerPostService : IBuyerPostService
                 CreatedAt = item.CreatedAt,
                 UpdatedAt = item.UpdatedAt,
             };
+
             buyerPostViewModel.BuyerPostsImages = new List<BuyerPostImage>();
+
             foreach (var img in dBim)
             {
                 if (img.BuyerpostId == item.Id)
@@ -161,6 +164,7 @@ public class BuyerPostService : IBuyerPostService
                     buyerPostViewModel.BuyerPostsImages.Add(buyerPostImage);
                 }
             }
+
             Result.Add(buyerPostViewModel);
         }
 
@@ -198,7 +202,9 @@ public class BuyerPostService : IBuyerPostService
             CreatedAt = item.CreatedAt,
             UpdatedAt = item.UpdatedAt,
         };
+
         buyerPostViewModel.BuyerPostsImages = new List<BuyerPostImage>();
+        
         foreach (var img in dBim)
         {
             if (img.BuyerpostId == item.Id)
