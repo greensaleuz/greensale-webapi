@@ -69,5 +69,9 @@ public class ClientBuyerPostsController : BaseClientController
     [HttpDelete("{postId}")]
     public async Task<IActionResult> DeleteAsync(long postId)
         => Ok(await _service.DeleteAsync(postId));
+
+    [HttpDelete("image/{imageId}")]
+    public async Task<IActionResult> DeleteImageIdAsync(long imageId)
+        => Ok(await _service.DeleteImageIdAsync(imageId));
 }
 

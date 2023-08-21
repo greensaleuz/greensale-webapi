@@ -55,7 +55,7 @@ namespace GreenSale.DataAccess.Repositories.BuyerPosts
             try
             {
                 await _connection.OpenAsync();
-                string query = "Delete from buyer_posts_images where buyer_post_id = @ID";
+                string query = "Delete from buyer_posts_images where buyer_post_id = @ID or id = @ID";
                 var result = await _connection.ExecuteAsync(query, new { ID = Id });
 
                 return result;

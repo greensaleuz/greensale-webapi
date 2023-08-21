@@ -9,6 +9,7 @@ public interface IBuyerPostService
 {
     public Task<bool> CreateAsync(BuyerPostCreateDto dto);
     public Task<bool> DeleteAsync(long buyerId);
+    public Task<bool> DeleteImageIdAsync(long ImageId);
     public Task<bool> UpdateAsync(long buyerID, BuyerPostUpdateDto dto);
     public Task<bool> UpdateStatusAsync(long buyerID, BuyerPostStatusUpdateDto dto);
 

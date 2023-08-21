@@ -116,6 +116,18 @@ public class BuyerPostService : IBuyerPostService
         return DbResult > 0;
     }
 
+    public async Task<bool> DeleteImageIdAsync(long ImageId)
+    {
+        var DbFound = await _imageRepository.GetByIdAsync(ImageId);
+        if(DbFound.Id != 0)
+        {
+            var Result = await _imageRepository.DeleteAsync(ImageId);
+            await _fileService.DeleteImageAsync(DbFound.ImagePath);
+            return Result > 0;
+        }
+        return false;
+    }
+
     public async Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params)
     {
         var DbResult = await _postRepository.GetAllAsync(@params);
