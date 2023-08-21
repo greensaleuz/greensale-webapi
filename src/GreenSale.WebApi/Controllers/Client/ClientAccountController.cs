@@ -25,7 +25,7 @@ namespace GreenSale.WebApi.Controllers.Client
         public async Task<IActionResult> GetUser()
             => Ok(await _userService.GetByIdAsync(_identity.Id));
 
-        [HttpPut]
+        [HttpPut("information")]
         public async Task<IActionResult> UpdateAsync([FromForm] UserUpdateDto dto)
         {
             UserUpdateValidator validations = new UserUpdateValidator();
@@ -38,6 +38,13 @@ namespace GreenSale.WebApi.Controllers.Client
             }
             else
                 return BadRequest(resltvalid.Errors);
+        }
+
+        [HttpPut("security")]
+        public async Task<IActionResult> UpdateSecurity([FromBody] UserSecurityUpdate dto)
+        {
+            var result = await _userService.UpdateSecuryAsync(dto);
+            return Ok(result);
         }
     }
 }
