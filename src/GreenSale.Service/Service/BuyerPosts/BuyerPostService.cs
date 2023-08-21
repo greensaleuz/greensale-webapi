@@ -239,17 +239,13 @@ public class BuyerPostService : IBuyerPostService
         if (DbFoundImg.Id == 0)
             throw new ImageNotFoundException();
 
-        var RootDEl = await _fileService.DeleteImageAsync(DbFoundImg.ImagePath);
+        await _fileService.DeleteImageAsync(DbFoundImg.ImagePath);
         var img = await _fileService.UploadImageAsync(dto.ImagePath, BUYERPOSTIMAGES);
 
-        BuyerPostImage buyerPostImage = new BuyerPostImage()
-        {
-            BuyerpostId = dto.BuyerPostId,
-            ImagePath = img,
-            UpdatedAt = TimeHelper.GetDateTime(),
-        };
+        DbFoundImg.ImagePath = img;
+        DbFoundImg.UpdatedAt = TimeHelper.GetDateTime();
 
-        var DbResult = await _imageRepository.UpdateAsync(dto.BuyerPostImageId, buyerPostImage);
+        var DbResult = await _imageRepository.UpdateAsync(dto.BuyerPostImageId, DbFoundImg);
 
         return DbResult > 0;
     }
@@ -295,6 +291,8 @@ public class BuyerPostService : IBuyerPostService
             throw new SellerPostsNotFoundException();
 
         DbFound.Status = dto.PostStatus;
+        DbFound.UpdatedAt = TimeHelper.GetDateTime();
+
         var DbResult = await _postRepository.UpdateAsync(buyerID, DbFound);
 
         if (DbResult > 0)
