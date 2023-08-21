@@ -103,20 +103,115 @@ public class SellerPostService : ISellerPostService
     public async Task<List<SellerPostViewModel>> GetAllAsync(PaginationParams @params)
     {
         var DbResult = await _repository.GetAllAsync(@params);
-        var count = await _repository.CountAsync();
-        _paginator.Paginate(count, @params);
+        var dBim = await _imageRepository.GetFirstAllAsync();
 
-        return DbResult;
+        List<SellerPostViewModel> Result = new List<SellerPostViewModel>();
+        SellerPostViewModel sellerPostViewModel = new SellerPostViewModel();
+
+        foreach (var item in DbResult)
+        {
+            sellerPostViewModel = new SellerPostViewModel()
+            {
+                Id = item.Id,
+                FullName = item.FullName,
+                CategoryName = item.CategoryName,
+                Title = item.Title,
+                Description = item.Description,
+                Price = item.Price,
+                Capacity = item.Capacity,
+                CapacityMeasure = item.CapacityMeasure,
+                Type = item.Type,
+                Region = item.Region,
+                PhoneNumber = item.PhoneNumber,
+                UserRegion = item.UserRegion,
+                District = item.District,
+                AdditionalPhoneNumber = item.AdditionalPhoneNumber,
+                UpdatedAt = item.UpdatedAt,
+                CreatedAt = item.CreatedAt,
+                Status = item.Status
+            };
+
+            sellerPostViewModel.PostImages = new List<SellerPostImage>();
+
+            foreach (var img in dBim)
+            {
+                if (img.SellerPostId == item.Id)
+                {
+
+                    SellerPostImage sellerPostImage = new SellerPostImage()
+                    {
+                        Id = img.Id,
+                        SellerPostId = item.Id,
+                        ImagePath = img.ImagePath,
+                        CreatedAt = img.CreatedAt,
+                        UpdatedAt = img.UpdatedAt,
+                    };
+
+                    sellerPostViewModel.PostImages.Add(sellerPostImage);
+                }
+            }
+
+            Result.Add(sellerPostViewModel);
+        }
+
+        var DBCount = await _repository.CountAsync();
+        _paginator.Paginate(DBCount, @params);
+
+        return Result;
     }
 
     public async Task<SellerPostViewModel> GetBYIdAsync(long sellerId)
     {
-        var DbFound = await _repository.GetByIdAsync(sellerId);
+        var item = await _repository.GetByIdAsync(sellerId);
+        var dBim = await _imageRepository.GetByIdAllAsync(sellerId);
 
-        if (DbFound.Id == 0)
+        if (item.Id == 0)
             throw new SellerPostsNotFoundException();
 
-        return DbFound;
+        SellerPostViewModel sellerPostViewModel = new SellerPostViewModel();
+
+        sellerPostViewModel = new SellerPostViewModel()
+        {
+            Id = item.Id,
+            FullName = item.FullName,
+            CategoryName = item.CategoryName,
+            Title = item.Title,
+            Description = item.Description,
+            Price = item.Price,
+            Capacity = item.Capacity,
+            CapacityMeasure = item.CapacityMeasure,
+            Type = item.Type,
+            Region = item.Region,
+            PhoneNumber = item.PhoneNumber,
+            UserRegion = item.UserRegion,
+            District = item.District,
+            AdditionalPhoneNumber = item.AdditionalPhoneNumber,
+            UpdatedAt = item.UpdatedAt,
+            CreatedAt = item.CreatedAt,
+            Status = item.Status,
+        };
+
+        sellerPostViewModel.PostImages = new List<SellerPostImage>();
+        
+        foreach (var img in dBim)
+        {
+            if (img.SellerPostId == item.Id)
+            {
+
+                SellerPostImage sellerPostImage = new SellerPostImage()
+                {
+                    Id = img.Id,
+                    SellerPostId = img.SellerPostId,
+                    ImagePath = img.ImagePath,
+                    CreatedAt = img.CreatedAt,
+                    UpdatedAt = img.UpdatedAt,
+                };
+
+                sellerPostViewModel.PostImages.Add(sellerPostImage);
+            }
+        }
+
+        return sellerPostViewModel;
     }
 
     public async Task<bool> ImageUpdateAsync(SellerPostImageUpdateDto dto)
