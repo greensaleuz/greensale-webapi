@@ -13,7 +13,7 @@ public static class CorsPolicyConfiguration
 
             option.AddPolicy("OnlySite", builder =>
             {
-                builder.WithOrigins("https://www.fastpizza.uz")
+                builder.WithOrigins("http://95.130.227.180")
                     .AllowAnyMethod().AllowAnyHeader();
             });
         });
