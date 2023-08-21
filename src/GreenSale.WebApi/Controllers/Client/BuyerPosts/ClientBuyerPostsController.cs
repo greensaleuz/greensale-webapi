@@ -50,15 +50,15 @@ public class ClientBuyerPostsController : BaseClientController
     public async Task<IActionResult> UpdateStatusAsync([FromForm] BuyerPostStatusUpdateDto dto, long postId)
         =>Ok(await _service.UpdateStatusAsync(postId,dto));
 
-    [HttpPut("image")]
-    public async Task<IActionResult> ImageUpdateAsync([FromForm] BuyerPostImageDto dto)
+    [HttpPut("image/{imageId}")]
+    public async Task<IActionResult> ImageUpdateAsync(long imageId, [FromForm] BuyerPostImageDto dto)
     {
         var validator = new ImageValidator();
         var isValidator = validator.Validate(dto);
 
         if (isValidator.IsValid)
         {
-            var result = await _service.ImageUpdateAsync(dto);
+            var result = await _service.ImageUpdateAsync(imageId, dto);
             
             return Ok(result);
         }

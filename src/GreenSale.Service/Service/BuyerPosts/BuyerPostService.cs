@@ -244,9 +244,9 @@ public class BuyerPostService : IBuyerPostService
         return buyerPostViewModel;
     }
 
-    public async Task<bool> ImageUpdateAsync(BuyerPostImageDto dto)
+    public async Task<bool> ImageUpdateAsync(long ImageId, BuyerPostImageDto dto)
     {
-        var DbFoundImg = await _imageRepository.GetByIdAsync(dto.BuyerPostImageId);
+        var DbFoundImg = await _imageRepository.GetByIdAsync(ImageId);
 
         if (DbFoundImg.Id == 0)
             throw new ImageNotFoundException();
@@ -257,7 +257,7 @@ public class BuyerPostService : IBuyerPostService
         DbFoundImg.ImagePath = img;
         DbFoundImg.UpdatedAt = TimeHelper.GetDateTime();
 
-        var DbResult = await _imageRepository.UpdateAsync(dto.BuyerPostImageId, DbFoundImg);
+        var DbResult = await _imageRepository.UpdateAsync(ImageId, DbFoundImg);
 
         return DbResult > 0;
     }
