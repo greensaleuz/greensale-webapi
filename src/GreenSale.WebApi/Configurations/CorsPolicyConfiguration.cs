@@ -10,12 +10,6 @@ public static class CorsPolicyConfiguration
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             });
-
-            option.AddPolicy("OnlySite", builder =>
-            {
-                builder.WithOrigins("http://95.130.227.180")
-                    .AllowAnyMethod().AllowAnyHeader();
-            });
         });
     }
 }
