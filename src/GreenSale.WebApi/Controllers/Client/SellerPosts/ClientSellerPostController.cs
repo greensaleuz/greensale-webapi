@@ -1,5 +1,7 @@
 ﻿using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
+using GreenSale.Persistence.Validators.BuyerPosts;
+using GreenSale.Persistence.Validators.SellerPostValidators;
 using GreenSale.Service.Interfaces.SellerPosts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +22,15 @@ public class ClientSellerPostController : BaseClientController
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] SellerPostCreateDto dto)
     {
-        var result = await _postService.CreateAsync(dto);
+        var validator = new SellerPostCreatedValidators();
+        var isValidator = validator.Validate(dto);
 
-        return Ok(result);
+        if (isValidator.IsValid)
+        {
+            return Ok(await _postService.CreateAsync(dto));
+        }
+
+        return BadRequest(isValidator.Errors);
     }
 
     [HttpPut("{postId}")]
