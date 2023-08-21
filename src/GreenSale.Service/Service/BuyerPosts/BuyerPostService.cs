@@ -259,7 +259,7 @@ public class BuyerPostService : IBuyerPostService
         var DbFound = await _postRepository.GetByIdAsync(buyerID);
 
         if (DbFound.Id == 0)
-            throw new SellerPostsNotFoundException();
+            throw new BuyerPostNotFoundException();
 
         BuyerPost buyerPost = new BuyerPost()
         {
