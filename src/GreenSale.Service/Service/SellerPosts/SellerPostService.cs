@@ -100,6 +100,18 @@ public class SellerPostService : ISellerPostService
         return Dbresult > 0;
     }
 
+    public async Task<bool> DeleteImageIdAsync(long ImageId)
+    {
+        var DbFound = await _imageRepository.GetByIdAsync(ImageId);
+
+        if (DbFound.Id == 0)
+            throw new ImageNotFoundException();
+        await _fileservice.DeleteImageAsync(DbFound.ImagePath);
+        var Dbresult = await _imageRepository.DeleteAsync(ImageId);
+
+        return Dbresult > 0;
+    }
+
     public async Task<List<SellerPostViewModel>> GetAllAsync(PaginationParams @params)
     {
         var DbResult = await _repository.GetAllAsync(@params);
@@ -196,6 +208,24 @@ public class SellerPostService : ISellerPostService
         };
 
         var DbResult = await _repository.UpdateAsync(sellerID, sellerPost);
+        if (DbResult > 0)
+            return true;
+
+        return false;
+    }
+
+    public async Task<bool> UpdateStatusAsync(long postId, SellerPostStatusUpdateDto dto)
+    {
+        var DbFound = await _repository.GetIdAsync(postId);
+
+        if (DbFound.Id == 0)
+            throw new SellerPostsNotFoundException();
+
+        DbFound.Status = dto.PostStatus;
+        DbFound.UpdatedAt = TimeHelper.GetDateTime();
+
+        var DbResult = await _repository.UpdateAsync(postId, DbFound);
+
         if (DbResult > 0)
             return true;
 

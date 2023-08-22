@@ -117,6 +117,26 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         }
     }
 
+    public async Task<SellerPost> GetIdAsync(long postId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = "SELECT * FROM seller_posts where id=@ID;";
+            var result = await _connection.QuerySingleAsync<SellerPost>(query, new { ID = postId });
+
+            return result;
+        }
+        catch
+        {
+            return new SellerPost();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<(int ItemsCount, List<SellerPostViewModel>)> SearchAsync(string search, PaginationParams @params)
     {
         try

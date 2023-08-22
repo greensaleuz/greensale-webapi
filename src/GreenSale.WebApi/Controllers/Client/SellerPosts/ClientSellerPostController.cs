@@ -49,6 +49,10 @@ public class ClientSellerPostController : BaseClientController
         return BadRequest(isValidator.Errors);
     }
 
+    [HttpPut("status/{postId}")]
+    public async Task<IActionResult> UpdateStatusAsync(long postId, [FromForm] SellerPostStatusUpdateDto dto)
+        =>Ok(await _postService.UpdateStatusAsync(postId, dto));
+
     [HttpPut("image/{imageId}")]
     public async Task<IActionResult> ImageUpdateAsync(long imageId, [FromForm] SellerPostImageUpdateDto dto)
     {
@@ -67,4 +71,7 @@ public class ClientSellerPostController : BaseClientController
     [HttpDelete("{postId}")]
     public async Task<IActionResult> DeleteAsync(long postId)
         => Ok(await _postService.DeleteAsync(postId));
+    [HttpDelete("image/{imageId}")]
+    public async Task<IActionResult> DeleteImageAsync(long imageId)
+        => Ok(await _postService.DeleteImageIdAsync(imageId));
 }
