@@ -1,5 +1,7 @@
-﻿using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
+﻿using FluentValidation;
+using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
+using GreenSale.Persistence.Validators;
 using GreenSale.Persistence.Validators.BuyerPosts;
 using GreenSale.Persistence.Validators.SellerPostValidators;
 using GreenSale.Service.Interfaces.SellerPosts;
@@ -36,20 +38,40 @@ public class ClientSellerPostController : BaseClientController
     [HttpPut("{postId}")]
     public async Task<IActionResult> UpdateAsync(long postId, [FromForm] SellerPostUpdateDto dto)
     {
-        var result = await _postService.UpdateAsync(postId, dto);
+        var validator = new SellerPostUpatedValidators();
+        var isValidator = validator.Validate(dto);
 
-        return Ok(result);
+        if (isValidator.IsValid)
+        {
+            return Ok(await _postService.UpdateAsync(postId, dto));
+        }
+
+        return BadRequest(isValidator.Errors);
     }
 
-    [HttpPut("image")]
-    public async Task<IActionResult> ImageUpdateAsync([FromForm] SellerPostImageUpdateDto dto)
-    {
-        var result = await _postService.ImageUpdateAsync(dto);
+    [HttpPut("status/{postId}")]
+    public async Task<IActionResult> UpdateStatusAsync(long postId, [FromForm] SellerPostStatusUpdateDto dto)
+        =>Ok(await _postService.UpdateStatusAsync(postId, dto));
 
-        return Ok(result);
+    [HttpPut("image/{imageId}")]
+    public async Task<IActionResult> ImageUpdateAsync(long imageId, [FromForm] SellerPostImageUpdateDto dto)
+    {
+        var validator = new SellerImageValidator();
+        var isValidator = validator.Validate(dto);
+        if (isValidator.IsValid)
+        {
+            var result = await _postService.ImageUpdateAsync(imageId, dto);
+
+            return Ok(result);
+        }
+        return BadRequest(isValidator.Errors);
+
     }
 
     [HttpDelete("{postId}")]
     public async Task<IActionResult> DeleteAsync(long postId)
         => Ok(await _postService.DeleteAsync(postId));
+    [HttpDelete("image/{imageId}")]
+    public async Task<IActionResult> DeleteImageAsync(long imageId)
+        => Ok(await _postService.DeleteImageIdAsync(imageId));
 }

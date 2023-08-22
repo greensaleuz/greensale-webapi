@@ -53,7 +53,7 @@ public class ClientBuyerPostsController : BaseClientController
     [HttpPut("image/{imageId}")]
     public async Task<IActionResult> ImageUpdateAsync(long imageId, [FromForm] BuyerPostImageDto dto)
     {
-        var validator = new ImageValidator();
+        var validator = new BuyerImageValidator();
         var isValidator = validator.Validate(dto);
 
         if (isValidator.IsValid)

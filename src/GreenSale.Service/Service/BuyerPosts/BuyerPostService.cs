@@ -300,7 +300,7 @@ public class BuyerPostService : IBuyerPostService
         var DbFound = await _postRepository.GetIdAsync(buyerID);
 
         if (DbFound.Id == 0)
-            throw new SellerPostsNotFoundException();
+            throw new BuyerPostNotFoundException();
 
         DbFound.Status = dto.PostStatus;
         DbFound.UpdatedAt = TimeHelper.GetDateTime();
