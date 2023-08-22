@@ -106,52 +106,22 @@ public class SellerPostService : ISellerPostService
         var dBim = await _imageRepository.GetFirstAllAsync();
 
         List<SellerPostViewModel> Result = new List<SellerPostViewModel>();
-        SellerPostViewModel sellerPostViewModel = new SellerPostViewModel();
 
         foreach (var item in DbResult)
         {
-            sellerPostViewModel = new SellerPostViewModel()
-            {
-                Id = item.Id,
-                FullName = item.FullName,
-                CategoryName = item.CategoryName,
-                Title = item.Title,
-                Description = item.Description,
-                Price = item.Price,
-                Capacity = item.Capacity,
-                CapacityMeasure = item.CapacityMeasure,
-                Type = item.Type,
-                Region = item.Region,
-                PhoneNumber = item.PhoneNumber,
-                UserRegion = item.UserRegion,
-                District = item.District,
-                AdditionalPhoneNumber = item.AdditionalPhoneNumber,
-                UpdatedAt = item.UpdatedAt,
-                CreatedAt = item.CreatedAt,
-                Status = item.Status
-            };
-
-            sellerPostViewModel.PostImages = new List<SellerPostImage>();
+            item.PostImages = new List<SellerPostImage>();
 
             foreach (var img in dBim)
             {
                 if (img.SellerPostId == item.Id)
                 {
-
-                    SellerPostImage sellerPostImage = new SellerPostImage()
-                    {
-                        Id = img.Id,
-                        SellerPostId = item.Id,
-                        ImagePath = img.ImagePath,
-                        CreatedAt = img.CreatedAt,
-                        UpdatedAt = img.UpdatedAt,
-                    };
-
-                    sellerPostViewModel.PostImages.Add(sellerPostImage);
+                    item.PostImages.Add(img);
+                    dBim.RemoveAt(0);
+                    break;
                 }
             }
 
-            Result.Add(sellerPostViewModel);
+            Result.Add(item);
         }
 
         var DBCount = await _repository.CountAsync();
@@ -168,50 +138,17 @@ public class SellerPostService : ISellerPostService
         if (item.Id == 0)
             throw new SellerPostsNotFoundException();
 
-        SellerPostViewModel sellerPostViewModel = new SellerPostViewModel();
-
-        sellerPostViewModel = new SellerPostViewModel()
-        {
-            Id = item.Id,
-            FullName = item.FullName,
-            CategoryName = item.CategoryName,
-            Title = item.Title,
-            Description = item.Description,
-            Price = item.Price,
-            Capacity = item.Capacity,
-            CapacityMeasure = item.CapacityMeasure,
-            Type = item.Type,
-            Region = item.Region,
-            PhoneNumber = item.PhoneNumber,
-            UserRegion = item.UserRegion,
-            District = item.District,
-            AdditionalPhoneNumber = item.AdditionalPhoneNumber,
-            UpdatedAt = item.UpdatedAt,
-            CreatedAt = item.CreatedAt,
-            Status = item.Status,
-        };
-
-        sellerPostViewModel.PostImages = new List<SellerPostImage>();
+        item.PostImages = new List<SellerPostImage>();
         
         foreach (var img in dBim)
         {
             if (img.SellerPostId == item.Id)
             {
-
-                SellerPostImage sellerPostImage = new SellerPostImage()
-                {
-                    Id = img.Id,
-                    SellerPostId = img.SellerPostId,
-                    ImagePath = img.ImagePath,
-                    CreatedAt = img.CreatedAt,
-                    UpdatedAt = img.UpdatedAt,
-                };
-
-                sellerPostViewModel.PostImages.Add(sellerPostImage);
+                item.PostImages.Add(img);
             }
         }
 
-        return sellerPostViewModel;
+        return item;
     }
 
     public async Task<bool> ImageUpdateAsync(SellerPostImageUpdateDto dto)
