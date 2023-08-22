@@ -4,5 +4,5 @@ namespace GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 
 public class SellerPostImageUpdateDto
 {
-    public IFormFile? ImagePath { get; set; }
+    public IFormFile ImagePath { get; set; } = default!;
 }

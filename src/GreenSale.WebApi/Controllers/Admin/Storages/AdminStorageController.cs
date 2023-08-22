@@ -1,19 +1,18 @@
 ﻿using GreenSale.Persistence.Dtos.StoragDtos;
-using GreenSale.Persistence.Validators;
 using GreenSale.Persistence.Validators.Storages;
+using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Storages;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Client.Storages;
+namespace GreenSale.WebApi.Controllers.Admin.Storages;
 
-[Route("api/client/storages")]
+[Route("api/admin/storage")]
 [ApiController]
-public class ClientStoragesController : BaseClientController
+public class AdminStorageController : AdminBaseController
 {
     private IStoragesService _service;
-    private int maxPageSize = 30;
 
-    public ClientStoragesController(IStoragesService service)
+    public AdminStorageController(IStoragesService service)
     {
         _service = service;
     }

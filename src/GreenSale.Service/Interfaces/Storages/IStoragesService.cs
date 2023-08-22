@@ -9,8 +9,10 @@ namespace GreenSale.Service.Interfaces.Storages
         public Task<bool> CreateAsync(StoragCreateDto dto);
         public Task<bool> DeleteAsync(long storageId);
         public Task<bool> UpdateAsync(long storageID, StoragUpdateDto dto);
+        public Task<bool> UpdateImageAsync(long storageID, StorageImageUpdateDto dto);
         public Task<long> CountAsync();
         public Task<List<StoragesViewModel>> GetAllAsync(PaginationParams @params);
+        public Task<List<StoragesViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
         public Task<StoragesViewModel> GetBYIdAsync(long storageId);
     }
 }
