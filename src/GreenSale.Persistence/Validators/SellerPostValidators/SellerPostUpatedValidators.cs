@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
-using GreenSale.Persistence.Dtos.BuyerPostsDto;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
 using GreenSale.Persistence.Validators.FileValidators;
 
 namespace GreenSale.Persistence.Validators.SellerPostValidators;
 
-public class SellerPostCreatedValidators : AbstractValidator<SellerPostCreateDto>
+public class SellerPostUpatedValidators : AbstractValidator<SellerPostUpdateDto>
 {
-    public SellerPostCreatedValidators()
+    public SellerPostUpatedValidators()
     {
         RuleFor(dto => dto.PhoneNumber).Must(phone => PhoneNumberValidator.IsValid(phone))
         .WithMessage("Phone number is invalid! ex: +998xxYYYAABB");
@@ -39,10 +38,5 @@ public class SellerPostCreatedValidators : AbstractValidator<SellerPostCreateDto
                 .MaximumLength(50).WithMessage("District must be more than 50 charaters");
 
         RuleFor(dto => dto.CategoryId).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
-        RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("ImagePath filed is required");
-
-        RuleFor(dto => dto.ImagePath).Must((dto, IFormFile) => IFormFile.Count <= 5)
-            .WithMessage("There should be at least 5 images");
-        RuleForEach(x => x.ImagePath).SetValidator(new FileValidator());
     }
 }

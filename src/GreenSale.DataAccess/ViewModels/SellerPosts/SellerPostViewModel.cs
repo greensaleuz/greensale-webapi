@@ -19,7 +19,6 @@ namespace GreenSale.DataAccess.ViewModels.SellerPosts
         public string Type { get; set; } = string.Empty;
         public string Region { get; set; } = string.Empty;
         public string District { get; set; } = string.Empty;
-        public string AdditionalPhoneNumber { get; set; } = string.Empty;
         public DateTime UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public SellerPostEnum Status { get; set; }

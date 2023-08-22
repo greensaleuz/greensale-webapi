@@ -1,4 +1,5 @@
-﻿using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
+﻿using FluentValidation;
+using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
 using GreenSale.Persistence.Validators.BuyerPosts;
 using GreenSale.Persistence.Validators.SellerPostValidators;
@@ -36,9 +37,15 @@ public class ClientSellerPostController : BaseClientController
     [HttpPut("{postId}")]
     public async Task<IActionResult> UpdateAsync(long postId, [FromForm] SellerPostUpdateDto dto)
     {
-        var result = await _postService.UpdateAsync(postId, dto);
+        var validator = new SellerPostUpatedValidators();
+        var isValidator = validator.Validate(dto);
 
-        return Ok(result);
+        if (isValidator.IsValid)
+        {
+            return Ok(await _postService.UpdateAsync(postId, dto));
+        }
+
+        return BadRequest(isValidator.Errors);
     }
 
     [HttpPut("image")]
