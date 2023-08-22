@@ -20,6 +20,10 @@ public class CommonStoragesController : BaseController
     public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
         => Ok(await _service.GetAllAsync(new PaginationParams(page, maxPageSize)));
 
+    [HttpGet("all/{userId}")]
+    public async Task<IActionResult> GetAllByIdAsync(long userId, [FromQuery] int page = 1)
+        => Ok(await _service.GetAllByIdAsync(userId, new PaginationParams(page, maxPageSize)));
+
     [HttpGet("{storageId}")]
     public async Task<IActionResult> GetByIdAsync(long storageId)
         => Ok(await _service.GetBYIdAsync(storageId));

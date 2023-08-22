@@ -105,11 +105,15 @@ public class StorageService : IStoragesService
         Storage storage = new Storage()
         {
             Name = dto.Name,
+            UserId = getId.UserId,
+            Address = dto.Address,
+            Info = dto.Info,
             Description = dto.Description,
             District = dto.District,
             Region = dto.Region,
             AddressLongitude = dto.AddressLongitude,
             AddressLatitude = dto.AddressLatitude,
+            CreatedAt = getId.CreatedAt,
             UpdatedAt = TimeHelper.GetDateTime()
         };
 
@@ -118,8 +122,6 @@ public class StorageService : IStoragesService
             //delete old image
             var deleteImage = await _fileService.DeleteImageAsync(getId.ImagePath);
 
-            if (deleteImage is false)
-                throw new ImageNotFoundException();
 
             //upload new image
             string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
@@ -129,5 +131,44 @@ public class StorageService : IStoragesService
         var result = await _repository.UpdateAsync(storageID, storage);
 
         return result > 0;
+    }
+
+    public async Task<bool> UpdateImageAsync(long storageID, StorageImageUpdateDto dto)
+        {
+        var DbFound = await _repository.GetByIdAsync(storageID);
+
+        if(DbFound.Id == 0) throw new StorageNotFoundException();
+        var img = await _fileService.DeleteImageAsync(DbFound.ImagePath);
+        var res = await _fileService.UploadImageAsync(dto.StorageImage, STORAGEPOSTIMAGES);
+        DbFound.ImagePath = res;
+
+        Storage storage = new Storage()
+        {
+            Name = DbFound.FullName.Split(' ')[0],
+            UserId = DbFound.UserId,
+            Description = DbFound.Description,
+            Region = DbFound.Region,
+            District = DbFound.District,
+            Address = DbFound.Address,
+            AddressLatitude = DbFound.AddressLatitude,
+            AddressLongitude = DbFound.AddressLongitude,
+            Info = DbFound.Info,
+            CreatedAt = DbFound.CreatedAt,
+            UpdatedAt = TimeHelper.GetDateTime(),
+            ImagePath = res
+        };
+
+        var Result = await _repository.UpdateAsync(storageID, storage);
+
+        return Result > 0;
+    }
+
+    public async Task<List<StoragesViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
+    {
+        var DbFound = await _repository.GetAllByIdAsync(userId, @params);
+        var count = await _repository.CountAsync();
+        _paginator.Paginate(count, @params);
+
+        return DbFound;
     }
 }
