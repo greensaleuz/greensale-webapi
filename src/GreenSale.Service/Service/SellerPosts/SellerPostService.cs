@@ -151,26 +151,21 @@ public class SellerPostService : ISellerPostService
         return item;
     }
 
-    public async Task<bool> ImageUpdateAsync(SellerPostImageUpdateDto dto)
+    public async Task<bool> ImageUpdateAsync(long posrImageId, SellerPostImageUpdateDto dto)
     {
-        var DbFoundImg = await _imageRepository.GetByIdAsync(dto.SellerPostImageId);
+        var DbFoundImg = await _imageRepository.GetByIdAsync(posrImageId);
 
         if (DbFoundImg.Id == 0)
             throw new ImageNotFoundException();
 
-        var RootDEl = await _fileservice.DeleteImageAsync(DbFoundImg.ImagePath);
+        await _fileservice.DeleteImageAsync(DbFoundImg.ImagePath);
         var img = await _fileservice.UploadImageAsync(dto.ImagePath, SELLERPOSTIMAGES);
 
-        SellerPostImage sellerPostImage = new SellerPostImage()
-        {
-            SellerPostId = dto.SellerPostId,
-            ImagePath = img,
-            UpdatedAt = TimeHelper.GetDateTime(),
-            CreatedAt = DbFoundImg.CreatedAt
-        };
 
-        sellerPostImage.UpdatedAt = TimeHelper.GetDateTime();
-        var DbResult = await _imageRepository.UpdateAsync(dto.SellerPostImageId, sellerPostImage);
+        DbFoundImg.ImagePath = img;
+        DbFoundImg.UpdatedAt = TimeHelper.GetDateTime();
+
+        var DbResult = await _imageRepository.UpdateAsync(posrImageId, DbFoundImg);
 
         return DbResult > 0;
     }
@@ -195,7 +190,8 @@ public class SellerPostService : ISellerPostService
             Region = dto.Region,
             District = dto.District,
             PhoneNumber = dto.PhoneNumber,
-            Status = Domain.Enums.SellerPosts.SellerPostEnum.Nosold,
+            Status = DbFound.Status,
+            CreatedAt = DbFound.CreatedAt,
             UpdatedAt = TimeHelper.GetDateTime(),
         };
 
