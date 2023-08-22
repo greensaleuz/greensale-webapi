@@ -1,21 +1,19 @@
-﻿using FluentValidation;
-using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
+﻿using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
-using GreenSale.Persistence.Validators;
-using GreenSale.Persistence.Validators.BuyerPosts;
 using GreenSale.Persistence.Validators.SellerPostValidators;
-using GreenSale.Service.Interfaces.SellerPosts;
+using GreenSale.Persistence.Validators;
 using Microsoft.AspNetCore.Mvc;
+using GreenSale.Service.Interfaces.SellerPosts;
 
-namespace GreenSale.WebApi.Controllers.Client.SellerPosts;
+namespace GreenSale.WebApi.Controllers.Admin.SellerPosts;
 
-[Route("api/client/seller/post")]
+[Route("api/admin/seller/post")]
 [ApiController]
-public class ClientSellerPostController : BaseClientController
+public class AdminSellerPostController : AdminBaseController
 {
-    private readonly ISellerPostService _postService;
+    private ISellerPostService _postService;
 
-    public ClientSellerPostController(ISellerPostService postService)
+    public AdminSellerPostController(ISellerPostService postService)
     {
         this._postService = postService;
     }
@@ -50,7 +48,7 @@ public class ClientSellerPostController : BaseClientController
 
     [HttpPut("status/{postId}")]
     public async Task<IActionResult> UpdateStatusAsync(long postId, [FromForm] SellerPostStatusUpdateDto dto)
-        =>Ok(await _postService.UpdateStatusAsync(postId, dto));
+        => Ok(await _postService.UpdateStatusAsync(postId, dto));
 
     [HttpPut("image/{imageId}")]
     public async Task<IActionResult> ImageUpdateAsync(long imageId, [FromForm] SellerPostImageUpdateDto dto)
