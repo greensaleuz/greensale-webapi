@@ -24,5 +24,6 @@ namespace GreenSale.DataAccess.ViewModels.BuyerPosts
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<BuyerPostImage> BuyerPostsImages { get; set; }
+        public string MainImage { get; set; } = string.Empty;
     }
 }

@@ -144,6 +144,7 @@ public class BuyerPostService : IBuyerPostService
                 if (img.BuyerpostId == item.Id)
                 {
                     item.BuyerPostsImages.Add(img);
+                    item.MainImage = img.ImagePath;
                     dBim.RemoveAt(0);
                     break;
                 }
@@ -174,6 +175,7 @@ public class BuyerPostService : IBuyerPostService
                 if (img.BuyerpostId == item.Id)
                 {
                     item.BuyerPostsImages.Add(img);
+                    item.MainImage = img.ImagePath;
                     dBim.RemoveAt(0);
                     break;
                 }

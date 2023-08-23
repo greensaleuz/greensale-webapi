@@ -24,5 +24,6 @@ namespace GreenSale.DataAccess.ViewModels.SellerPosts
         public DateTime CreatedAt { get; set; }
         public SellerPostEnum Status { get; set; }
         public List<SellerPostImage> PostImages { get; set; }
+        public string MainImage { get; set; } = string.Empty;
     }
 }
