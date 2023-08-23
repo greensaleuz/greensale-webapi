@@ -128,6 +128,7 @@ public class SellerPostService : ISellerPostService
                 if (img.SellerPostId == item.Id)
                 {
                     item.PostImages.Add(img);
+                    item.MainImage = img.ImagePath;
                     dBim.RemoveAt(0);
                     break;
                 }
@@ -158,6 +159,7 @@ public class SellerPostService : ISellerPostService
                 if (img.SellerPostId == item.Id)
                 {
                     item.PostImages.Add(img);
+                    item.MainImage = img.ImagePath;
                     dBim.RemoveAt(0);
                     break;
                 }
