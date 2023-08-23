@@ -1,6 +1,10 @@
 ﻿using GreenSale.Application.Exceptions.Auth;
 using GreenSale.Application.Exceptions.Users;
 using GreenSale.Application.Utils;
+using GreenSale.DataAccess.Interfaces.BuyerPosts;
+using GreenSale.DataAccess.Interfaces.Roles;
+using GreenSale.DataAccess.Interfaces.SellerPosts;
+using GreenSale.DataAccess.Interfaces.Storages;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.Users;
 using GreenSale.Domain.Entites.Users;
@@ -15,6 +19,13 @@ namespace GreenSale.Service.Service.Users;
 
 public class UserService : IUserService
 {
+    private readonly IStorageRepository _storagerepository;
+    private readonly IBuyerPostImageRepository _buyerImgrepository;
+    private readonly IBuyerPostRepository _buyerRepository;
+    private readonly IUserRoles _rolerepository;
+    private readonly ISellerPostsRepository _sellerpostimgrepository;
+    private readonly ISellerPostImageRepository _sellerImagerepository;
+    private readonly ISellerPostsRepository _sellerRepository;
     private readonly IIdentityService _identity;
     private readonly IPaginator _paginator;
     private readonly IUserRepository _userRepository;
@@ -22,8 +33,20 @@ public class UserService : IUserService
     public UserService(
         IUserRepository userRepository,
         IPaginator paginator,
-        IIdentityService identity)
+        IIdentityService identity,
+        ISellerPostsRepository sellerPostsRepository,
+        ISellerPostImageRepository sellerPostImageRepository,
+        IUserRoles userRoles,
+        IBuyerPostRepository buyerPostRepository,
+        IBuyerPostImageRepository buyerPostImageRepository,
+        IStorageRepository storageRepository)
     {
+        this._storagerepository = storageRepository;
+        this._buyerImgrepository = buyerPostImageRepository;
+        this._buyerRepository = buyerPostRepository;
+        this._rolerepository = userRoles;
+        this._sellerpostimgrepository = sellerPostsRepository;
+        this._sellerImagerepository = sellerPostImageRepository;
         this._identity = identity;
         this._paginator = paginator;
         this._userRepository = userRepository;
@@ -39,12 +62,47 @@ public class UserService : IUserService
     public async Task<bool> DeleteAsync(long userId)
     {
         var DbFound = await _userRepository.GetByIdAsync(userId);
+
         if (DbFound is null)
             throw new UserNotFoundException();
 
+        var sellerPost = await _sellerpostimgrepository.GetAllByIdAsync(userId);
+
+        if (sellerPost is not null)
+        {
+            foreach(var item in sellerPost)
+            {
+                var res = await _sellerImagerepository.DeleteAsync(item.Id);
+                if(res > 0)
+                {
+                    var delpost = await _sellerpostimgrepository.DeleteAsync(item.Id);
+                }
+                    
+            }
+        }
+
+        var buyerPost = await _buyerRepository.GetAllByIdAsync(userId);
+
+        if (buyerPost is not null)
+        {
+            foreach (var item in buyerPost)
+            {
+                var res = await _buyerImgrepository.DeleteAsync(item.Id);
+                if (res > 0)
+                {
+                    var delpost = await _buyerRepository.DeleteAsync(item.Id);
+                }
+
+            }
+        }
+
+        var storg = await _storagerepository.DeleteAsync(userId);
+       
+        var roldel = await _rolerepository.DeleteAsync(userId);
+       
         var DbResult = await _userRepository.DeleteAsync(userId);
 
-        return DbResult > 0;
+       return DbResult > 0;
     }
 
     public async Task<List<UserViewModel>> GetAllAsync(PaginationParams @params)

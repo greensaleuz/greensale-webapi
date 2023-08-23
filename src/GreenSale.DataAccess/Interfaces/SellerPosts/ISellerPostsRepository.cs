@@ -10,5 +10,6 @@ namespace GreenSale.DataAccess.Interfaces.SellerPosts
     {
         public Task<SellerPost> GetIdAsync(long postId);
         public Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
+        public Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId);
     }
 }

@@ -120,6 +120,28 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         }
     }
 
+    public async Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = $"SELECT * FROM seller_post_viewmodel where userId = {userId} ORDER BY id DESC ";
+                   
+            var result = (await _connection.QueryAsync<SellerPostViewModel>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<SellerPostViewModel>();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<SellerPostViewModel> GetByIdAsync(long Id)
     {
         try
