@@ -2,6 +2,7 @@
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
+using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 
 namespace GreenSale.DataAccess.Repositories.BuyerPosts;
@@ -92,6 +93,29 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         catch
         {
             return new List<BuyerPostViewModel>() { };
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
+    public async Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = $"SELECT * FROM buyer_post_viewmodel where userId = {userId} ORDER BY id DESC " +
+                   $" OFFSET {@params.GetSkipCount()} LIMIT {@params.PageSize};";
+
+            var result = (await _connection.QueryAsync<BuyerPostViewModel>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<BuyerPostViewModel>();
         }
         finally
         {

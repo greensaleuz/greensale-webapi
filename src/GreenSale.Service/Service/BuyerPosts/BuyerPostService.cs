@@ -158,6 +158,36 @@ public class BuyerPostService : IBuyerPostService
         return Result;
     }
 
+    public async Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
+    {
+        var DbResult = await _postRepository.GetAllByIdAsync(userId, @params);
+        var dBim = await _imageRepository.GetFirstAllAsync();
+
+        List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
+
+        foreach (var item in DbResult)
+        {
+            item.BuyerPostsImages = new List<BuyerPostImage>();
+
+            foreach (var img in dBim)
+            {
+                if (img.BuyerpostId == item.Id)
+                {
+                    item.BuyerPostsImages.Add(img);
+                    dBim.RemoveAt(0);
+                    break;
+                }
+            }
+
+            Result.Add(item);
+        }
+
+        var DBCount = await _postRepository.CountAsync();
+        _paginator.Paginate(DBCount, @params);
+
+        return Result;
+    }
+
     public async Task<BuyerPostViewModel> GetBYIdAsync(long buyerId)
     {
         var item = await _postRepository.GetByIdAsync(buyerId);

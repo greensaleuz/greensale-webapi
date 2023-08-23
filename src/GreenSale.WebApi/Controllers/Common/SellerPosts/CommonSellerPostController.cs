@@ -24,6 +24,10 @@ public class CommonSellerPostController : BaseController
     public async Task<IActionResult> GetAllasync([FromQuery] int page = 1)
         => Ok(await _postService.GetAllAsync(new PaginationParams(page, maxpage)));
 
+    [HttpGet("all/{userId}")]
+    public async Task<IActionResult> GetAllByIdAsync(long userId, [FromQuery] int page = 1)
+        => Ok(await _postService.GetAllByIdAsync(userId, new PaginationParams(page, maxpage)));
+
     [HttpGet("{postId}")]
     public async Task<IActionResult> GetByIdAsync(long postId)
         => Ok(await _postService.GetBYIdAsync(postId));

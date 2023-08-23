@@ -1,11 +1,13 @@
-﻿using GreenSale.DataAccess.Common;
+﻿using GreenSale.Application.Utils;
+using GreenSale.DataAccess.Common;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
+using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 
-namespace GreenSale.DataAccess.Interfaces.BuyerPosts
+namespace GreenSale.DataAccess.Interfaces.BuyerPosts;
+
+public interface IBuyerPostRepository : IRepository<BuyerPost, BuyerPostViewModel>, ISearchable<BuyerPostViewModel>
 {
-    public interface IBuyerPostRepository : IRepository<BuyerPost, BuyerPostViewModel>, ISearchable<BuyerPostViewModel>
-    {
-        public Task<BuyerPost> GetIdAsync(long buyerId);
-    }
+    public Task<BuyerPost> GetIdAsync(long buyerId);
+    public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
 }

@@ -142,6 +142,36 @@ public class SellerPostService : ISellerPostService
         return Result;
     }
 
+    public async Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
+    {
+        var DbResult = await _repository.GetAllByIdAsync(userId, @params);
+        var dBim = await _imageRepository.GetFirstAllAsync();
+
+        List<SellerPostViewModel> Result = new List<SellerPostViewModel>();
+
+        foreach (var item in DbResult)
+        {
+            item.PostImages = new List<SellerPostImage>();
+
+            foreach (var img in dBim)
+            {
+                if (img.SellerPostId == item.Id)
+                {
+                    item.PostImages.Add(img);
+                    dBim.RemoveAt(0);
+                    break;
+                }
+            }
+
+            Result.Add(item);
+        }
+
+        var DBCount = await _repository.CountAsync();
+        _paginator.Paginate(DBCount, @params);
+
+        return Result;
+    }
+
     public async Task<SellerPostViewModel> GetBYIdAsync(long sellerId)
     {
         var item = await _repository.GetByIdAsync(sellerId);
@@ -151,7 +181,7 @@ public class SellerPostService : ISellerPostService
             throw new SellerPostsNotFoundException();
 
         item.PostImages = new List<SellerPostImage>();
-        
+
         foreach (var img in dBim)
         {
             if (img.SellerPostId == item.Id)

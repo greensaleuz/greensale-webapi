@@ -19,6 +19,10 @@ namespace GreenSale.WebApi.Controllers.Common.BuyerPosts
         public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
             => Ok(await _service.GetAllAsync(new PaginationParams(page, maxPage)));
 
+        [HttpGet("all/{userId}")]
+        public async Task<IActionResult> GetAllByIdAsync(long userId, [FromQuery] int page = 1)
+        => Ok(await _service.GetAllByIdAsync(userId, new PaginationParams(page, maxPage)));
+
         [HttpGet("{postId}")]
         public async Task<IActionResult> GetByIdAsync(long postId)
             => Ok(await _service.GetBYIdAsync(postId));
