@@ -1,6 +1,6 @@
 ﻿using GreenSale.Persistence.Dtos.StoragDtos;
-using GreenSale.Persistence.Validators.Storages;
 using GreenSale.Persistence.Validators;
+using GreenSale.Persistence.Validators.Storages;
 using GreenSale.Service.Interfaces.Storages;
 using Microsoft.AspNetCore.Mvc;
 

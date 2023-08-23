@@ -1,6 +1,5 @@
 ﻿using GreenSale.Persistence.Dtos.BuyerPostsDto;
 using GreenSale.Persistence.Validators.BuyerPosts;
-using GreenSale.Persistence.Validators.Storages;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 
@@ -106,7 +105,7 @@ public class BuyerPostCreateValidatorTest
         BuyerPostCreateValidator validations = new BuyerPostCreateValidator();
         var result = validations.Validate(buyerPostCreateDto);
 
-        Assert.False( result.IsValid);
+        Assert.False(result.IsValid);
     }
 
 }

@@ -1,6 +1,5 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
-using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
 
@@ -13,7 +12,7 @@ public interface IBuyerPostService
     public Task<bool> DeleteImageIdAsync(long ImageId);
     public Task<bool> UpdateAsync(long buyerID, BuyerPostUpdateDto dto);
     public Task<bool> UpdateStatusAsync(long buyerID, BuyerPostStatusUpdateDto dto);
-    public Task<bool> ImageUpdateAsync(long ImageId,BuyerPostImageDto dto);
+    public Task<bool> ImageUpdateAsync(long ImageId, BuyerPostImageDto dto);
     public Task<long> CountAsync();
     public Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params);
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);

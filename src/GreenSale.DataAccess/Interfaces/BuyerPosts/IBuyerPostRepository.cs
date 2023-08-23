@@ -1,7 +1,6 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Common;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
-using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 
 namespace GreenSale.DataAccess.Interfaces.BuyerPosts;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GreenSale.Persistence.Validators.Users
+﻿namespace GreenSale.Persistence.Validators.Users
 {
     public class UserSecurityUpdate
     {

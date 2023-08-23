@@ -10,7 +10,7 @@ public interface IUserService
     public Task<bool> DeleteAsync(long userId);
     public Task<bool> UpdateAsync(UserUpdateDto dto);
     public Task<bool> UpdateSecuryAsync(UserSecurityUpdate dto);
-   // public Task<bool> UpdateByAdminAsync(long userId, UserUpdateDto dto);
+    // public Task<bool> UpdateByAdminAsync(long userId, UserUpdateDto dto);
     public Task<long> CountAsync();
     public Task<List<UserViewModel>> GetAllAsync(PaginationParams @params);
     public Task<UserViewModel> GetByIdAsync(long userId);

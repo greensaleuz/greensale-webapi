@@ -7,7 +7,6 @@ using GreenSale.DataAccess.Interfaces.SellerPosts;
 using GreenSale.DataAccess.Interfaces.Storages;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.Users;
-using GreenSale.Domain.Entites.Users;
 using GreenSale.Persistence.Dtos.UserDtos;
 using GreenSale.Persistence.Validators.Users;
 using GreenSale.Service.Interfaces.Auth;
@@ -145,30 +144,30 @@ public class UserService : IUserService
         return DbResult > 0;
     }
 
-  /*  public async Task<bool> UpdateByAdminAsync(long userId, UserUpdateDto dto)
-    {
-        var DbFound = await _userRepository.GetByIdAsync(userId);
+    /*  public async Task<bool> UpdateByAdminAsync(long userId, UserUpdateDto dto)
+      {
+          var DbFound = await _userRepository.GetByIdAsync(userId);
 
-        if (DbFound is null)
-            throw new UserNotFoundException();
+          if (DbFound is null)
+              throw new UserNotFoundException();
 
-        User user = new User()
-        {
-            FirstName = dto.FirstName,
-            LastName = dto.LastName,
-            PhoneNumber = dto.PhoneNumber,
-            PhoneNumberConfirme = true,
-            Region = dto.Region,
-            District = dto.District,
-            Address = dto.Address
-        };
-        var hasher = PasswordHasher.Hash(dto.Password);
-        user.PasswordHash = hasher.Hash;
-        user.Salt = hasher.Salt;
-        var DbResult = await _userRepository.UpdateAsync(userId, user);
+          User user = new User()
+          {
+              FirstName = dto.FirstName,
+              LastName = dto.LastName,
+              PhoneNumber = dto.PhoneNumber,
+              PhoneNumberConfirme = true,
+              Region = dto.Region,
+              District = dto.District,
+              Address = dto.Address
+          };
+          var hasher = PasswordHasher.Hash(dto.Password);
+          user.PasswordHash = hasher.Hash;
+          user.Salt = hasher.Salt;
+          var DbResult = await _userRepository.UpdateAsync(userId, user);
 
-        return DbResult > 0;
-    }*/
+          return DbResult > 0;
+      }*/
 
     public async Task<bool> UpdateSecuryAsync(UserSecurityUpdate dto)
     {
@@ -179,14 +178,14 @@ public class UserService : IUserService
         var hasherResult = PasswordHasher.Verify(dto.OldPassword, user.Salt, user.PasswordHash);
         if (hasherResult == false) throw new PasswordNotMatchException();
 
-        if(dto.NewPassword == dto.ReturnNewPassword)
+        if (dto.NewPassword == dto.ReturnNewPassword)
         {
             var hasher = PasswordHasher.Hash(dto.NewPassword);
             user.PasswordHash = hasher.Hash;
             user.Salt = hasher.Salt;
 
             var res = await _userRepository.UpdateAsync(_identity.Id, user);
-            
+
             return res > 0;
         }
 

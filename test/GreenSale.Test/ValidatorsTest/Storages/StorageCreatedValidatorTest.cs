@@ -1,5 +1,4 @@
-﻿using GreenSale.Persistence.Dtos.CategoryDtos;
-using GreenSale.Persistence.Dtos.StoragDtos;
+﻿using GreenSale.Persistence.Dtos.StoragDtos;
 using GreenSale.Persistence.Validators.Storages;
 using Microsoft.AspNetCore.Http;
 using System.Text;
@@ -9,7 +8,7 @@ namespace GreenSale.Test.ValidatorsTest.Storages;
 public class StorageCreatedValidatorTest
 {
     [Theory]
-    [InlineData("Storage Name 1", "Valid description here 1", "Region 1", "District 1", "Address 1", "Info 1",  
+    [InlineData("Storage Name 1", "Valid description here 1", "Region 1", "District 1", "Address 1", "Info 1",
         41.12345, -71.98765, 3)]
     [InlineData("Storage Name 2", "Valid description here 2", "Region 2", "District 2", "Address 2", "Info 2",
         38.12345, -75.98765, 4)]
@@ -79,7 +78,7 @@ public class StorageCreatedValidatorTest
         byte[] byteImage = Encoding.UTF8.GetBytes("we sell an electronic psdvsdts to our clients");
         long imageSizeInBytes = (long)(imgasize * 1024 * 1024);
         IFormFile imageFile = new FormFile(new MemoryStream(byteImage), 0, imageSizeInBytes, "data", "file.png");
-        
+
         var dto = new StoragCreateDto
         {
             Name = name,
