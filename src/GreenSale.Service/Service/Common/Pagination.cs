@@ -26,6 +26,6 @@ public class Pagination : IPaginator
         metaData.HasNext = metaData.CurrentPage < metaData.TotalPages;
 
         string Convert = JsonConvert.SerializeObject(metaData);
-        _accessor.HttpContext!.Response.Headers.Add("X-Pagination", Convert);
+        _accessor.HttpContext!.Response.Headers.Add("x-pagination", Convert);
     }
 }
