@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
-using GreenSale.Persistence.Validators.FileValidators;
 
 namespace GreenSale.Persistence.Validators.SellerPostValidators;
 

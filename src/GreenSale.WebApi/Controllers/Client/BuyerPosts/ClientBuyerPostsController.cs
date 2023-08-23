@@ -49,7 +49,7 @@ public class ClientBuyerPostsController : BaseClientController
 
     [HttpPut("status/{postId}")]
     public async Task<IActionResult> UpdateStatusAsync([FromForm] BuyerPostStatusUpdateDto dto, long postId)
-        =>Ok(await _service.UpdateStatusAsync(postId,dto));
+        => Ok(await _service.UpdateStatusAsync(postId, dto));
 
     [HttpPut("image/{imageId}")]
     public async Task<IActionResult> ImageUpdateAsync(long imageId, [FromForm] BuyerPostImageDto dto)
@@ -60,7 +60,7 @@ public class ClientBuyerPostsController : BaseClientController
         if (isValidator.IsValid)
         {
             var result = await _service.ImageUpdateAsync(imageId, dto);
-            
+
             return Ok(result);
         }
 
