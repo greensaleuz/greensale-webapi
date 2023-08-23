@@ -135,10 +135,10 @@ public class StorageService : IStoragesService
     }
 
     public async Task<bool> UpdateImageAsync(long storageID, StorageImageUpdateDto dto)
-        {
+    {
         var DbFound = await _repository.GetByIdAsync(storageID);
 
-        if(DbFound.Id == 0) throw new StorageNotFoundException();
+        if (DbFound.Id == 0) throw new StorageNotFoundException();
         var img = await _fileService.DeleteImageAsync(DbFound.ImagePath);
         var res = await _fileService.UploadImageAsync(dto.StorageImage, STORAGEPOSTIMAGES);
         DbFound.ImagePath = res;

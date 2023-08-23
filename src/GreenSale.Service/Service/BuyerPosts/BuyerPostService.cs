@@ -1,6 +1,5 @@
 ﻿using GreenSale.Application.Exceptions;
 using GreenSale.Application.Exceptions.BuyerPosts;
-using GreenSale.Application.Exceptions.SellerPosts;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
@@ -119,7 +118,7 @@ public class BuyerPostService : IBuyerPostService
     public async Task<bool> DeleteImageIdAsync(long ImageId)
     {
         var DbFound = await _imageRepository.GetByIdAsync(ImageId);
-        if(DbFound.Id != 0)
+        if (DbFound.Id != 0)
         {
             var Result = await _imageRepository.DeleteAsync(ImageId);
             await _fileService.DeleteImageAsync(DbFound.ImagePath);
@@ -199,7 +198,7 @@ public class BuyerPostService : IBuyerPostService
             throw new BuyerPostNotFoundException();
 
         item.BuyerPostsImages = new List<BuyerPostImage>();
-        
+
         foreach (var img in dBim)
         {
             if (img.BuyerpostId == item.Id)

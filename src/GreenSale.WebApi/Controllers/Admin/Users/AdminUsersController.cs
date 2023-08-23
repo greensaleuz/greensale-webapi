@@ -1,6 +1,4 @@
 ﻿using GreenSale.Application.Utils;
-using GreenSale.Persistence.Dtos.UserDtos;
-using GreenSale.Persistence.Validators.Users;
 using GreenSale.Service.Interfaces.Users;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,4 @@
-﻿using GreenSale.Domain.Enums.BuyerPosts;
-
-namespace GreenSale.Persistence.Dtos.BuyerPostsDto;
+﻿namespace GreenSale.Persistence.Dtos.BuyerPostsDto;
 
 public class BuyerPostUpdateDto
 {

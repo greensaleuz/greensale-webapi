@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using System.Configuration;
+﻿using Microsoft.Net.Http.Headers;
 
 namespace GreenSale.WebApi.Configurations;
 

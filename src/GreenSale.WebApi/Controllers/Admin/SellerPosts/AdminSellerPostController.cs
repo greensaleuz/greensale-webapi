@@ -1,9 +1,9 @@
 ﻿using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
-using GreenSale.Persistence.Validators.SellerPostValidators;
 using GreenSale.Persistence.Validators;
-using Microsoft.AspNetCore.Mvc;
+using GreenSale.Persistence.Validators.SellerPostValidators;
 using GreenSale.Service.Interfaces.SellerPosts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Admin.SellerPosts;
 

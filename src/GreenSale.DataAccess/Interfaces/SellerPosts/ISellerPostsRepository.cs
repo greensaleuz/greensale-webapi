@@ -1,7 +1,6 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Common;
 using GreenSale.DataAccess.ViewModels.SellerPosts;
-using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.Domain.Entites.SelerPosts;
 
 namespace GreenSale.DataAccess.Interfaces.SellerPosts

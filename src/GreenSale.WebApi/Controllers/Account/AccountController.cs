@@ -2,23 +2,24 @@
 using GreenSale.Persistence.Validators.Users;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Users;
+using GreenSale.WebApi.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Client
+namespace GreenSale.WebApi.Controllers.Account
 {
-    [Route("api/client/profile")]
+    [Route("api/account")]
     [ApiController]
-    public class ClientAccountController : BaseClientController
+    public class AccountController : BaseController
     {
         private readonly IIdentityService _identity;
         private readonly IUserService _userService;
 
-        public ClientAccountController(
+        public AccountController(
             IUserService userService,
             IIdentityService identity)
         {
-            this._identity = identity;
-            this._userService = userService;
+            _identity = identity;
+            _userService = userService;
         }
 
         [HttpGet]
