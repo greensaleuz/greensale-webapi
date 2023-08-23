@@ -7,6 +7,7 @@ namespace GreenSale.DataAccess.ViewModels.BuyerPosts
     {
         public long Id { get; set; }
         public string FullName { get; set; } = string.Empty;
+        public long UserId { get; set; }
         public string UserPhoneNumber { get; set; } = string.Empty;
         public string PostPhoneNumber { get; set; } = string.Empty;
         public string CategoryName { get; set; } = string.Empty;
