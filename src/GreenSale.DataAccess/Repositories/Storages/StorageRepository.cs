@@ -79,7 +79,30 @@ namespace GreenSale.DataAccess.Repositories.Storages
             try
             {
                 await _connection.OpenAsync();
-                string query = "SELECT * FROM storage_viewmodel;";
+
+                string query = "SELECT * FROM storage_viewmodel ORDER BY id DESC " +
+                    $" OFFSET {@params.GetSkipCount()} LIMIT {@params.PageSize};";
+
+                return (await _connection.QueryAsync<StoragesViewModel>(query)).ToList();
+            }
+            catch
+            {
+                return new List<StoragesViewModel>();
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task<List<StoragesViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string query = $"SELECT * FROM storage_viewmodel where userId = {userId} ORDER BY id DESC " +
+                    $" OFFSET {@params.GetSkipCount()} LIMIT {@params.PageSize};";
 
                 return (await _connection.QueryAsync<StoragesViewModel>(query)).ToList();
             }

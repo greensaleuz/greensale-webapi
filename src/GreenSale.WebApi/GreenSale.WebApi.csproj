@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Media\Images\SellerPostIMages\**" />
+    <Content Remove="wwwroot\Media\Images\SellerPostIMages\**" />
+    <EmbeddedResource Remove="wwwroot\Media\Images\SellerPostIMages\**" />
+    <None Remove="wwwroot\Media\Images\SellerPostIMages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -14,11 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GreenSale.Service\GreenSale.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
-    <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
   </ItemGroup>
 
 </Project>

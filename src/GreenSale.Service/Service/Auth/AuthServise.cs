@@ -15,6 +15,11 @@ using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Notifications;
 using GreenSale.Service.Security;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Principal;
+using System.Text;
 
 namespace GreenSale.Service.Service.Auth;
 
@@ -27,6 +32,7 @@ public class AuthServise : IAuthServices
     private const string REGISTER_CACHE_KEY = "register_";
     private const string VERIFY_REGISTER_CACHE_KEY = "verify_register_";
     private const string Reset_CACHE_KEY = "reset_";
+
     private readonly IUserRoles _userRoles;
     private readonly IRoleRepository _roleRepository;
     private readonly ITokenService _tokenService;
@@ -39,7 +45,8 @@ public class AuthServise : IAuthServices
         IUserRepository userRepository,
         ITokenService tokenService,
         ISmsSender smsSender,
-        IUserRoles userRoles)
+        IUserRoles userRoles,
+        IConfiguration configuration)
     {
         this._userRoles = userRoles;
         this._tokenService = tokenService;
@@ -361,5 +368,35 @@ public class AuthServise : IAuthServices
         var dbResult = await _userRepository.UpdateAsync(id, user);
 
         return dbResult;
+    }
+
+    public async Task<bool> CheckTokenAsync(AuthorizationDto token)
+    {
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var validationParameters = GetValidationParameters();
+            SecurityToken validatedToken;
+            IPrincipal principal = tokenHandler.ValidateToken(token.Authorization, validationParameters, out validatedToken);
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static TokenValidationParameters GetValidationParameters()
+    {
+        return new TokenValidationParameters()
+        {
+            ValidateLifetime = true,
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidIssuer = "http://GreenSale.uz",
+            ValidAudience = "GreenSale",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("23f926fb-dcd2-49f4-8fe2-992aac18f08f")) // The same key as the one that generate the token
+        };
     }
 }

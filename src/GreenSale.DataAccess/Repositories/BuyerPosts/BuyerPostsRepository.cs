@@ -60,6 +60,7 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"DELETE FROM public.buyer_posts WHERE id = @ID;";
             var result = await _connection.ExecuteAsync(query, new { ID = Id });
 
@@ -81,7 +82,7 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         {
             await _connection.OpenAsync();
 
-            string query = $"SELECT * FROM public.buyer_posts order by id desc " +
+            string query = $"SELECT * FROM public.buyer_post_viewmodel order by id desc " +
                 $"offset {@params.GetSkipCount()} limit {@params.PageSize}";
 
             var result = (await _connection.QueryAsync<BuyerPostViewModel>(query)).ToList();
@@ -103,7 +104,7 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         try
         {
             await _connection.OpenAsync();
-            string query = $"SELECT * FROM public.buyer_posts where id=@ID;";
+            string query = $"SELECT * FROM public.buyer_post_viewmodel where id=@ID;";
             var result = await _connection.QuerySingleAsync<BuyerPostViewModel>(query, new { ID = Id });
 
             return result;
@@ -111,6 +112,26 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         catch
         {
             return new BuyerPostViewModel();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
+    public async Task<BuyerPost> GetIdAsync(long buyerId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT * FROM public.buyer_posts where id=@ID;";
+            var result = await _connection.QuerySingleAsync<BuyerPost>(query, new { ID = buyerId });
+
+            return result;
+        }
+        catch
+        {
+            return new BuyerPost();
         }
         finally
         {
@@ -156,13 +177,13 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
             await _connection.OpenAsync();
 
             string query = $"UPDATE public.buyer_posts" +
-                $" SET id=@Id, user_id=@UserId, title=@Title, " +
-                    $"description=@Description, price=@Price, capacity=@Capacity, " +
-                        $"capacity_measure=@CapasityMeansure, type=@Type, region=@Region," +
-                            $" district=@District, address=@Address, status=@Status," +
-                                $" category_id=@CategoryId, phone_number=@PhoneNumber, " +
-                                    $"created_at=@CreatedAt, updated_at=@UpdatedAt " +
-                                        $"WHERE id={Id} RETURNING id ";
+                $" SET user_id = @UserId, title = @Title, " +
+                    $"description = @Description, price = @Price, capacity = @Capacity, " +
+                        $"capacity_measure = @CapacityMeasure, type = @Type, region = @Region," +
+                            $" district = @District, address = @Address, status = @Status," +
+                                $" category_id = @CategoryId, phone_number = @PhoneNumber, " +
+                                    $"created_at = @CreatedAt, updated_at = @UpdatedAt " +
+                                        $"WHERE id = {Id} RETURNING id ";
 
             var result = await _connection.ExecuteScalarAsync<int>(query, entity);
 

@@ -30,7 +30,7 @@ namespace GreenSale.WebApi.Controllers.Admin.Users
         public async Task<IActionResult> CountAsync()
             => Ok(await _userService.CountAsync());
 
-        [HttpPut("{userId}")]
+        /*[HttpPut("{userId}")]
         public async Task<IActionResult> UpdateAsync(long userId, [FromQuery] UserUpdateDto dto)
         {
             UserUpdateValidator validations = new UserUpdateValidator();
@@ -43,7 +43,7 @@ namespace GreenSale.WebApi.Controllers.Admin.Users
             }
             else
                 return BadRequest(resltvalid.Errors);
-        }
+        }*/
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteAsync(long userId)

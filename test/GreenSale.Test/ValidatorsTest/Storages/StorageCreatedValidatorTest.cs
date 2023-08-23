@@ -9,7 +9,7 @@ namespace GreenSale.Test.ValidatorsTest.Storages;
 public class StorageCreatedValidatorTest
 {
     [Theory]
-    [InlineData("Storage Name 1", "Valid description here 1", "Region 1", "District 1", "Address 1", "Info 1",
+    [InlineData("Storage Name 1", "Valid description here 1", "Region 1", "District 1", "Address 1", "Info 1",  
         41.12345, -71.98765, 3)]
     [InlineData("Storage Name 2", "Valid description here 2", "Region 2", "District 2", "Address 2", "Info 2",
         38.12345, -75.98765, 4)]
@@ -31,13 +31,15 @@ public class StorageCreatedValidatorTest
         39.42345, -74.38765, 3.8)]
 
     public void CheckTrueTest(
-        string name, string description, string region, string district, string address, string info, double latitude, double longitude, double imagesiza)
+        string name, string description, string region, string district, string address, string info, double latitude,
+            double longitude, double imagesiza)
     {
-        byte[] byteImage = Encoding.UTF8.GetBytes("we sell an elejhsvfksjdfa skasejfsevfbjk,aewrvfctronic products to our clients");
+        byte[] byteImage = Encoding.UTF8.GetBytes("we sell an elejhsvfksjdfa skasejfsevfbjk, " +
+            "aewrvfctronic products to our clients");
+
         long imageSizeInBytes = (long)(imagesiza * 1024 * 1024);
         IFormFile imageFile = new FormFile(new MemoryStream(byteImage), 0, imageSizeInBytes, "data", "file.png");
 
-        CategoryCreateDto categoryCreateDto = new CategoryCreateDto();
 
         var dto = new StoragCreateDto
         {
@@ -77,9 +79,7 @@ public class StorageCreatedValidatorTest
         byte[] byteImage = Encoding.UTF8.GetBytes("we sell an electronic psdvsdts to our clients");
         long imageSizeInBytes = (long)(imgasize * 1024 * 1024);
         IFormFile imageFile = new FormFile(new MemoryStream(byteImage), 0, imageSizeInBytes, "data", "file.png");
-
-        CategoryCreateDto categoryCreateDto = new CategoryCreateDto();
-
+        
         var dto = new StoragCreateDto
         {
             Name = name,

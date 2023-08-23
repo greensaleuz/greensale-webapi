@@ -55,8 +55,8 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
             try
             {
                 await _connection.OpenAsync();
-                string query = "Delete from seller_posts_images where id = @ID";
-                var result = await _connection.QuerySingleAsync<int>(query, new { ID = Id });
+                string query = "Delete from seller_posts_images where seller_post_id = @ID or id = @ID";
+                var result = await _connection.ExecuteAsync(query, new { ID = Id });
 
                 return result;
             }
@@ -94,6 +94,27 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
 
         }
 
+        public async Task<List<SellerPostImage>> GetByIdAllAsync(long Id)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string query = "select * from seller_posts_images  where seller_post_id = @ID";
+                var result = (await _connection.QueryAsync<SellerPostImage>(query, new { ID = Id })).ToList();
+
+                return result;
+            }
+            catch
+            {
+                return new List<SellerPostImage>();
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
         public async Task<SellerPostImage> GetByIdAsync(long Id)
         {
             try
@@ -107,6 +128,31 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
             catch
             {
                 return new SellerPostImage();
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task<List<SellerPostImage>> GetFirstAllAsync()
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string qauery = "SELECT id, seller_post_id, image_path, created_at, updated_at " +
+                    "FROM public.seller_posts_images WHERE (seller_post_id, id) " +
+                        "IN (SELECT seller_post_id, MIN(id) FROM public.seller_posts_images " +
+                            "GROUP BY seller_post_id ) ORDER BY id DESC";
+
+                var result = (await _connection.QueryAsync<SellerPostImage>(qauery)).ToList();
+
+                return result;
+            }
+            catch
+            {
+                return new List<SellerPostImage>();
             }
             finally
             {

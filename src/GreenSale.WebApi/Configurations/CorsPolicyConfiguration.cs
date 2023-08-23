@@ -1,22 +1,15 @@
-﻿namespace GreenSale.WebApi.Configurations
-{
-    public static class CorsPolicyConfiguration
-    {
-        public static void ConfigureCORSPolicy(this WebApplicationBuilder builder)
-        {
-            builder.Services.AddCors(option =>
-            {
-                option.AddPolicy("AllowAll", builder =>
-                {
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                });
+﻿namespace GreenSale.WebApi.Configurations;
 
-                option.AddPolicy("OnlySite", builder =>
-                {
-                    builder.WithOrigins("https://www.agileshop.uz")
-                        .AllowAnyMethod().AllowAnyHeader();
-                });
+public static class CorsPolicyConfiguration
+{
+    public static void ConfigureCORSPolicy(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(option =>
+        {
+            option.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             });
-        }
+        });
     }
 }

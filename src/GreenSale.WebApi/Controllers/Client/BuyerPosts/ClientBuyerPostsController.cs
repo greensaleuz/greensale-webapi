@@ -1,4 +1,6 @@
-﻿using GreenSale.Persistence.Dtos.BuyerPostsDto;
+﻿using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
+using GreenSale.Persistence.Dtos.BuyerPostsDto;
+using GreenSale.Persistence.Validators;
 using GreenSale.Persistence.Validators.BuyerPosts;
 using GreenSale.Service.Interfaces.BuyerPosts;
 using Microsoft.AspNetCore.Mvc;
@@ -45,8 +47,32 @@ public class ClientBuyerPostsController : BaseClientController
         return BadRequest(isValidator.Errors);
     }
 
+    [HttpPut("status/{postId}")]
+    public async Task<IActionResult> UpdateStatusAsync([FromForm] BuyerPostStatusUpdateDto dto, long postId)
+        =>Ok(await _service.UpdateStatusAsync(postId,dto));
+
+    [HttpPut("image/{imageId}")]
+    public async Task<IActionResult> ImageUpdateAsync(long imageId, [FromForm] BuyerPostImageDto dto)
+    {
+        var validator = new BuyerImageValidator();
+        var isValidator = validator.Validate(dto);
+
+        if (isValidator.IsValid)
+        {
+            var result = await _service.ImageUpdateAsync(imageId, dto);
+            
+            return Ok(result);
+        }
+
+        return BadRequest(isValidator.Errors);
+    }
+
     [HttpDelete("{postId}")]
     public async Task<IActionResult> DeleteAsync(long postId)
         => Ok(await _service.DeleteAsync(postId));
+
+    [HttpDelete("image/{imageId}")]
+    public async Task<IActionResult> DeleteImageIdAsync(long imageId)
+        => Ok(await _service.DeleteImageIdAsync(imageId));
 }
 

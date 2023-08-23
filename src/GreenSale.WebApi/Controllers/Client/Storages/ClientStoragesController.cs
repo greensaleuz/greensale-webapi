@@ -1,4 +1,5 @@
 ﻿using GreenSale.Persistence.Dtos.StoragDtos;
+using GreenSale.Persistence.Validators;
 using GreenSale.Persistence.Validators.Storages;
 using GreenSale.Service.Interfaces.Storages;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,19 @@ public class ClientStoragesController : BaseClientController
         }
 
         return BadRequest(valid.Errors);
+    }
+
+    [HttpPut("image/{storageId}")]
+    public async Task<IActionResult> UpdateImageIdAsync([FromForm] StorageImageUpdateDto dto, long storageId)
+    {
+        var validator = new StorageValidatorDto();
+        var isValidator = validator.Validate(dto);
+        if (isValidator.IsValid)
+        {
+            return Ok(await _service.UpdateImageAsync(storageId, dto));
+        }
+
+        return BadRequest(isValidator.Errors);
     }
 
     [HttpDelete("{storageId}")]

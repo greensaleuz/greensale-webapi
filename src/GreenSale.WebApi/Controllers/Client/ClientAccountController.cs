@@ -1,5 +1,6 @@
 ﻿using GreenSale.Persistence.Dtos.UserDtos;
 using GreenSale.Persistence.Validators.Users;
+using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +10,22 @@ namespace GreenSale.WebApi.Controllers.Client
     [ApiController]
     public class ClientAccountController : BaseClientController
     {
+        private readonly IIdentityService _identity;
         private readonly IUserService _userService;
 
-        public ClientAccountController(IUserService userService)
+        public ClientAccountController(
+            IUserService userService,
+            IIdentityService identity)
         {
+            this._identity = identity;
             this._userService = userService;
         }
 
-        [HttpPut]
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
+            => Ok(await _userService.GetByIdAsync(_identity.Id));
+
+        [HttpPut("information")]
         public async Task<IActionResult> UpdateAsync([FromForm] UserUpdateDto dto)
         {
             UserUpdateValidator validations = new UserUpdateValidator();
@@ -29,6 +38,13 @@ namespace GreenSale.WebApi.Controllers.Client
             }
             else
                 return BadRequest(resltvalid.Errors);
+        }
+
+        [HttpPut("security")]
+        public async Task<IActionResult> UpdateSecurity([FromBody] UserSecurityUpdate dto)
+        {
+            var result = await _userService.UpdateSecuryAsync(dto);
+            return Ok(result);
         }
     }
 }

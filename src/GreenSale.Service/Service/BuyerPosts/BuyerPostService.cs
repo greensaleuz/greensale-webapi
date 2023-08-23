@@ -21,6 +21,7 @@ public class BuyerPostService : IBuyerPostService
     private readonly IFileService _fileService;
     private readonly IBuyerPostImageRepository _imageRepository;
     private readonly IIdentityService _identity;
+    private readonly string BUYERPOSTIMAGES = "BuyerPostImages";
 
     public BuyerPostService(
         IBuyerPostRepository postRepository,
@@ -70,12 +71,14 @@ public class BuyerPostService : IBuyerPostService
         {
             foreach (var item in dto.ImagePath)
             {
-                var img = await _fileService.UploadImageAsync(item);
+                var img = await _fileService.UploadImageAsync(item, BUYERPOSTIMAGES);
 
                 BuyerPostImage BuyerPostImage = new BuyerPostImage()
                 {
                     BuyerpostId = DbResult,
                     ImagePath = img,
+                    CreatedAt = TimeHelper.GetDateTime(),
+                    UpdatedAt = TimeHelper.GetDateTime(),
                 };
 
                 var DbImgResult = await _imageRepository.CreateAsync(BuyerPostImage);
@@ -94,47 +97,102 @@ public class BuyerPostService : IBuyerPostService
         if (DbFound.Id == 0)
             throw new BuyerPostNotFoundException();
 
+        var DbImgAll = await _imageRepository.GetByIdAllAsync(buyerId);
+
+        if (DbImgAll.Count == 0)
+            throw new BuyerPostNotFoundException();
+
+        var DbImgResult = await _imageRepository.DeleteAsync(buyerId);
         var DbResult = await _postRepository.DeleteAsync(buyerId);
 
+        if (DbResult > 0 && 0 < DbImgResult)
+        {
+            foreach (var item in DbImgAll)
+            {
+                await _fileService.DeleteImageAsync(item.ImagePath);
+            }
+        }
+
         return DbResult > 0;
+    }
+
+    public async Task<bool> DeleteImageIdAsync(long ImageId)
+    {
+        var DbFound = await _imageRepository.GetByIdAsync(ImageId);
+        if(DbFound.Id != 0)
+        {
+            var Result = await _imageRepository.DeleteAsync(ImageId);
+            await _fileService.DeleteImageAsync(DbFound.ImagePath);
+            return Result > 0;
+        }
+        return false;
     }
 
     public async Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params)
     {
         var DbResult = await _postRepository.GetAllAsync(@params);
+        var dBim = await _imageRepository.GetFirstAllAsync();
+
+        List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
+
+        foreach (var item in DbResult)
+        {
+            item.BuyerPostsImages = new List<BuyerPostImage>();
+
+            foreach (var img in dBim)
+            {
+                if (img.BuyerpostId == item.Id)
+                {
+                    item.BuyerPostsImages.Add(img);
+                    dBim.RemoveAt(0);
+                    break;
+                }
+            }
+
+            Result.Add(item);
+        }
+
         var DBCount = await _postRepository.CountAsync();
         _paginator.Paginate(DBCount, @params);
 
-        return DbResult;
+        return Result;
     }
 
     public async Task<BuyerPostViewModel> GetBYIdAsync(long buyerId)
     {
-        var DbFound = await _postRepository.GetByIdAsync(buyerId);
+        var item = await _postRepository.GetByIdAsync(buyerId);
+        var dBim = await _imageRepository.GetByIdAllAsync(buyerId);
 
-        if (DbFound.Id == 0)
+        if (item.Id == 0)
             throw new BuyerPostNotFoundException();
 
-        return DbFound;
+        item.BuyerPostsImages = new List<BuyerPostImage>();
+        
+        foreach (var img in dBim)
+        {
+            if (img.BuyerpostId == item.Id)
+            {
+                item.BuyerPostsImages.Add(img);
+            }
+        }
+
+        return item;
     }
 
-    public async Task<bool> ImageUpdateAsync(BuyerPostImageDto dto)
+    public async Task<bool> ImageUpdateAsync(long ImageId, BuyerPostImageDto dto)
     {
-        var DbFoundImg = await _imageRepository.GetByIdAsync(dto.BuyerPostImageId);
+        var DbFoundImg = await _imageRepository.GetByIdAsync(ImageId);
 
-        if (DbFoundImg is null)
+        if (DbFoundImg.Id == 0)
             throw new ImageNotFoundException();
 
-        var RootDEl = await _fileService.DeleteImageAsync(DbFoundImg.ImagePath);
-        var img = await _fileService.UploadImageAsync(dto.ImagePath);
+        await _fileService.DeleteImageAsync(DbFoundImg.ImagePath);
+        var img = await _fileService.UploadImageAsync(dto.ImagePath, BUYERPOSTIMAGES);
 
-        BuyerPostImage buyerPostImage = new BuyerPostImage()
-        {
-            BuyerpostId = dto.BuyerPostId,
-            ImagePath = img,
-        };
+        DbFoundImg.ImagePath = img;
+        DbFoundImg.UpdatedAt = TimeHelper.GetDateTime();
 
-        var DbResult = await _imageRepository.UpdateAsync(dto.BuyerPostImageId, buyerPostImage);
+        var DbResult = await _imageRepository.UpdateAsync(ImageId, DbFoundImg);
 
         return DbResult > 0;
     }
@@ -144,7 +202,7 @@ public class BuyerPostService : IBuyerPostService
         var DbFound = await _postRepository.GetByIdAsync(buyerID);
 
         if (DbFound.Id == 0)
-            throw new SellerPostsNotFoundException();
+            throw new BuyerPostNotFoundException();
 
         BuyerPost buyerPost = new BuyerPost()
         {
@@ -160,11 +218,29 @@ public class BuyerPostService : IBuyerPostService
             Address = dto.Address,
             District = dto.District,
             PhoneNumber = dto.PhoneNumber,
-            Status = Domain.Enums.BuyerPosts.BuyerPostEnum.New,
+            CreatedAt = DbFound.CreatedAt,
             UpdatedAt = TimeHelper.GetDateTime(),
         };
 
         var DbResult = await _postRepository.UpdateAsync(buyerID, buyerPost);
+
+        if (DbResult > 0)
+            return true;
+
+        return false;
+    }
+
+    public async Task<bool> UpdateStatusAsync(long buyerID, BuyerPostStatusUpdateDto dto)
+    {
+        var DbFound = await _postRepository.GetIdAsync(buyerID);
+
+        if (DbFound.Id == 0)
+            throw new BuyerPostNotFoundException();
+
+        DbFound.Status = dto.PostStatus;
+        DbFound.UpdatedAt = TimeHelper.GetDateTime();
+
+        var DbResult = await _postRepository.UpdateAsync(buyerID, DbFound);
 
         if (DbResult > 0)
             return true;
