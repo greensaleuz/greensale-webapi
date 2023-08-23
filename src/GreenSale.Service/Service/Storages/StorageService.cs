@@ -47,6 +47,7 @@ public class StorageService : IStoragesService
             Region = dto.Region,
             District = dto.District,
             Address = dto.Address,
+            Info = dto.Info,
             AddressLatitude = dto.AddressLatitude,
             AddressLongitude = dto.AddressLongitude,
             CreatedAt = TimeHelper.GetDateTime(),
