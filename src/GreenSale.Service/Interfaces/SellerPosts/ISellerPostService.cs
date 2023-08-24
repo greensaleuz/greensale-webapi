@@ -14,6 +14,7 @@ public interface ISellerPostService
     public Task<bool> UpdateStatusAsync(long postId, SellerPostStatusUpdateDto dto);
     public Task<bool> ImageUpdateAsync(long postImageId, SellerPostImageUpdateDto dto);
     public Task<long> CountAsync();
+    public Task<long> CountStatusAgreeAsync();
     public Task<List<SellerPostViewModel>> GetAllAsync(PaginationParams @params);
     public Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
     public Task<SellerPostViewModel> GetBYIdAsync(long sellerId);

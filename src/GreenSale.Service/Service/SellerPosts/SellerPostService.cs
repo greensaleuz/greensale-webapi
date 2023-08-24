@@ -43,6 +43,13 @@ public class SellerPostService : ISellerPostService
         return DbResult;
     }
 
+    public async Task<long> CountStatusAgreeAsync()
+    {
+        var DbResult = await _repository.CountStatusAgreeAsync();
+
+        return DbResult;
+    }
+
     public async Task<bool> CreateAsync(SellerPostCreateDto dto)
     {
         SellerPost sellerPost = new SellerPost()
