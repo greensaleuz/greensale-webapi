@@ -7,6 +7,7 @@ using GreenSale.Domain.Entites.BuyerPosts;
 namespace GreenSale.DataAccess.Repositories.BuyerPosts;
 
 public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
+
 {
     public async Task<long> CountAsync()
     {
@@ -14,6 +15,26 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         {
             await _connection.OpenAsync();
             string query = $"SELECT COUNT(*) FROM buyer_posts;";
+            var result = await _connection.QuerySingleAsync<long>(query);
+
+            return result;
+        }
+        catch
+        {
+            return 0;
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
+    public async Task<long> CountStatusAgreeAsync()
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT COUNT(*) FROM buyer_posts where status = '1'  ;";
             var result = await _connection.QuerySingleAsync<long>(query);
 
             return result;

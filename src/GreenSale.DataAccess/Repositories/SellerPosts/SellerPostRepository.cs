@@ -29,6 +29,26 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
 
     }
 
+    public async Task<long> CountStatusAgreeAsync()
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT COUNT(*) FROM seller_posts where status = '1'";
+            var result = await _connection.QuerySingleAsync<long>(query);
+
+            return result;
+        }
+        catch
+        {
+            return 0;
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<int> CreateAsync(SellerPost entity)
     {
         try

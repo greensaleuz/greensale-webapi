@@ -10,4 +10,5 @@ public interface IBuyerPostRepository : IRepository<BuyerPost, BuyerPostViewMode
     public Task<BuyerPost> GetIdAsync(long buyerId);
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId);
+    public Task<long> CountStatusAgreeAsync();
 }

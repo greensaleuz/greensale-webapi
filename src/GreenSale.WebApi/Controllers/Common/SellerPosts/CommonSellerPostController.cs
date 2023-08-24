@@ -20,6 +20,10 @@ public class CommonSellerPostController : BaseController
     public async Task<IActionResult> CountAsync()
         => Ok(await _postService.CountAsync());
 
+    [HttpGet("agreed/count")]
+    public async Task<IActionResult> CountAgreeAsync()
+            => Ok(await _postService.CountStatusAgreeAsync());
+
     [HttpGet]
     public async Task<IActionResult> GetAllasync([FromQuery] int page = 1)
         => Ok(await _postService.GetAllAsync(new PaginationParams(page, maxpage)));
