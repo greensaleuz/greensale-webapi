@@ -8,5 +8,6 @@ namespace GreenSale.DataAccess.Interfaces.Storages
     public interface IStorageRepository : IRepository<Storage, StoragesViewModel>, ISearchable<StoragesViewModel>
     {
         public Task<List<StoragesViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
+        public Task<List<StoragesViewModel>> GetAllByIdAsync(long userId);
     }
 }

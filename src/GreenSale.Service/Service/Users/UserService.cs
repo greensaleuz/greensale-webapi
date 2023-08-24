@@ -18,11 +18,12 @@ namespace GreenSale.Service.Service.Users;
 
 public class UserService : IUserService
 {
+    private readonly IFileService _fileservice;
     private readonly IStorageRepository _storagerepository;
     private readonly IBuyerPostImageRepository _buyerImgrepository;
     private readonly IBuyerPostRepository _buyerRepository;
     private readonly IUserRoles _rolerepository;
-    private readonly ISellerPostsRepository _sellerpostimgrepository;
+    private readonly ISellerPostsRepository _sellerpostrepository;
     private readonly ISellerPostImageRepository _sellerImagerepository;
     private readonly ISellerPostsRepository _sellerRepository;
     private readonly IIdentityService _identity;
@@ -38,13 +39,15 @@ public class UserService : IUserService
         IUserRoles userRoles,
         IBuyerPostRepository buyerPostRepository,
         IBuyerPostImageRepository buyerPostImageRepository,
-        IStorageRepository storageRepository)
+        IStorageRepository storageRepository,
+        IFileService fileService)
     {
+        this._fileservice = fileService;
         this._storagerepository = storageRepository;
         this._buyerImgrepository = buyerPostImageRepository;
         this._buyerRepository = buyerPostRepository;
         this._rolerepository = userRoles;
-        this._sellerpostimgrepository = sellerPostsRepository;
+        this._sellerpostrepository = sellerPostsRepository;
         this._sellerImagerepository = sellerPostImageRepository;
         this._identity = identity;
         this._paginator = paginator;
@@ -65,18 +68,26 @@ public class UserService : IUserService
         if (DbFound is null)
             throw new UserNotFoundException();
 
-        var sellerPost = await _sellerpostimgrepository.GetAllByIdAsync(userId);
+        var sellerPost = await _sellerpostrepository.GetAllByIdAsync(userId);
 
         if (sellerPost is not null)
         {
-            foreach(var item in sellerPost)
+            foreach (var item in sellerPost)
             {
-                var res = await _sellerImagerepository.DeleteAsync(item.Id);
-                if(res > 0)
+                var AllImg = await _sellerImagerepository.GetByIdAllAsync(userId);
+
+                foreach (var img in AllImg)
                 {
-                    var delpost = await _sellerpostimgrepository.DeleteAsync(item.Id);
+                    await _fileservice.DeleteImageAsync(img.ImagePath);
                 }
-                    
+
+                var res = await _sellerImagerepository.DeleteAsync(item.Id);
+
+                if (res > 0)
+                {
+                    var delpost = await _sellerpostrepository.DeleteAsync(item.Id);
+                }
+
             }
         }
 
@@ -86,7 +97,15 @@ public class UserService : IUserService
         {
             foreach (var item in buyerPost)
             {
+                var AllImg = await _buyerImgrepository.GetByIdAllAsync(userId);
+
+                foreach (var img in AllImg)
+                {
+                    await _fileservice.DeleteImageAsync(img.ImagePath);
+                }
+
                 var res = await _buyerImgrepository.DeleteAsync(item.Id);
+                
                 if (res > 0)
                 {
                     var delpost = await _buyerRepository.DeleteAsync(item.Id);
@@ -95,13 +114,18 @@ public class UserService : IUserService
             }
         }
 
-        var storg = await _storagerepository.DeleteAsync(userId);
-       
+        var storg = await _storagerepository.GetAllByIdAsync(userId);
+
+        foreach (var item in storg)
+        {
+            var del = await _storagerepository.DeleteAsync(item.Id);
+        }
+
         var roldel = await _rolerepository.DeleteAsync(userId);
-       
+
         var DbResult = await _userRepository.DeleteAsync(userId);
 
-       return DbResult > 0;
+        return DbResult > 0;
     }
 
     public async Task<List<UserViewModel>> GetAllAsync(PaginationParams @params)

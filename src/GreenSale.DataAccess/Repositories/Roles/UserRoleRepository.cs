@@ -57,7 +57,7 @@ public class UserRoleRepository : BaseRepository, IUserRoles
         {
             await _connection.OpenAsync();
             string query = "Delete from user_roles where id = @ID or user_id = @ID";
-            var result = await _connection.ExecuteScalarAsync<int>(query, new { ID = Id });
+            var result = await _connection.ExecuteAsync(query, new { ID = Id });
 
             return result;
         }
