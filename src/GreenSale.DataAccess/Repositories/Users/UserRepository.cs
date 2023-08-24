@@ -15,7 +15,7 @@ public class UserRepository : BaseRepository, IUserRepository
         {
             await _connection.OpenAsync();
             string query = "Select Count(*) from public.users ;";
-            var result = await _connection.ExecuteAsync(query);
+            var result = await _connection.QuerySingleAsync<long>(query);
 
             return result;
         }
