@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <Content Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <EmbeddedResource Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <None Remove="wwwroot\Media\Images\SellerPostIMages\**" />
+    <Compile Remove="wwwroot\Media\Images\NewFolder\**" />
+    <Content Remove="wwwroot\Media\Images\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\Media\Images\NewFolder\**" />
+    <None Remove="wwwroot\Media\Images\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Media\Images\BuyerPostImages\" />
-    <Folder Include="wwwroot\Media\Images\SellPostImages\" />
+    <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
     <Folder Include="wwwroot\Media\Images\StoragePostImages\" />
   </ItemGroup>
 
