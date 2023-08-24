@@ -28,13 +28,13 @@ public class TokenService : ITokenService
             new Claim(ClaimTypes.Role, user.RoleName)
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("23f926fb-dcd2-49f4-8fe2-992aac18f08f"!));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecurityKey"]!));
         var keyCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         int expiresHours = 24!;
 
         var token = new JwtSecurityToken(
-            issuer: "http://GreenSale.uz",
-            audience: "GreenSale",
+            issuer: _config["Issuer"],
+            audience: _config["Audience"],
             claims: identityClaims,
             expires: TimeHelper.GetDateTime().AddHours(expiresHours),
             signingCredentials: keyCredentials);
