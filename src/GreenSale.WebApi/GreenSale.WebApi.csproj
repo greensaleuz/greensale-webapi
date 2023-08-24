@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\Media\Images\NewFolder\**" />
-    <Content Remove="wwwroot\Media\Images\NewFolder\**" />
+    <Content Remove="wwwroot\Media\Images\SellerPostIMages\**" />
     <EmbeddedResource Remove="wwwroot\Media\Images\NewFolder\**" />
     <None Remove="wwwroot\Media\Images\NewFolder\**" />
   </ItemGroup>
