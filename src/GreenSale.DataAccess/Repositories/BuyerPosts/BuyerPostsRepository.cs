@@ -122,6 +122,28 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         }
     }
 
+    public async Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = $"SELECT * FROM buyer_post_viewmodel where userId = {userId} ORDER BY id DESC ";
+
+            var result = (await _connection.QueryAsync<BuyerPostViewModel>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<BuyerPostViewModel>();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<BuyerPostViewModel> GetByIdAsync(long Id)
     {
         try
