@@ -6,12 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="wwwroot\Media\Images\NewFolder\**" />
-    <Content Remove="wwwroot\Media\Images\SellerPostIMages\**" />
-    <EmbeddedResource Remove="wwwroot\Media\Images\NewFolder\**" />
-    <None Remove="wwwroot\Media\Images\NewFolder\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
@@ -26,8 +20,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Media\Images\BuyerPostImages\" />
-    <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
     <Folder Include="wwwroot\Media\Images\StoragePostImages\" />
+    <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
   </ItemGroup>
 
 </Project>
