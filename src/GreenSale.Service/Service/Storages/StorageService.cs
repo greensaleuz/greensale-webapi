@@ -9,6 +9,9 @@ using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Storages;
+using Microsoft.AspNetCore.Http;
+using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GreenSale.Service.Service.Storages;
 
@@ -38,6 +41,12 @@ public class StorageService : IStoragesService
 
     public async Task<bool> CreateAsync(StoragCreateDto dto)
     {
+
+        /*string fileBytesPath = @"C:\StoragesDefoult.jpeg"; // Faylning manzili (yo'li)
+
+        byte[] fileBytes = File.ReadAllBytes(fileBytesPath); // Faylni byte massiviga o'qish
+
+        dto.ImagePath = Convert.ToBase64String(fileBytes); // Faylning byte massivini IFromFile tipidagi stringga o'girish*/
         string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
         Storage storage = new Storage()
         {
@@ -118,7 +127,7 @@ public class StorageService : IStoragesService
             UpdatedAt = TimeHelper.GetDateTime()
         };
 
-        if (dto.ImagePath is not null)
+   /*     if (dto.ImagePath is not null)
         {
             //delete old image
             var deleteImage = await _fileService.DeleteImageAsync(getId.ImagePath);
@@ -127,7 +136,7 @@ public class StorageService : IStoragesService
             //upload new image
             string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
             storage.ImagePath = imagePath;
-        }
+        }*/
 
         var result = await _repository.UpdateAsync(storageID, storage);
 
