@@ -24,7 +24,7 @@ public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
         RuleFor(dto => dto.AddressLatitude).NotNull().NotEmpty().WithMessage("Latitude filed is required");
         RuleFor(dto => dto.AddressLongitude).NotNull().NotEmpty().WithMessage("Longitude filed is required");
 
-        int maxImageSize = 5;
+        /*int maxImageSize = 5;
         RuleFor(dto => dto.ImagePath).NotEmpty().NotNull().WithMessage("Image filed is required!");
 
         RuleFor(dto => dto.ImagePath.Length).LessThan(maxImageSize * 1024 * 1024 + 1)
@@ -35,6 +35,6 @@ public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
             FileInfo fileInfo = new FileInfo(predicate);
 
             return MediaHelper.GetImageExtensions().Contains(fileInfo.Extension);
-        }).WithMessage("This file type is not image file");
+        }).WithMessage("This file type is not image file");*/
     }
 }
