@@ -1,4 +1,5 @@
 ﻿using GreenSale.Application.Exceptions;
+using GreenSale.Application.Exceptions.BuyerPosts;
 using GreenSale.Application.Exceptions.SellerPosts;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.SellerPosts;
@@ -11,6 +12,7 @@ using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.SellerPosts;
+using GreenSale.Service.Service.Common;
 
 namespace GreenSale.Service.Service.SellerPosts;
 
@@ -21,7 +23,7 @@ public class SellerPostService : ISellerPostService
     private readonly IPaginator _paginator;
     private readonly IIdentityService _identity;
     private readonly ISellerPostsRepository _repository;
-    private readonly string SELLERPOSTIMAGES = "SellPostImages";
+    private readonly string SELLERPOSTIMAGES = "SellerPostImages";
 
     public SellerPostService(
         ISellerPostsRepository repository,
@@ -93,7 +95,7 @@ public class SellerPostService : ISellerPostService
         }
 
         return false;
-    }
+     }
 
     public async Task<bool> DeleteAsync(long sellerId)
     {
@@ -102,7 +104,18 @@ public class SellerPostService : ISellerPostService
         if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
+        var DbImgAll = await _imageRepository.GetByIdAllAsync(sellerId);
+
+        if (DbImgAll.Count == 0)
+            throw new SellerPostsNotFoundException();
+
+        var DbImgResult = await _imageRepository.DeleteAsync(sellerId);
         var Dbresult = await _repository.DeleteAsync(sellerId);
+
+        foreach (var item in DbImgAll)
+        {
+            await _fileservice.DeleteImageAsync(item.ImagePath);
+        }
 
         return Dbresult > 0;
     }
