@@ -1,7 +1,9 @@
 ﻿using GreenSale.Application.Exceptions;
 using GreenSale.Application.Exceptions.BuyerPosts;
+using GreenSale.Application.Exceptions.Categories;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
+using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
@@ -15,6 +17,7 @@ namespace GreenSale.Service.Service.BuyerPosts;
 
 public class BuyerPostService : IBuyerPostService
 {
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IBuyerPostRepository _postRepository;
     private readonly IPaginator _paginator;
     private readonly IFileService _fileService;
@@ -27,8 +30,10 @@ public class BuyerPostService : IBuyerPostService
         IPaginator paginator,
         IFileService fileService,
         IBuyerPostImageRepository imageRepository,
-        IIdentityService identity)
+        IIdentityService identity, 
+        ICategoryRepository categoryRepository)
     {
+        this._categoryRepository = categoryRepository;
         this._postRepository = postRepository;
         this._paginator = paginator;
         this._fileService = fileService;
@@ -52,6 +57,12 @@ public class BuyerPostService : IBuyerPostService
 
     public async Task<bool> CreateAsync(BuyerPostCreateDto dto)
     {
+        var check = await _categoryRepository.GetByIdAsync(dto.CategoryID);
+        if (check.Id == 0)
+        {
+            throw new CategoryNotFoundException();
+        }
+
         BuyerPost buyerPost = new BuyerPost()
         {
             UserId = _identity.Id,
@@ -131,7 +142,7 @@ public class BuyerPostService : IBuyerPostService
             await _fileService.DeleteImageAsync(DbFound.ImagePath);
             return Result > 0;
         }
-        return false;
+        throw new ImageNotFoundException();
     }
 
     public async Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params)
@@ -168,6 +179,10 @@ public class BuyerPostService : IBuyerPostService
     public async Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
     {
         var DbResult = await _postRepository.GetAllByIdAsync(userId, @params);
+
+        if (DbResult.Count == 0)
+            throw new BuyerPostNotFoundException();
+        
         var dBim = await _imageRepository.GetFirstAllAsync();
 
         List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
