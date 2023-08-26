@@ -1,5 +1,4 @@
 ﻿using GreenSale.Application.Exceptions;
-using GreenSale.Application.Exceptions.BuyerPosts;
 using GreenSale.Application.Exceptions.Categories;
 using GreenSale.Application.Exceptions.SellerPosts;
 using GreenSale.Application.Exceptions.Users;
@@ -16,7 +15,6 @@ using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.SellerPosts;
-using GreenSale.Service.Service.Common;
 
 namespace GreenSale.Service.Service.SellerPosts;
 
@@ -111,7 +109,7 @@ public class SellerPostService : ISellerPostService
         }
 
         return false;
-     }
+    }
 
     public async Task<bool> DeleteAsync(long sellerId)
     {

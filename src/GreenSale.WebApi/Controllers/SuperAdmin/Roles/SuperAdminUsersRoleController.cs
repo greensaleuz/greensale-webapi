@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.SuperAdmin.Roles;
 
-[Route("api/superadmin/UserRoles")]
+[Route("api/superadmin/user/roles")]
 [ApiController]
 public class SuperAdminUsersRoleController : SuperAdminBaseController
 {
@@ -21,19 +21,19 @@ public class SuperAdminUsersRoleController : SuperAdminBaseController
     public async Task<IActionResult> GetAllAsync([FromQuery] int page = 1)
         => Ok(await _service.GetAllAsync(new PaginationParams(page, maxPage)));
 
-    [HttpGet("{UserRoleId}")]
-    public async Task<IActionResult> GetByIdAsync(long UserRoleId)
-        => Ok(await _service.GetByIdAsync(UserRoleId));
+    [HttpGet("{Id}")]
+    public async Task<IActionResult> GetByIdAsync(long Id)
+        => Ok(await _service.GetByIdAsync(Id));
 
     [HttpGet("count")]
     public async Task<IActionResult> CountAsync()
         => Ok(await _service.CountAsync());
 
-    [HttpPut("{UserRoleId}")]
-    public async Task<IActionResult> UpdateAsync(long UserRoleId, UserRoleDtoUpdate dto)
-        => Ok(await _service.UpdateAsync(UserRoleId, dto));
+    [HttpPut("{Id}")]
+    public async Task<IActionResult> UpdateAsync(long Id, UserRoleDtoUpdate dto)
+        => Ok(await _service.UpdateAsync(Id, dto));
 
-    [HttpDelete("{UserRoleId}")]
-    public async Task<IActionResult> DeleteAsync(long UserRoleId)
-        => Ok(await _service.DeleteAsync(UserRoleId));
+    [HttpDelete("{Id}")]
+    public async Task<IActionResult> DeleteAsync(long Id)
+        => Ok(await _service.DeleteAsync(Id));
 }

@@ -105,7 +105,7 @@ public class UserService : IUserService
                 }
 
                 var res = await _buyerImgrepository.DeleteAsync(item.Id);
-                
+
                 if (res > 0)
                 {
                     var delpost = await _buyerRepository.DeleteAsync(item.Id);

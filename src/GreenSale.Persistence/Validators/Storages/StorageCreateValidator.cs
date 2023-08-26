@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using GreenSale.Persistence.Dtos.StoragDtos;
-using GreenSale.Persistence.Helpers;
 namespace GreenSale.Persistence.Validators.Storages;
 
 public class StorageCreateValidator : AbstractValidator<StoragCreateDto>
