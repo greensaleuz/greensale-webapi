@@ -114,6 +114,7 @@ public class StorageService : IStoragesService
         if (getId.Id == 0)
             throw new StorageNotFoundException();
 
+
         Storage storage = new Storage()
         {
             Name = dto.Name,
@@ -129,16 +130,16 @@ public class StorageService : IStoragesService
             UpdatedAt = TimeHelper.GetDateTime()
         };
 
-        /*     if (dto.ImagePath is not null)
-             {
-                 //delete old image
-                 var deleteImage = await _fileService.DeleteImageAsync(getId.ImagePath);
+        if (dto.ImagePath is not null)
+        {
+            //delete old image
+            var deleteImage = await _fileService.DeleteImageAsync(getId.ImagePath);
 
 
-                 //upload new image
-                 string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
-                 storage.ImagePath = imagePath;
-             }*/
+            //upload new image
+            string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
+            storage.ImagePath = imagePath;
+        }
 
         var result = await _repository.UpdateAsync(storageID, storage);
 
