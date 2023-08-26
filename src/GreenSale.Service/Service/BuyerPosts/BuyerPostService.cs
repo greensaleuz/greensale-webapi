@@ -1,9 +1,11 @@
 ﻿using GreenSale.Application.Exceptions;
 using GreenSale.Application.Exceptions.BuyerPosts;
 using GreenSale.Application.Exceptions.Categories;
+using GreenSale.Application.Exceptions.Users;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.Interfaces.Categories;
+using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
@@ -17,6 +19,7 @@ namespace GreenSale.Service.Service.BuyerPosts;
 
 public class BuyerPostService : IBuyerPostService
 {
+    private readonly IUserRepository _userep;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IBuyerPostRepository _postRepository;
     private readonly IPaginator _paginator;
@@ -31,8 +34,10 @@ public class BuyerPostService : IBuyerPostService
         IFileService fileService,
         IBuyerPostImageRepository imageRepository,
         IIdentityService identity, 
-        ICategoryRepository categoryRepository)
+        ICategoryRepository categoryRepository,
+        IUserRepository userRepository)
     {
+        this._userep = userRepository;
         this._categoryRepository = categoryRepository;
         this._postRepository = postRepository;
         this._paginator = paginator;
@@ -178,6 +183,11 @@ public class BuyerPostService : IBuyerPostService
 
     public async Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
     {
+        var userdev = await _userep.GetByIdAsync(userId);
+
+        if (userdev.Id == 0)
+            throw new UserNotFoundException();
+
         var DbResult = await _postRepository.GetAllByIdAsync(userId, @params);
 
         if (DbResult.Count == 0)
@@ -256,6 +266,12 @@ public class BuyerPostService : IBuyerPostService
 
         if (DbFound.Id == 0)
             throw new BuyerPostNotFoundException();
+
+        var check = await _categoryRepository.GetByIdAsync(dto.CategoryID);
+        if (check.Id == 0)
+        {
+            throw new CategoryNotFoundException();
+        }
 
         BuyerPost buyerPost = new BuyerPost()
         {

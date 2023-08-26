@@ -2,9 +2,11 @@
 using GreenSale.Application.Exceptions.BuyerPosts;
 using GreenSale.Application.Exceptions.Categories;
 using GreenSale.Application.Exceptions.SellerPosts;
+using GreenSale.Application.Exceptions.Users;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.SellerPosts;
+using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.SelerPosts;
 using GreenSale.Domain.Entites.SellerPosts;
@@ -20,6 +22,7 @@ namespace GreenSale.Service.Service.SellerPosts;
 
 public class SellerPostService : ISellerPostService
 {
+    private readonly IUserRepository _userep;
     private readonly ICategoryRepository _categoryRepository;
     private readonly ISellerPostImageRepository _imageRepository;
     private readonly IFileService _fileservice;
@@ -34,8 +37,10 @@ public class SellerPostService : ISellerPostService
         IPaginator paginator,
         IFileService fileService,
         ISellerPostImageRepository imageRepository,
-        ICategoryRepository categoryRepository)
+        ICategoryRepository categoryRepository,
+        IUserRepository userRepository)
     {
+        this._userep = userRepository;
         this._categoryRepository = categoryRepository;
         this._imageRepository = imageRepository;
         this._fileservice = fileService;
@@ -177,6 +182,11 @@ public class SellerPostService : ISellerPostService
 
     public async Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
     {
+        var userdev = await _userep.GetByIdAsync(userId);
+
+        if (userdev.Id == 0)
+            throw new UserNotFoundException();
+
         var DbResult = await _repository.GetAllByIdAsync(userId, @params);
 
         if (DbResult.Count == 0)
@@ -256,6 +266,12 @@ public class SellerPostService : ISellerPostService
 
         if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
+
+        var check = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+        if (check.Id == 0)
+        {
+            throw new CategoryNotFoundException();
+        }
 
         SellerPost sellerPost = new SellerPost()
         {
