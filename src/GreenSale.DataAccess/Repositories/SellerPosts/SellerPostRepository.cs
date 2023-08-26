@@ -147,7 +147,7 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
             await _connection.OpenAsync();
 
             string query = $"SELECT * FROM seller_post_viewmodel where userId = {userId} ORDER BY id DESC ";
-                   
+
             var result = (await _connection.QueryAsync<SellerPostViewModel>(query)).ToList();
 
             return result;

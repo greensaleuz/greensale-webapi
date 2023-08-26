@@ -33,7 +33,7 @@ public class BuyerPostService : IBuyerPostService
         IPaginator paginator,
         IFileService fileService,
         IBuyerPostImageRepository imageRepository,
-        IIdentityService identity, 
+        IIdentityService identity,
         ICategoryRepository categoryRepository,
         IUserRepository userRepository)
     {
@@ -192,7 +192,7 @@ public class BuyerPostService : IBuyerPostService
 
         if (DbResult.Count == 0)
             throw new BuyerPostNotFoundException();
-        
+
         var dBim = await _imageRepository.GetFirstAllAsync();
 
         List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
