@@ -1,7 +1,9 @@
 ﻿using GreenSale.Application.Exceptions;
 using GreenSale.Application.Exceptions.Storages;
+using GreenSale.Application.Exceptions.Users;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.Storages;
+using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.Domain.Entites.Storages;
 using GreenSale.Persistence.Dtos.StoragDtos;
@@ -17,6 +19,7 @@ namespace GreenSale.Service.Service.Storages;
 
 public class StorageService : IStoragesService
 {
+    private IUserRepository _userep;
     private IIdentityService _identity;
     private IStorageRepository _repository;
     private IPaginator _paginator;
@@ -27,8 +30,10 @@ public class StorageService : IStoragesService
         IStorageRepository repository,
         IPaginator paginator,
         IFileService fileService,
-        IIdentityService identity)
+        IIdentityService identity,
+        IUserRepository userRepository)
     {
+        this._userep = userRepository;
         this._identity = identity;
         this._repository = repository;
         this._paginator = paginator;
@@ -176,6 +181,10 @@ public class StorageService : IStoragesService
 
     public async Task<List<StoragesViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
     {
+        var userdev = await _userep.GetByIdAsync(userId);
+        if (userdev.Id == 0)
+            throw new UserNotFoundException();
+
         var DbFound = await _repository.GetAllByIdAsync(userId, @params);
         var count = await _repository.CountAsync();
         _paginator.Paginate(count, @params);
