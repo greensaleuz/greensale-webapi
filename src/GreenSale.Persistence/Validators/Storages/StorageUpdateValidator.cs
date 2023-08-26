@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using GreenSale.Persistence.Dtos.StoragDtos;
+using GreenSale.Persistence.Helpers;
 
 namespace GreenSale.Persistence.Validators.Storages;
 
@@ -25,7 +26,7 @@ public class StorageUpdateValidator : AbstractValidator<StoragUpdateDto>
         RuleFor(dto => dto.AddressLatitude).NotNull().NotEmpty().WithMessage("Latitude filed is required");
         RuleFor(dto => dto.AddressLongitude).NotNull().NotEmpty().WithMessage("Longitude filed is required");
 
-        /*When(dto => dto.ImagePath is not null, () =>
+        When(dto => dto.ImagePath is not null, () =>
         {
             int maxImageSize = 5;
             RuleFor(dto => dto.ImagePath!.Length).LessThan(maxImageSize * 1024 * 1024 + 1).WithMessage($"Image size be less than {maxImageSize} MB");
@@ -35,6 +36,6 @@ public class StorageUpdateValidator : AbstractValidator<StoragUpdateDto>
 
                 return MediaHelper.GetImageExtensions().Contains(fileInfo.Extension);
             }).WithMessage("This file type is not image file");
-        });*/
+        });
     }
 }
