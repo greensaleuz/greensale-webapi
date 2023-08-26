@@ -148,6 +148,7 @@ public class StorageService : IStoragesService
         var DbFound = await _repository.GetByIdAsync(storageID);
 
         if (DbFound.Id == 0) throw new StorageNotFoundException();
+
         var img = await _fileService.DeleteImageAsync(DbFound.ImagePath);
         var res = await _fileService.UploadImageAsync(dto.StorageImage, STORAGEPOSTIMAGES);
         DbFound.ImagePath = res;
