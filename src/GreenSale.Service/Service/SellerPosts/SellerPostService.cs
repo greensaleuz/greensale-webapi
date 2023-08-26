@@ -1,7 +1,9 @@
 ﻿using GreenSale.Application.Exceptions;
 using GreenSale.Application.Exceptions.BuyerPosts;
+using GreenSale.Application.Exceptions.Categories;
 using GreenSale.Application.Exceptions.SellerPosts;
 using GreenSale.Application.Utils;
+using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.SellerPosts;
 using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.SelerPosts;
@@ -18,6 +20,7 @@ namespace GreenSale.Service.Service.SellerPosts;
 
 public class SellerPostService : ISellerPostService
 {
+    private readonly ICategoryRepository _categoryRepository;
     private readonly ISellerPostImageRepository _imageRepository;
     private readonly IFileService _fileservice;
     private readonly IPaginator _paginator;
@@ -30,8 +33,10 @@ public class SellerPostService : ISellerPostService
         IIdentityService identity,
         IPaginator paginator,
         IFileService fileService,
-        ISellerPostImageRepository imageRepository)
+        ISellerPostImageRepository imageRepository,
+        ICategoryRepository categoryRepository)
     {
+        this._categoryRepository = categoryRepository;
         this._imageRepository = imageRepository;
         this._fileservice = fileService;
         this._paginator = paginator;
@@ -54,6 +59,12 @@ public class SellerPostService : ISellerPostService
 
     public async Task<bool> CreateAsync(SellerPostCreateDto dto)
     {
+        var check = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+        if (check.Id == 0)
+        {
+            throw new CategoryNotFoundException();
+        }
+
         SellerPost sellerPost = new SellerPost()
         {
             UserId = _identity.Id,
@@ -126,6 +137,7 @@ public class SellerPostService : ISellerPostService
 
         if (DbFound.Id == 0)
             throw new ImageNotFoundException();
+
         await _fileservice.DeleteImageAsync(DbFound.ImagePath);
         var Dbresult = await _imageRepository.DeleteAsync(ImageId);
 
@@ -166,6 +178,10 @@ public class SellerPostService : ISellerPostService
     public async Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params)
     {
         var DbResult = await _repository.GetAllByIdAsync(userId, @params);
+
+        if (DbResult.Count == 0)
+            throw new SellerPostsNotFoundException();
+
         var dBim = await _imageRepository.GetFirstAllAsync();
 
         List<SellerPostViewModel> Result = new List<SellerPostViewModel>();
