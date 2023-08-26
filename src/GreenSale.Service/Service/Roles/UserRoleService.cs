@@ -34,7 +34,7 @@ public class UserRoleService : IUserRoleService
     {
         var DbResultFound = await _userRole.GetByIdAsync(UserroleId);
 
-        if (DbResultFound == null)
+        if (DbResultFound.Id == 0)
             throw new UserRoleNotFoundException();
 
         var DbResult = await _userRole.DeleteAsync(UserroleId);
@@ -55,7 +55,7 @@ public class UserRoleService : IUserRoleService
     {
         var DbResultFound = await _userRole.GetByIdAsync(UserroleId);
 
-        if (DbResultFound == null)
+        if (DbResultFound.Id == 0)
             throw new UserRoleNotFoundException();
 
         return DbResultFound;
@@ -65,7 +65,7 @@ public class UserRoleService : IUserRoleService
     {
         var DbResultFound = await _userRole.GetByIdAsync(UserroleId);
 
-        if (DbResultFound == null)
+        if (DbResultFound.Id == 0)
             throw new UserRoleNotFoundException();
 
         UserRole userRole = new UserRole()
