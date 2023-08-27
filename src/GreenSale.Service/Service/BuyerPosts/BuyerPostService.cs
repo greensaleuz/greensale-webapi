@@ -280,16 +280,16 @@ public class BuyerPostService : IBuyerPostService
         if (DbFound.Id == 0)
             throw new BuyerPostNotFoundException();
 
-        var check = await _categoryRepository.GetByIdAsync(dto.CategoryID);
+       /* var check = await _categoryRepository.GetByIdAsync(dto.CategoryID);
         if (check.Id == 0)
         {
             throw new CategoryNotFoundException();
-        }
+        }*/
 
         BuyerPost buyerPost = new BuyerPost()
         {
             UserId = _identity.Id,
-            CategoryID = dto.CategoryID,
+            //CategoryID = dto.CategoryID,
             Title = dto.Title,
             Description = dto.Description,
             Price = dto.Price,

@@ -45,7 +45,7 @@ public class BuyerPostUpdateValidatorTest
             Region = region,
             District = district,
             Address = address,
-            CategoryID = categoryID
+            //CategoryID = categoryID
         };
 
         BuyerPostUpdateValidator validations = new BuyerPostUpdateValidator();
@@ -94,7 +94,7 @@ public class BuyerPostUpdateValidatorTest
             Region = region,
             District = district,
             Address = address,
-            CategoryID = categoryID
+            //CategoryID = categoryID
         };
 
         BuyerPostUpdateValidator validations = new BuyerPostUpdateValidator();

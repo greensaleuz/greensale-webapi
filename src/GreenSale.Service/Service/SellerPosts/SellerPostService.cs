@@ -279,16 +279,16 @@ public class SellerPostService : ISellerPostService
         if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
-        var check = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+       /* var check = await _categoryRepository.GetByIdAsync(dto.CategoryId);
         if (check.Id == 0)
         {
             throw new CategoryNotFoundException();
-        }
+        }*/
 
         SellerPost sellerPost = new SellerPost()
         {
             UserId = _identity.Id,
-            CategoryId = dto.CategoryId,
+            //CategoryId = dto.CategoryId,
             Title = dto.Title,
             Description = dto.Description,
             Price = dto.Price,

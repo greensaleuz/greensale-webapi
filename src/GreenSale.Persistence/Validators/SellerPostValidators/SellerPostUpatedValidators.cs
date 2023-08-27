@@ -36,6 +36,6 @@ public class SellerPostUpatedValidators : AbstractValidator<SellerPostUpdateDto>
             .MinimumLength(3).WithMessage("District must be more than 3 characters")
                 .MaximumLength(50).WithMessage("District must be more than 50 charaters");
 
-        RuleFor(dto => dto.CategoryId).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
+        ///RuleFor(dto => dto.CategoryId).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
     }
 }
