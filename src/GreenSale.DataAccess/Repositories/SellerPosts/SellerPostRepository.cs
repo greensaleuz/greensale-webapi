@@ -263,7 +263,7 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
             string query = $"UPDATE public.seller_posts " +
                 $"SET  user_id = @UserId, title = @Title, description = @Description, price = @Price, capacity = @Capacity, " +
                     $" capacity_measure = @CapacityMeasure, type = @Type, region = @Region, district = @District, " +
-                        $" status = @Status,  category_id = @CategoryId, phone_number = @PhoneNumber, created_at = @CreatedAt, " +
+                        $" status = @Status,  phone_number = @PhoneNumber, created_at = @CreatedAt, " +
                             $" updated_at = @UpdatedAt WHERE id={Id} RETURNING id ";
 
             var result = await _connection.ExecuteScalarAsync<int>(query, entity);

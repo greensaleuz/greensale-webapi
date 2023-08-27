@@ -262,7 +262,7 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
                     $"description = @Description, price = @Price, capacity = @Capacity, " +
                         $"capacity_measure = @CapacityMeasure, type = @Type, region = @Region," +
                             $" district = @District, address = @Address, status = @Status," +
-                                $" category_id = @CategoryId, phone_number = @PhoneNumber, " +
+                                $"  phone_number = @PhoneNumber, " +
                                     $"created_at = @CreatedAt, updated_at = @UpdatedAt " +
                                         $"WHERE id = {Id} RETURNING id ";
 
