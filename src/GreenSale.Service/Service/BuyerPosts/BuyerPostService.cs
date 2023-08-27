@@ -272,6 +272,28 @@ public class BuyerPostService : IBuyerPostService
 
         if (DbResult.ItemsCount == 0) throw new BuyerPostNotFoundException();
 
+        var dBim = await _imageRepository.GetFirstAllAsync();
+
+        List<BuyerPostViewModel> Result = new List<BuyerPostViewModel>();
+
+        foreach (var item in DbResult.Item2)
+        {
+            item.BuyerPostsImages = new List<BuyerPostImage>();
+
+            foreach (var img in dBim)
+            {
+                if (img.BuyerpostId == item.Id)
+                {
+                    item.BuyerPostsImages.Add(img);
+                    item.MainImage = img.ImagePath;
+                    dBim.RemoveAt(0);
+                    break;
+                }
+            }
+
+            Result.Add(item);
+        }
+
         return (DbResult.ItemsCount, DbResult.Item2);
     }
 

@@ -195,6 +195,8 @@ public class StorageService : IStoragesService
         var res = await _repository.SearchAsync(search);
 
         if(res.ItemsCount == 0) throw new StorageNotFoundException();
+
+
         return res;
     }
 }

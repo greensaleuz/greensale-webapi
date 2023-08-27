@@ -233,7 +233,7 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         {
             await _connection.OpenAsync();
 
-            string query = $" SELECT *  FROM buyer_post_viewmodel  WHERE title ILIKE '%{search}%' ";
+            string query = $" SELECT *  FROM buyer_post_viewmodel  WHERE title ILIKE '%{search}%'order by id desc ";
 
 
             var result = await _connection.QueryAsync<BuyerPostViewModel>(query);
