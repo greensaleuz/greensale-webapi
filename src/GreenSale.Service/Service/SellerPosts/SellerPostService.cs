@@ -121,7 +121,7 @@ public class SellerPostService : ISellerPostService
         var DbImgAll = await _imageRepository.GetByIdAllAsync(sellerId);
 
         if (DbImgAll.Count == 0)
-            throw new SellerPostsNotFoundException();
+            throw new ImageNotFoundException();
 
         var DbImgResult = await _imageRepository.DeleteAsync(sellerId);
         var Dbresult = await _repository.DeleteAsync(sellerId);
