@@ -3,6 +3,7 @@ using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
+using GreenSale.Domain.Entites.Users;
 
 namespace GreenSale.DataAccess.Repositories.BuyerPosts;
 
@@ -165,12 +166,34 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         }
     }
 
+    public async Task<List<BuyerPostViewModel>> GetAllByIdBuyerAsync(long buyerId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = $"SELECT * FROM buyer_posts where category_id = {buyerId} ORDER BY id DESC ";
+
+            var result = (await _connection.QueryAsync<BuyerPostViewModel>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<BuyerPostViewModel>();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<BuyerPostViewModel> GetByIdAsync(long Id)
     {
         try
         {
             await _connection.OpenAsync();
-            string query = $"SELECT * FROM public.buyer_post_viewmodel where id=@ID;";
+            string query = $"SELECT * FROM public.buyer_post_viewmodel where id=@ID ";
             var result = await _connection.QuerySingleAsync<BuyerPostViewModel>(query, new { ID = Id });
 
             return result;

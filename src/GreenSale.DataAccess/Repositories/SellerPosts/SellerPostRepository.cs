@@ -162,6 +162,28 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         }
     }
 
+    public async Task<List<SellerPost>> GetAllByIdSellerAsync(long CaregotyId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = $"SELECT * FROM seller_posts WHERE category_id ={CaregotyId} ORDER BY id DESC ";
+
+            var result = (await _connection.QueryAsync<SellerPost>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<SellerPost>();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<SellerPostViewModel> GetByIdAsync(long Id)
     {
         try
