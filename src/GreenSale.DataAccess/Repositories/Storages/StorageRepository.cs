@@ -156,7 +156,7 @@ public class StorageRepository : BaseRepository, IStorageRepository
         }
     }
 
-    public async Task<(int ItemsCount, List<StoragesViewModel>)> SearchAsync(string search, PaginationParams @params)
+    public async Task<(int ItemsCount, List<StoragesViewModel>)> SearchAsync(string search)
     {
         try
         {
@@ -168,14 +168,14 @@ public class StorageRepository : BaseRepository, IStorageRepository
                             OFFSET @offset
                             LIMIT @limit";
 
-            var parameters = new
+           /* var parameters = new
             {
                 search,
                 offset = @params.PageNumber * @params.PageSize,
                 limit = @params.PageSize
             };
-
-            var result = (await _connection.QueryAsync<StoragesViewModel>(query, parameters)).ToList();
+*/
+            var result = (await _connection.QueryAsync<StoragesViewModel>(query)).ToList();
 
             return (result.Count(), result);
         }

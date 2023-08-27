@@ -266,6 +266,13 @@ public class BuyerPostService : IBuyerPostService
         return DbResult > 0;
     }
 
+    public async Task<(long IteamCount, List<BuyerPostViewModel>)> SearchingAsync(string search)
+    {
+        var DbResult = await _postRepository.SearchAsync(search);
+
+        return (DbResult.ItemsCount , DbResult.Item2);
+    }
+
     public async Task<bool> UpdateAsync(long buyerID, BuyerPostUpdateDto dto)
     {
         var DbFound = await _postRepository.GetByIdAsync(buyerID);

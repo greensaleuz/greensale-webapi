@@ -143,7 +143,7 @@ public class UserRepository : BaseRepository, IUserRepository
         }
     }
 
-    public async Task<(int ItemsCount, List<UserViewModel>)> SearchAsync(string search, PaginationParams @params)
+    public async Task<(int ItemsCount, List<UserViewModel>)> SearchAsync(string search)
     {
         try
         {
@@ -152,14 +152,14 @@ public class UserRepository : BaseRepository, IUserRepository
             string query = @" SELECT *  FROM sellerposts  WHERE title ILIKE '%'  @Search '%' " +
                 " OFFSET @offset LIMIT @limit";
 
-            var parameters = new
+            /*var parameters = new
             {
                 Search = search,
                 offset = @params.PageNumber * @params.PageSize,
                 limit = @params.PageSize
-            };
+            };*/
 
-            var result = await _connection.QueryAsync<UserViewModel>(query, parameters);
+            var result = await _connection.QueryAsync<UserViewModel>(query);
             int Count = result.Count();
 
             return (Count, result.ToList());

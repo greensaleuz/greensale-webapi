@@ -228,23 +228,16 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         }
     }
 
-    public async Task<(int ItemsCount, List<BuyerPostViewModel>)> SearchAsync(string search, PaginationParams @params)
+    public async Task<(int ItemsCount, List<BuyerPostViewModel>)> SearchAsync(string search)
     {
         try
         {
             await _connection.OpenAsync();
 
-            string query = @" SELECT *  FROM seller_posts  WHERE title ILIKE '%' || @Search ||'%' " +
-                $" OFFSET @offset LIMIT @limit";
+            string query = $" SELECT *  FROM buyer_post_viewmodel  WHERE title ILIKE '%{search}%' ";
+  
 
-            var parameters = new
-            {
-                Search = search,
-                offset = @params.PageNumber * @params.PageSize,
-                limit = @params.PageSize
-            };
-
-            var result = await _connection.QueryAsync<BuyerPostViewModel>(query, parameters);
+            var result = await _connection.QueryAsync<BuyerPostViewModel>(query);
             int Count = result.Count();
 
             return (Count, result.ToList());
