@@ -230,7 +230,7 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         {
             await _connection.OpenAsync();
 
-            string query = @$" SELECT *  FROM seller_post_viewmodel  WHERE  title ILIKE '%{search}%' ;";
+            string query = @$" SELECT *  FROM seller_post_viewmodel  WHERE  title ILIKE '%{search}%' order by id desc ;";
 
             /* var parameters = new
              {

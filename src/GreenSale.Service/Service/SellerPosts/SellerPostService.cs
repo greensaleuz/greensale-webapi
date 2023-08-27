@@ -271,6 +271,28 @@ public class SellerPostService : ISellerPostService
 
         if (res.ItemsCount == 0) throw new SellerPostsNotFoundException();
 
+        var dBim = await _imageRepository.GetFirstAllAsync();
+
+        List<SellerPostViewModel> Result = new List<SellerPostViewModel>();
+
+        foreach (var item in res.Item2)
+        {
+            item.PostImages = new List<SellerPostImage>();
+
+            foreach (var img in dBim)
+            {
+                if (img.SellerPostId == item.Id)
+                {
+                    item.PostImages.Add(img);
+                    item.MainImage = img.ImagePath;
+                    dBim.RemoveAt(0);
+                    break;
+                }
+            }
+
+            Result.Add(item);
+        }
+
         return res;
     }
 
