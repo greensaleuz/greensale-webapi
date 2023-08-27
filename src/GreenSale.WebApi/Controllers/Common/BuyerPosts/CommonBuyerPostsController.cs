@@ -1,6 +1,5 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.Service.Interfaces.BuyerPosts;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Common.BuyerPosts
@@ -39,9 +38,9 @@ namespace GreenSale.WebApi.Controllers.Common.BuyerPosts
         [HttpGet("search/title")]
         public async Task<IActionResult> SearchingAsync(string search)
         {
-            var res  = await _service.SearchingAsync(search);
+            var res = await _service.SearchingAsync(search);
 
-            return Ok(new {res.IteamCount, res.Item2 });
+            return Ok(new { res.IteamCount, res.Item2 });
         }
 
     }

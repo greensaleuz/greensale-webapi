@@ -3,7 +3,6 @@ using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
-using GreenSale.Domain.Entites.Users;
 
 namespace GreenSale.DataAccess.Repositories.BuyerPosts;
 
@@ -235,7 +234,7 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
             await _connection.OpenAsync();
 
             string query = $" SELECT *  FROM buyer_post_viewmodel  WHERE title ILIKE '%{search}%' ";
-  
+
 
             var result = await _connection.QueryAsync<BuyerPostViewModel>(query);
             int Count = result.Count();

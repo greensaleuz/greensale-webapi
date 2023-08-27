@@ -168,13 +168,13 @@ public class StorageRepository : BaseRepository, IStorageRepository
                             OFFSET @offset
                             LIMIT @limit";
 
-           /* var parameters = new
-            {
-                search,
-                offset = @params.PageNumber * @params.PageSize,
-                limit = @params.PageSize
-            };
-*/
+            /* var parameters = new
+             {
+                 search,
+                 offset = @params.PageNumber * @params.PageSize,
+                 limit = @params.PageSize
+             };
+ */
             var result = (await _connection.QueryAsync<StoragesViewModel>(query)).ToList();
 
             return (result.Count(), result);

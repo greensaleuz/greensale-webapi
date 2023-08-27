@@ -230,16 +230,15 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         {
             await _connection.OpenAsync();
 
-            string query = @" SELECT *  FROM seller_posts 
-                WHERE title ILIKE '%' || @Search ||'%'  OFFSET @offset LIMIT @limit";
+            string query = @$" SELECT *  FROM seller_post_viewmodel  WHERE  title ILIKE '%{search}%' ;";
 
-           /* var parameters = new
-            {
-                Search = search,
-                offset = @params.PageNumber * @params.PageSize,
-                limit = @params.PageSize
-            };
-*/
+            /* var parameters = new
+             {
+                 Search = search,
+                 offset = @params.PageNumber * @params.PageSize,
+                 limit = @params.PageSize
+             };
+ */
             var result = await _connection.QueryAsync<SellerPostViewModel>(query);
             int Count = result.Count();
 

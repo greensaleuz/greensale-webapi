@@ -270,7 +270,7 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbResult = await _postRepository.SearchAsync(search);
 
-        return (DbResult.ItemsCount , DbResult.Item2);
+        return (DbResult.ItemsCount, DbResult.Item2);
     }
 
     public async Task<bool> UpdateAsync(long buyerID, BuyerPostUpdateDto dto)

@@ -1,6 +1,4 @@
-﻿using GreenSale.Application.Utils;
-
-namespace GreenSale.DataAccess.Common
+﻿namespace GreenSale.DataAccess.Common
 {
     public interface ISearchable<TViewModel>
     {

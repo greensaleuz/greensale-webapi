@@ -265,6 +265,13 @@ public class SellerPostService : ISellerPostService
         return DbResult > 0;
     }
 
+    public async Task<(long IteamCount, List<SellerPostViewModel>)> SearchAsync(string search)
+    {
+        var res = await _repository.SearchAsync(search);
+
+        return res;
+    }
+
     public async Task<bool> UpdateAsync(long sellerID, SellerPostUpdateDto dto)
     {
         var DbFound = await _repository.GetByIdAsync(sellerID);
