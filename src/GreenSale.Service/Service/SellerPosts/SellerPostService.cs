@@ -265,6 +265,13 @@ public class SellerPostService : ISellerPostService
         return DbResult > 0;
     }
 
+    public async Task<(long IteamCount, List<SellerPostViewModel>)> SearchAsync(string search)
+    {
+        var res = await _repository.SearchAsync(search);
+
+        return res;
+    }
+
     public async Task<bool> UpdateAsync(long sellerID, SellerPostUpdateDto dto)
     {
         var DbFound = await _repository.GetByIdAsync(sellerID);
@@ -272,16 +279,16 @@ public class SellerPostService : ISellerPostService
         if (DbFound.Id == 0)
             throw new SellerPostsNotFoundException();
 
-        var check = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+       /* var check = await _categoryRepository.GetByIdAsync(dto.CategoryId);
         if (check.Id == 0)
         {
             throw new CategoryNotFoundException();
-        }
+        }*/
 
         SellerPost sellerPost = new SellerPost()
         {
             UserId = _identity.Id,
-            CategoryId = dto.CategoryId,
+            //CategoryId = dto.CategoryId,
             Title = dto.Title,
             Description = dto.Description,
             Price = dto.Price,

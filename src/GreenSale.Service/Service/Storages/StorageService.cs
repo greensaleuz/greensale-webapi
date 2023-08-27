@@ -189,4 +189,11 @@ public class StorageService : IStoragesService
 
         return DbFound;
     }
+
+    public async Task<(long IteamCount, List<StoragesViewModel>)> SearchAsync(string search)
+    {
+        var res = await _repository.SearchAsync(search);
+
+        return res;
+    }
 }

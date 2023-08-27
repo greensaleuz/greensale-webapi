@@ -266,6 +266,13 @@ public class BuyerPostService : IBuyerPostService
         return DbResult > 0;
     }
 
+    public async Task<(long IteamCount, List<BuyerPostViewModel>)> SearchingAsync(string search)
+    {
+        var DbResult = await _postRepository.SearchAsync(search);
+
+        return (DbResult.ItemsCount, DbResult.Item2);
+    }
+
     public async Task<bool> UpdateAsync(long buyerID, BuyerPostUpdateDto dto)
     {
         var DbFound = await _postRepository.GetByIdAsync(buyerID);
@@ -273,16 +280,16 @@ public class BuyerPostService : IBuyerPostService
         if (DbFound.Id == 0)
             throw new BuyerPostNotFoundException();
 
-        var check = await _categoryRepository.GetByIdAsync(dto.CategoryID);
+       /* var check = await _categoryRepository.GetByIdAsync(dto.CategoryID);
         if (check.Id == 0)
         {
             throw new CategoryNotFoundException();
-        }
+        }*/
 
         BuyerPost buyerPost = new BuyerPost()
         {
             UserId = _identity.Id,
-            CategoryID = dto.CategoryID,
+            //CategoryID = dto.CategoryID,
             Title = dto.Title,
             Description = dto.Description,
             Price = dto.Price,

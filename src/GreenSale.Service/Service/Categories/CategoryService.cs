@@ -65,12 +65,12 @@ namespace GreenSale.Service.Service.Categories
             var seller = await _sellerservice.GetAllByIdAsync(categoryId);
             var buyer = await _buyerservice.GetAllByIdAsync(categoryId);
 
-            foreach( var item in seller)
+            foreach (var item in seller)
             {
                 await _sellerservice.DeleteAsync(item.Id);
             }
-           
-            foreach( var item in buyer)
+
+            foreach (var item in buyer)
             {
                 await _buyerservice.DeleteAsync(item.Id);
             }

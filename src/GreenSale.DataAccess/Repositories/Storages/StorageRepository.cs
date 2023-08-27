@@ -156,26 +156,22 @@ public class StorageRepository : BaseRepository, IStorageRepository
         }
     }
 
-    public async Task<(int ItemsCount, List<StoragesViewModel>)> SearchAsync(string search, PaginationParams @params)
+    public async Task<(int ItemsCount, List<StoragesViewModel>)> SearchAsync(string search)
     {
         try
         {
             await _connection.OpenAsync();
 
-            string query = @"
-                            SELECT * FROM storages
-                            WHERE info ILIKE '%'  @search  '%'
-                            OFFSET @offset
-                            LIMIT @limit";
+            string query = $@"SELECT * FROM storage_viewmodel WHERE info ILIKE '%{search}%';";
 
-            var parameters = new
-            {
-                search,
-                offset = @params.PageNumber * @params.PageSize,
-                limit = @params.PageSize
-            };
-
-            var result = (await _connection.QueryAsync<StoragesViewModel>(query, parameters)).ToList();
+            /* var parameters = new
+             {
+                 search,
+                 offset = @params.PageNumber * @params.PageSize,
+                 limit = @params.PageSize
+             };
+ */
+            var result = (await _connection.QueryAsync<StoragesViewModel>(query)).ToList();
 
             return (result.Count(), result);
         }

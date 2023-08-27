@@ -40,6 +40,6 @@ public class BuyerPostUpdateValidator : AbstractValidator<BuyerPostUpdateDto>
             .MinimumLength(3).WithMessage("Addres must be more than 3 characters")
                 .MaximumLength(50).WithMessage("Address must be less than 3 characters");
 
-        RuleFor(dto => dto.CategoryID).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
+        ///RuleFor(dto => dto.CategoryID).NotNull().NotEmpty().WithMessage("CategoryId filed is required");
     }
 }

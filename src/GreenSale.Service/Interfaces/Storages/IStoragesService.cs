@@ -14,5 +14,6 @@ namespace GreenSale.Service.Interfaces.Storages
         public Task<List<StoragesViewModel>> GetAllAsync(PaginationParams @params);
         public Task<List<StoragesViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
         public Task<StoragesViewModel> GetBYIdAsync(long storageId);
+        public Task<(long IteamCount, List<StoragesViewModel>)> SearchAsync(string search);
     }
 }

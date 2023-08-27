@@ -35,4 +35,12 @@ public class CommonSellerPostController : BaseController
     [HttpGet("{postId}")]
     public async Task<IActionResult> GetByIdAsync(long postId)
         => Ok(await _postService.GetBYIdAsync(postId));
+
+    [HttpGet("search/title")]
+    public async Task<IActionResult> SearchingAsync(string search)
+    {
+        var res = await _postService.SearchAsync(search);
+
+        return Ok(new { res.IteamCount, res.Item2 });
+    }
 }

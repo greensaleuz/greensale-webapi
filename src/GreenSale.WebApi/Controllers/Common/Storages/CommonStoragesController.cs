@@ -31,4 +31,12 @@ public class CommonStoragesController : BaseController
     [HttpGet("count")]
     public async Task<IActionResult> CountAsync()
         => Ok(await _service.CountAsync());
+
+    [HttpGet("search/info")]
+    public async Task<IActionResult> SearchingAsync(string search)
+    {
+        var res = await _service.SearchAsync(search);
+
+        return Ok(new { res.IteamCount, res.Item2 });
+    }
 }

@@ -20,4 +20,5 @@ public interface ISellerPostService
     public Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
     public Task<List<SellerPost>> GetAllByIdAsync(long sellerId);
     public Task<SellerPostViewModel> GetBYIdAsync(long sellerId);
+    public Task<(long IteamCount, List<SellerPostViewModel>)> SearchAsync(string search);
 }
