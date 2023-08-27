@@ -162,11 +162,7 @@ public class StorageRepository : BaseRepository, IStorageRepository
         {
             await _connection.OpenAsync();
 
-            string query = @"
-                            SELECT * FROM storages
-                            WHERE info ILIKE '%'  @search  '%'
-                            OFFSET @offset
-                            LIMIT @limit";
+            string query = $@"SELECT * FROM storage_viewmodel WHERE info ILIKE '%{search}%';";
 
             /* var parameters = new
              {
