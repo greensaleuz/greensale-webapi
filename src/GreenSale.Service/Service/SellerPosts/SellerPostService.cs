@@ -269,6 +269,8 @@ public class SellerPostService : ISellerPostService
     {
         var res = await _repository.SearchAsync(search);
 
+        if (res.ItemsCount == 0) throw new SellerPostsNotFoundException();
+
         return res;
     }
 

@@ -270,6 +270,8 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbResult = await _postRepository.SearchAsync(search);
 
+        if (DbResult.ItemsCount == 0) throw new BuyerPostNotFoundException();
+
         return (DbResult.ItemsCount, DbResult.Item2);
     }
 
