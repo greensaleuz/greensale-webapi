@@ -11,7 +11,7 @@ namespace GreenSale.DataAccess.ViewModels.SellerPosts
         public string UserPhoneNumber { get; set; } = string.Empty;
         public string PostPhoneNumber { get; set; } = string.Empty;
         public string UserRegion { get; set; } = string.Empty;
-        public string CategoryName { get; set; } = string.Empty;
+        public long CategoryId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public double Price { get; set; }
