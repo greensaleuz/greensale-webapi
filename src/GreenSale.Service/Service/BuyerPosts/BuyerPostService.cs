@@ -185,7 +185,7 @@ public class BuyerPostService : IBuyerPostService
     {
         var userdev = await _userep.GetByIdAsync(userId);
 
-        if (userdev.Id == 0)
+        if (userdev is null)
             throw new UserNotFoundException();
 
         var DbResult = await _postRepository.GetAllByIdAsync(userId, @params);
@@ -219,6 +219,12 @@ public class BuyerPostService : IBuyerPostService
         _paginator.Paginate(DBCount, @params);
 
         return Result;
+    }
+
+    public async Task<List<BuyerPostViewModel>> GetAllByIdAsync(long BuyerId)
+    {
+        var res = await _postRepository.GetAllByIdBuyerAsync(BuyerId);
+        return res;
     }
 
     public async Task<BuyerPostViewModel> GetBYIdAsync(long buyerId)

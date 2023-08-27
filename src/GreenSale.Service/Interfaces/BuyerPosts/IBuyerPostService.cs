@@ -17,5 +17,6 @@ public interface IBuyerPostService
     public Task<long> CountStatusAgreeAsync();
     public Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params);
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
+    public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long BuyerId);
     public Task<BuyerPostViewModel> GetBYIdAsync(long buyerId);
 }

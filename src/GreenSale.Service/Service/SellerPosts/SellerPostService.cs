@@ -218,6 +218,13 @@ public class SellerPostService : ISellerPostService
         return Result;
     }
 
+    public async Task<List<SellerPost>> GetAllByIdAsync(long CategoryId)
+    {
+        var res = await _repository.GetAllByIdSellerAsync(CategoryId);
+
+        return res;
+    }
+
     public async Task<SellerPostViewModel> GetBYIdAsync(long sellerId)
     {
         var item = await _repository.GetByIdAsync(sellerId);

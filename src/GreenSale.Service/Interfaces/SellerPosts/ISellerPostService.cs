@@ -1,5 +1,6 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.ViewModels.SellerPosts;
+using GreenSale.Domain.Entites.SelerPosts;
 using GreenSale.Persistence.Dtos.SellerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.SellerPostsDtos;
 
@@ -17,5 +18,6 @@ public interface ISellerPostService
     public Task<long> CountStatusAgreeAsync();
     public Task<List<SellerPostViewModel>> GetAllAsync(PaginationParams @params);
     public Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
+    public Task<List<SellerPost>> GetAllByIdAsync(long sellerId);
     public Task<SellerPostViewModel> GetBYIdAsync(long sellerId);
 }

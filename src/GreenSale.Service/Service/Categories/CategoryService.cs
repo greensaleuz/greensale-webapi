@@ -4,21 +4,33 @@ using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.Domain.Entites.Categories;
 using GreenSale.Persistence.Dtos.CategoryDtos;
 using GreenSale.Service.Helpers;
+using GreenSale.Service.Interfaces.BuyerPosts;
 using GreenSale.Service.Interfaces.Categories;
 using GreenSale.Service.Interfaces.Common;
+using GreenSale.Service.Interfaces.SellerPosts;
+using GreenSale.Service.Interfaces.Storages;
 
 namespace GreenSale.Service.Service.Categories
 {
     public class CategoryService : ICategoryService
     {
+        private ISellerPostService _sellerservice;
+        private IBuyerPostService _buyerservice;
+        private IStoragesService _storageservice;
         private ICategoryRepository _repository;
         private IPaginator _paginator;
 
         public CategoryService(
             ICategoryRepository repository,
-            IPaginator paginator)
+            IPaginator paginator,
+            ISellerPostService sellerPostService,
+            IBuyerPostService buyerPostService,
+            IStoragesService storagesService)
         {
-            _repository = repository;
+            this._sellerservice = sellerPostService;
+            this._buyerservice = buyerPostService;
+            this._storageservice = storagesService;
+            this._repository = repository;
             _paginator = paginator;
         }
 
@@ -48,6 +60,19 @@ namespace GreenSale.Service.Service.Categories
             if (category.Id == 0)
             {
                 throw new CategoryNotFoundException();
+            }
+
+            var seller = await _sellerservice.GetAllByIdAsync(categoryId);
+            var buyer = await _buyerservice.GetAllByIdAsync(categoryId);
+
+            foreach( var item in seller)
+            {
+                await _sellerservice.DeleteAsync(item.Id);
+            }
+           
+            foreach( var item in buyer)
+            {
+                await _buyerservice.DeleteAsync(item.Id);
             }
 
             var result = await _repository.DeleteAsync(categoryId);
