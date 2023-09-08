@@ -1,4 +1,5 @@
-﻿using GreenSale.Application.Exceptions;
+﻿using AutoMapper;
+using GreenSale.Application.Exceptions;
 using GreenSale.Application.Exceptions.Auth;
 using GreenSale.Application.Exceptions.Users;
 using GreenSale.DataAccess.Interfaces.Roles;
@@ -83,7 +84,7 @@ public class AuthServise : IAuthServices
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
             verificationDto.CreatedAt = TimeHelper.GetDateTime();
-            verificationDto.Code = CodeGenerator.CodeGeneratorPhoneNumber();
+            verificationDto.Code = 12345;//CodeGenerator.CodeGeneratorPhoneNumber();
             _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
@@ -99,7 +100,7 @@ public class AuthServise : IAuthServices
             smsSenderDto.Title = "Green sale\n";
             smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
             smsSenderDto.Recipent = phoneNumber.Substring(1);
-            var result = await _smsSender.SendAsync(smsSenderDto);
+            var result = true;//await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
                 return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
@@ -214,8 +215,10 @@ public class AuthServise : IAuthServices
 
     private async Task<int> RegisterToDatabaseAsync(UserRegisterDto userRegisterDto)
     {
+        
+
         User user = new User()
-        {
+        {/*
             FirstName = userRegisterDto.FirstName,
             LastName = userRegisterDto.LastName,
             PhoneNumber = userRegisterDto.PhoneNumber,
@@ -223,7 +226,7 @@ public class AuthServise : IAuthServices
             District = userRegisterDto.District,
             Address = userRegisterDto.Address,
             PhoneNumberConfirme = true,
-
+*/
             CreatedAt = TimeHelper.GetDateTime(),
             UpdatedAt = TimeHelper.GetDateTime(),
         };
@@ -231,6 +234,14 @@ public class AuthServise : IAuthServices
         var hasher = PasswordHasher.Hash(userRegisterDto.Password);
         user.PasswordHash = hasher.Hash;
         user.Salt = hasher.Salt;
+
+        var config = new MapperConfiguration(cnfg =>
+        {
+            cnfg.CreateMap<UserRegisterDto, User>();
+        });
+
+        var FirsMapping = new Mapper(config);
+
         var dbResult = await _userRepository.CreateAsync(user);
 
         return dbResult;
@@ -270,7 +281,7 @@ public class AuthServise : IAuthServices
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
             verificationDto.CreatedAt = TimeHelper.GetDateTime();
-            verificationDto.Code = CodeGenerator.CodeGeneratorPhoneNumber();
+            verificationDto.Code = 12345;//CodeGenerator.CodeGeneratorPhoneNumber();
             _memoryCache.Set(dto.PhoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + dto.PhoneNumber,
@@ -286,7 +297,7 @@ public class AuthServise : IAuthServices
             smsSenderDto.Title = "Green sale\n";
             smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
             smsSenderDto.Recipent = dto.PhoneNumber.Substring(1);
-            var result = await _smsSender.SendAsync(smsSenderDto);
+            var result = true;//await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
                 return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
