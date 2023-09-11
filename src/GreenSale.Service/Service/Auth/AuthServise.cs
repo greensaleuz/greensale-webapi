@@ -218,7 +218,7 @@ public class AuthServise : IAuthServices
         
 
         User user = new User()
-        {/*
+        {
             FirstName = userRegisterDto.FirstName,
             LastName = userRegisterDto.LastName,
             PhoneNumber = userRegisterDto.PhoneNumber,
@@ -226,7 +226,7 @@ public class AuthServise : IAuthServices
             District = userRegisterDto.District,
             Address = userRegisterDto.Address,
             PhoneNumberConfirme = true,
-*/
+
             CreatedAt = TimeHelper.GetDateTime(),
             UpdatedAt = TimeHelper.GetDateTime(),
         };
@@ -235,12 +235,12 @@ public class AuthServise : IAuthServices
         user.PasswordHash = hasher.Hash;
         user.Salt = hasher.Salt;
 
-        var config = new MapperConfiguration(cnfg =>
+        /*var config = new MapperConfiguration(cnfg =>
         {
             cnfg.CreateMap<UserRegisterDto, User>();
         });
 
-        var FirsMapping = new Mapper(config);
+        var FirsMapping = new Mapper(config);*/
 
         var dbResult = await _userRepository.CreateAsync(user);
 
