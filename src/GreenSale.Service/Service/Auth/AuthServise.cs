@@ -5,6 +5,7 @@ using GreenSale.Application.Exceptions.Users;
 using GreenSale.DataAccess.Interfaces.Roles;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.UserRoles;
+using GreenSale.Domain.Entites.Roles;
 using GreenSale.Domain.Entites.Roles.UserRoles;
 using GreenSale.Domain.Entites.Users;
 using GreenSale.Persistence.Dtos;
@@ -215,10 +216,8 @@ public class AuthServise : IAuthServices
 
     private async Task<int> RegisterToDatabaseAsync(UserRegisterDto userRegisterDto)
     {
-        
-
         User user = new User()
-        {/*
+        {
             FirstName = userRegisterDto.FirstName,
             LastName = userRegisterDto.LastName,
             PhoneNumber = userRegisterDto.PhoneNumber,
@@ -226,7 +225,6 @@ public class AuthServise : IAuthServices
             District = userRegisterDto.District,
             Address = userRegisterDto.Address,
             PhoneNumberConfirme = true,
-*/
             CreatedAt = TimeHelper.GetDateTime(),
             UpdatedAt = TimeHelper.GetDateTime(),
         };
@@ -235,16 +233,13 @@ public class AuthServise : IAuthServices
         user.PasswordHash = hasher.Hash;
         user.Salt = hasher.Salt;
 
-        var config = new MapperConfiguration(cnfg =>
-        {
-            cnfg.CreateMap<UserRegisterDto, User>();
-        });
+        Role role = new Role();
 
-        var FirsMapping = new Mapper(config);
+       // var dbresult1 = await _roleRepository.CreateAsync();
 
         var dbResult = await _userRepository.CreateAsync(user);
 
-        return dbResult;
+        return dbResult ;
     }
 
     public async Task<(bool Result, int CachedMinutes)> ResetPasswordAsync(ForgotPassword dto)

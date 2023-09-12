@@ -37,7 +37,7 @@ public class UserRoleRepository : BaseRepository, IUserRoles
             string query = "insert into user_roles(user_id, role_id, created_at, updated_at) " +
                 "values(@UserId, @RoleId, @CreatedAt, @UpdatedAt) RETURNING id ";
 
-            var result = await _connection.ExecuteScalarAsync<int>(query, entity);
+            var result = await _connection.ExecuteAsync(query, entity);
 
             return result;
         }

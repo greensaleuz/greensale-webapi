@@ -8,12 +8,12 @@ namespace GreenSale.WebApi.Controllers.Client.Storages;
 
 [Route("api/client/storages")]
 [ApiController]
-public class ClientStoragesController : BaseClientController
+public class ClientStoragePostController : BaseClientController
 {
     private IStoragesService _service;
     private int maxPageSize = 30;
 
-    public ClientStoragesController(IStoragesService service)
+    public ClientStoragePostController(IStoragesService service)
     {
         _service = service;
     }
