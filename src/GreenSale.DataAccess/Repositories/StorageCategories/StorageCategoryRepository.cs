@@ -12,6 +12,7 @@ namespace GreenSale.DataAccess.Repositories.StorageCategories
             try
             {
                 await _connection.OpenAsync();
+
                 string query = "SELECT COUNT(*) FROM sellerposts;";
                 var result = await _connection.QuerySingleAsync<long>(query);
 
@@ -55,6 +56,7 @@ namespace GreenSale.DataAccess.Repositories.StorageCategories
             try
             {
                 await _connection.OpenAsync();
+
                 string query = $"DELETE FROM storage_categories WHERE id={Id};";
                 var result = await _connection.ExecuteAsync(query);
 
@@ -98,6 +100,7 @@ namespace GreenSale.DataAccess.Repositories.StorageCategories
             try
             {
                 await _connection.OpenAsync();
+
                 string query = "SELECT * FROM storage_categories where id=@ID;";
                 var result = await _connection.QuerySingleAsync<StorageCategory>(query, new { ID = Id });
 
