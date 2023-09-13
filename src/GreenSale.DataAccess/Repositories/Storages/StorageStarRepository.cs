@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.Storages;
-using GreenSale.Domain.Entites.BuyerPosts;
 using GreenSale.Domain.Entites.Storages;
 
 namespace GreenSale.DataAccess.Repositories.Storages;
