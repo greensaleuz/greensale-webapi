@@ -13,6 +13,7 @@ public class SellerPostStarRepository : BaseRepository, ISellerPostStarRepositor
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT COUNT(*) FROM sellerpoststars;";
             var result = await _connection.QuerySingleAsync<long>(query);
 
@@ -101,6 +102,7 @@ public class SellerPostStarRepository : BaseRepository, ISellerPostStarRepositor
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT COUNT(*) FROM sellerpoststars whwre post_id=@Id;";
             var result = await _connection.QuerySingleAsync<long>(query, new { Id = id });
 
@@ -121,6 +123,7 @@ public class SellerPostStarRepository : BaseRepository, ISellerPostStarRepositor
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT * FROM public.sellerpoststars where id=@ID;";
             var result = await _connection.QuerySingleAsync<SellerPostStars>(query, new { ID = Id });
 
@@ -141,6 +144,7 @@ public class SellerPostStarRepository : BaseRepository, ISellerPostStarRepositor
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT id as Id FROM public.sellerpoststars where user_id=@USERID and post_id = @POSTID;";
             var result = await _connection.QuerySingleAsync<long>(query, new { USERID = userid, POSTID = postid });
 

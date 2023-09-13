@@ -13,6 +13,7 @@ public class StorageStarRepository:BaseRepository,IStorageStarRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT COUNT(*) FROM storagepoststars;";
             var result = await _connection.QuerySingleAsync<long>(query);
 
@@ -101,6 +102,7 @@ public class StorageStarRepository:BaseRepository,IStorageStarRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT COUNT(*) FROM storagepoststars whwre post_id=@Id;";
             var result = await _connection.QuerySingleAsync<long>(query, new { Id = id });
 
@@ -141,6 +143,7 @@ public class StorageStarRepository:BaseRepository,IStorageStarRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT id as Id FROM public.storagepoststars where user_id=@USERID and post_id = @POSTID;";
             var result = await _connection.QuerySingleAsync<long>(query, new { USERID = userid, POSTID = postid });
 

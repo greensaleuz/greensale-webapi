@@ -16,6 +16,7 @@ public class BuyerPostStarRepository : BaseRepository, IBuyerPostStarRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT COUNT(*) FROM buyerpoststars;";
             var result = await _connection.QuerySingleAsync<long>(query);
 
@@ -104,6 +105,7 @@ public class BuyerPostStarRepository : BaseRepository, IBuyerPostStarRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT COUNT(*) FROM buyerpoststars whwre post_id=@Id;";
             var result = await _connection.QuerySingleAsync<long>(query, new { Id=id});
 
@@ -124,6 +126,7 @@ public class BuyerPostStarRepository : BaseRepository, IBuyerPostStarRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT * FROM public.buyerpoststars where id=@ID;";
             var result = await _connection.QuerySingleAsync<BuyerPostStars>(query, new { ID = Id });
 
@@ -144,6 +147,7 @@ public class BuyerPostStarRepository : BaseRepository, IBuyerPostStarRepository
         try
         {
             await _connection.OpenAsync();
+
             string query = $"SELECT id as Id FROM public.buyerpoststars where user_id=@USERID and post_id = @POSTID;";
             var result = await _connection.QuerySingleAsync<long>(query, new { USERID = userid, POSTID=postid });
 
