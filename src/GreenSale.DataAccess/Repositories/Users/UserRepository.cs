@@ -126,10 +126,9 @@ public class UserRepository : BaseRepository, IUserRepository
         {
             await _connection.OpenAsync();
 
-            string query = "SELECT * " +
-                $" FROM public.users where phone_number = @PhoneNumber;";
+            string query = "SELECT * FROM public.users where phone_number = @PhoneNumber; ";
 
-            var result = await _connection.QuerySingleOrDefaultAsync<User>(query, new { PhoneNumber = phone });
+            var result = await _connection.QuerySingleAsync<User>(query, new { PhoneNumber = phone });
 
             return result;
         }

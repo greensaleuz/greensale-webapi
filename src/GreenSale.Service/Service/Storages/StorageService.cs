@@ -1,7 +1,9 @@
 ﻿using GreenSale.Application.Exceptions;
+using GreenSale.Application.Exceptions.Categories;
 using GreenSale.Application.Exceptions.Storages;
 using GreenSale.Application.Exceptions.Users;
 using GreenSale.Application.Utils;
+using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.StorageCategories;
 using GreenSale.DataAccess.Interfaces.Storages;
 using GreenSale.DataAccess.Interfaces.Users;
@@ -10,8 +12,10 @@ using GreenSale.Domain.Entites.Storages;
 using GreenSale.Persistence.Dtos.StoragDtos;
 using GreenSale.Service.Helpers;
 using GreenSale.Service.Interfaces.Auth;
+
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Storages;
+using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace GreenSale.Service.Service.Storages;
 
@@ -23,6 +27,7 @@ public class StorageService : IStoragesService
     private IStorageCategoryRepository _storagecategoryRepository;
     private IPaginator _paginator;
     private IFileService _fileService;
+    private ICategoryRepository _categoryRepository;
     private readonly string STORAGEPOSTIMAGES = "StoragePostImages";
 
     public StorageService(
@@ -31,7 +36,8 @@ public class StorageService : IStoragesService
         IFileService fileService,
         IIdentityService identity,
         IUserRepository userRepository,
-        IStorageCategoryRepository storagecategoryRepository)
+        IStorageCategoryRepository storagecategoryRepository,
+        ICategoryRepository categoryRepository)
     {
         this._userep = userRepository;
         this._identity = identity;
@@ -39,7 +45,9 @@ public class StorageService : IStoragesService
         this._paginator = paginator;
         this._fileService = fileService;
         this._storagecategoryRepository= storagecategoryRepository;
+        this._categoryRepository= categoryRepository;
     }
+
     public async Task<long> CountAsync()
     {
         return await _repository.CountAsync();
@@ -47,35 +55,43 @@ public class StorageService : IStoragesService
 
     public async Task<bool> CreateAsync(StoragCreateDto dto)
     {
-        string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
-        Storage storage = new Storage()
+        var resultcategory = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+        if (resultcategory is null)
         {
-            UserId = _identity.Id,
-            Name = dto.Name,
-            Description = dto.Description,
-            Region = dto.Region,
-            District = dto.District,
-            Address = dto.Address,
-            Info = dto.Info,
-            AddressLatitude = dto.AddressLatitude,
-            AddressLongitude = dto.AddressLongitude,
-            CreatedAt = TimeHelper.GetDateTime(),
-            UpdatedAt = TimeHelper.GetDateTime(),
-            ImagePath = imagePath
-        };
-        StorageCategory storagecategory = new StorageCategory();
-        storagecategory.CategoryId = dto.CategoryId;
-        storagecategory.UserId= _identity.Id;
-        storagecategory.CreatedAt=storagecategory.UpdatedAt= TimeHelper.GetDateTime();
+            throw new CategoryNotFoundException();
+        }
+        else
+        {
+            string imagePath = await _fileService.UploadImageAsync(dto.ImagePath, STORAGEPOSTIMAGES);
+            Storage storage = new Storage()
+            {
+                UserId = _identity.Id,
+                Name = dto.Name,
+                Description = dto.Description,
+                Region = dto.Region,
+                District = dto.District,
+                Address = dto.Address,
+                Info = dto.Info,
+                AddressLatitude = dto.AddressLatitude,
+                AddressLongitude = dto.AddressLongitude,
+                CreatedAt = TimeHelper.GetDateTime(),
+                UpdatedAt = TimeHelper.GetDateTime(),
+                ImagePath = imagePath
+            };
 
-        var result2 = await _repository.CreateAsync(storage);
+            StorageCategory storagecategory = new StorageCategory();
+            storagecategory.CategoryId = dto.CategoryId;
+            storagecategory.UserId = _identity.Id;
+            storagecategory.CreatedAt = storagecategory.UpdatedAt = TimeHelper.GetDateTime();
 
-        storagecategory.StorageId = result2;
+            var result2 = await _repository.CreateAsync(storage);
 
-        var result1 = await _storagecategoryRepository.CreateAsync(storagecategory);
+            storagecategory.StorageId = result2;
 
+            var result1 = await _storagecategoryRepository.CreateAsync(storagecategory);
 
-        return result1 > 0 && result2>0 ;
+            return result1 > 0 && result2 > 0;
+        }
     }
 
     public async Task<bool> DeleteAsync(long storageId)
@@ -120,7 +136,6 @@ public class StorageService : IStoragesService
 
         if (getId.Id == 0)
             throw new StorageNotFoundException();
-
 
         Storage storage = new Storage()
         {
@@ -178,7 +193,6 @@ public class StorageService : IStoragesService
             UpdatedAt = TimeHelper.GetDateTime(),
             ImagePath = res
         };
-
         var Result = await _repository.UpdateAsync(storageID, storage);
 
         return Result > 0;
@@ -202,7 +216,6 @@ public class StorageService : IStoragesService
         var res = await _repository.SearchAsync(search);
 
         if(res.ItemsCount == 0) throw new StorageNotFoundException();
-
 
         return res;
     }
