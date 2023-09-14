@@ -39,7 +39,7 @@ namespace GreenSale.DataAccess.Repositories.BuyerPosts
                     "user_id, post_id, stars, created_at, updated_at) " +
                         "VALUES(@UserId, @PostId, @Stars, @CreatedAt, @UpdatedAt); ";
 
-                var result = await _connection.ExecuteScalarAsync<int>(query, entity);
+                var result = await _connection.ExecuteAsync(query, entity);
 
                 return result;
             }
@@ -168,9 +168,9 @@ namespace GreenSale.DataAccess.Repositories.BuyerPosts
 
                 string query = $"UPDATE public.buyerpoststars " +
                     $"SET stars = @Stars, created_at = @CreatedAt, updated_at = @UpdatedAt " +
-                        $"WHERE user_id = and post_id =; ";
+                        $"WHERE id = {Id}; ";
 
-                var result = await _connection.ExecuteScalarAsync<int>(query, entity);
+                var result = await _connection.ExecuteAsync(query, entity);
 
                 return result;
             }

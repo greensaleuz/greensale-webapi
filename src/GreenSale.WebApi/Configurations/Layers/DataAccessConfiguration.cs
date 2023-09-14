@@ -12,6 +12,7 @@ using GreenSale.DataAccess.Repositories.SellerPosts;
 using GreenSale.DataAccess.Repositories.StorageCategories;
 using GreenSale.DataAccess.Repositories.Storages;
 using GreenSale.DataAccess.Repositories.Users;
+using System.Security.Principal;
 
 namespace GreenSale.WebApi.Configurations.Layers
 {
@@ -30,6 +31,9 @@ namespace GreenSale.WebApi.Configurations.Layers
             builder.Services.AddScoped<IBuyerPostRepository, BuyerPostsRepository>();
             builder.Services.AddScoped<IBuyerPostImageRepository, BuyerPostImageRepository>();
             builder.Services.AddScoped<IStorageCategoryRepository, StorageCategoryRepository>();
+            builder.Services.AddScoped<IBuyerPostStarRepository, BuyerPostStarRepository>();
+            builder.Services.AddScoped<ISellerPostStarRepository, SellerPostStarRepository>();
+            builder.Services.AddScoped<IStorageStarRepository, StorageStarRepository>();    
         }
     }
 }
