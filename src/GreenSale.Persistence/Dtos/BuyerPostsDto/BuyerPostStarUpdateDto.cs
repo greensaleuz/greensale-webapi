@@ -2,6 +2,5 @@
 
 public class BuyerPostStarUpdateDto
 {
-    public long Id { get; set; }
     public int Stars { get; set; }
 }

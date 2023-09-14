@@ -36,5 +36,6 @@ public static class ServiceLayerConfiguration
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IIdentityService, IdentityService>();
         builder.Services.AddScoped<IBuyerPostService, BuyerPostService>();
+        builder.Services.AddScoped<IBuyerPostStarService, BuyerPostStarService>();  
     }
 }
