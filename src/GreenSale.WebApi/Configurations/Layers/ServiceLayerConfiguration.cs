@@ -40,5 +40,6 @@ public static class ServiceLayerConfiguration
         builder.Services.AddScoped<IBuyerPostService, BuyerPostService>();
         builder.Services.AddScoped<IBuyerPostStarService, BuyerPostStarService>();
         builder.Services.AddScoped<ISellerPostStarService, SellerPostStarService>();
+        builder.Services.AddScoped<IStoragePostStarService, StoragePostStarService>();
     }
 }

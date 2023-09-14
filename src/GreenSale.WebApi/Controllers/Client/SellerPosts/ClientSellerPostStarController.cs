@@ -7,7 +7,7 @@ namespace GreenSale.WebApi.Controllers.Client.SellerPosts
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientSellerPostStarController : ControllerBase
+    public class ClientSellerPostStarController : BaseClientController
     {
         private readonly ISellerPostStarService _sellerPostStarService;
         public ClientSellerPostStarController(ISellerPostStarService sellerPostStarService)
