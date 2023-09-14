@@ -146,4 +146,22 @@ public class BuyerPostStarService : IBuyerPostStarService
             return Math.Round(avaragestar,1);
         }
     }
+
+    public async Task<int> GetUserStarAsync(long postId)
+    {
+        long userid = _identityService.Id;
+        long Id = await GetIdAsync(userid, postId);
+        int userstar = 0;
+        if (Id == 0)
+        {
+            return userstar;
+        }
+        else
+        {
+            var userpoststar =await _buyerPostStarRepository.GetByIdAsync(Id);
+            userstar = userpoststar.Stars;
+
+            return userstar;
+        }
+    }
 }

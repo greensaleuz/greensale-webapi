@@ -164,6 +164,7 @@ public class BuyerPostService : IBuyerPostService
         {
             item.BuyerPostsImages = new List<BuyerPostImage>();
             item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars=await _buyerPostStarService.GetUserStarAsync(item.Id);
 
             foreach (var img in dBim)
             {
@@ -205,6 +206,7 @@ public class BuyerPostService : IBuyerPostService
         {
             item.BuyerPostsImages = new List<BuyerPostImage>();
             item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _buyerPostStarService.GetUserStarAsync(item.Id);
             foreach (var img in dBim)
             {
                 if (img.BuyerpostId == item.Id)
@@ -231,6 +233,7 @@ public class BuyerPostService : IBuyerPostService
         foreach (var item in res)
         {
             item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _buyerPostStarService.GetUserStarAsync(item.Id);
         }
         return res;
     }
@@ -244,6 +247,7 @@ public class BuyerPostService : IBuyerPostService
             throw new BuyerPostNotFoundException();
 
         item.AverageStars = await _buyerPostStarService.AvarageStarAsync(buyerId);
+        item.UserStars = await _buyerPostStarService.GetUserStarAsync(buyerId);
 
         item.BuyerPostsImages = new List<BuyerPostImage>();
 
@@ -289,6 +293,7 @@ public class BuyerPostService : IBuyerPostService
         foreach (var item in DbResult.Item2)
         {
             item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _buyerPostStarService.GetUserStarAsync(item.Id);
             item.BuyerPostsImages = new List<BuyerPostImage>();
 
             foreach (var img in dBim)
