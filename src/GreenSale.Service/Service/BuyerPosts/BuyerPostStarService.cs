@@ -1,4 +1,5 @@
-﻿using GreenSale.Application.Utils;
+﻿using GreenSale.Application.Exceptions.BuyerPosts;
+using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.Repositories.BuyerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
@@ -12,12 +13,15 @@ namespace GreenSale.Service.Service.BuyerPosts;
 public class BuyerPostStarService : IBuyerPostStarService
 {
     public readonly IBuyerPostStarRepository _buyerPostStarRepository;
+    public readonly IBuyerPostRepository _buyerPostRepository;
     public readonly IIdentityService _identityService;
 
     public BuyerPostStarService(IBuyerPostStarRepository buyerPostStarRepository,
+        IBuyerPostRepository buyerPostRepository,
         IIdentityService identityService)
     {
         this._buyerPostStarRepository = buyerPostStarRepository;
+        this._buyerPostRepository = buyerPostRepository;
         this._identityService = identityService;
     }
 
@@ -30,32 +34,40 @@ public class BuyerPostStarService : IBuyerPostStarService
         stars.UserId = _identityService.Id;
         stars.PostId =dto.PostId;
 
-        long Id = await GetIdAsync(stars.UserId, stars.PostId);
-
-        if (Id == 0)
+        var post = await _buyerPostRepository.GetByIdAsync(dto.PostId);
+        if (post.Id == 0)
         {
-            stars.Stars = dto.Stars;
-            stars.CreatedAt = Helpers.TimeHelper.GetDateTime();
-            stars.UpdatedAt = Helpers.TimeHelper.GetDateTime();
-
-            var result = await _buyerPostStarRepository.CreateAsync(stars);
-
-            return result;
+            throw new BuyerPostNotFoundException();
         }
         else
         {
-            var starsOld = await _buyerPostStarRepository.GetByIdAsync(Id);
+            long Id = await GetIdAsync(stars.UserId, stars.PostId);
 
-            BuyerPostStars starsNew = new BuyerPostStars();
-            starsNew.UserId = starsOld.UserId;
-            starsNew.PostId = starsOld.PostId;
-            starsNew.Stars = dto.Stars;
-            starsNew.CreatedAt = starsOld.CreatedAt;
-            starsNew.UpdatedAt = Helpers.TimeHelper.GetDateTime();
+            if (Id == 0)
+            {
+                stars.Stars = dto.Stars;
+                stars.CreatedAt = Helpers.TimeHelper.GetDateTime();
+                stars.UpdatedAt = Helpers.TimeHelper.GetDateTime();
 
-            var result = await _buyerPostStarRepository.UpdateAsync(Id, starsNew);
+                var result = await _buyerPostStarRepository.CreateAsync(stars);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                var starsOld = await _buyerPostStarRepository.GetByIdAsync(Id);
+
+                BuyerPostStars starsNew = new BuyerPostStars();
+                starsNew.UserId = starsOld.UserId;
+                starsNew.PostId = starsOld.PostId;
+                starsNew.Stars = dto.Stars;
+                starsNew.CreatedAt = starsOld.CreatedAt;
+                starsNew.UpdatedAt = Helpers.TimeHelper.GetDateTime();
+
+                var result = await _buyerPostStarRepository.UpdateAsync(Id, starsNew);
+
+                return result;
+            }
         }
     }
 
@@ -87,22 +99,51 @@ public class BuyerPostStarService : IBuyerPostStarService
     public async Task<int> UpdateAsync(long PostId, BuyerPostStarUpdateDto dto)
     {
         long UserId=_identityService.Id;
-        long Id=await GetIdAsync(UserId, PostId);
 
-        var starsOld = await _buyerPostStarRepository.GetByIdAsync(Id);
+        var post = await _buyerPostRepository.GetByIdAsync(PostId);
+        if (post.Id == 0)
+        {
+            throw new BuyerPostNotFoundException();
+        }
+        else
+        {
+            long Id = await GetIdAsync(UserId, PostId);
 
-        BuyerPostStars starsNew = new BuyerPostStars();
-        starsNew.UserId = starsOld.UserId;
-        starsNew.PostId = starsOld.PostId;
-        starsNew.Stars = dto.Stars;
-        starsNew.CreatedAt = starsOld.CreatedAt;
-        starsNew.UpdatedAt = Helpers.TimeHelper.GetDateTime();
+            var starsOld = await _buyerPostStarRepository.GetByIdAsync(Id);
 
-        var result =await _buyerPostStarRepository.UpdateAsync(Id,starsNew);
+            BuyerPostStars starsNew = new BuyerPostStars();
+            starsNew.UserId = starsOld.UserId;
+            starsNew.PostId = starsOld.PostId;
+            starsNew.Stars = dto.Stars;
+            starsNew.CreatedAt = starsOld.CreatedAt;
+            starsNew.UpdatedAt = Helpers.TimeHelper.GetDateTime();
 
-        return result;
+            var result = await _buyerPostStarRepository.UpdateAsync(Id, starsNew);
+
+            return result;
+        }
     }
 
     public async Task<long> GetIdAsync(long userid, long postid)
         => await _buyerPostStarRepository.GetIdAsync(userid, postid);
+
+    public async Task<double> AvarageStarAsync(long postid)
+    {
+        List<long> starlist = await _buyerPostStarRepository.GetAllStarsPostIdCountAsync(postid);
+        double avaragestar = 0;
+        if (starlist.Count == 0)
+        {
+            return avaragestar;
+        }
+        else
+        {
+            long totalstar = 0;
+            foreach (var star in starlist)
+            {
+                totalstar += star;
+            }
+            avaragestar=totalstar/starlist.Count;
+            return Math.Round(avaragestar,1);
+        }
+    }
 }
