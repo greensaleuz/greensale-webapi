@@ -1,41 +1,41 @@
-﻿using GreenSale.Application.Exceptions.SellerPosts;
+﻿using GreenSale.Application.Exceptions.Storages;
 using GreenSale.Application.Utils;
-using GreenSale.DataAccess.Interfaces.SellerPosts;
 using GreenSale.DataAccess.Interfaces.Storages;
-using GreenSale.Domain.Entites.SellerPosts;
-using GreenSale.Persistence.Dtos.SellerPostsDtos;
+using GreenSale.Domain.Entites.Storages;
+using GreenSale.Persistence.Dtos.StoragDtos;
 using GreenSale.Service.Interfaces.Auth;
+using GreenSale.Service.Interfaces.Storages;
 
 namespace GreenSale.Service.Service.Storages;
 
-public class StoragePostStarService:IStorageStarRepository
+public class StoragePostStarService : IStoragePostStarService
 {
-    public readonly ISellerPostStarRepository _sellerPostStarRepository;
-    public readonly ISellerPostsRepository _sellerPostsRepository;
+    public readonly IStorageStarRepository _storageStarRepository;
+    public readonly IStorageRepository _storageRepository;
     public readonly IIdentityService _identityService;
 
-    public SellerPostStarService(ISellerPostStarRepository sellerPostStarRepository,
-        ISellerPostsRepository sellerPostsRepository,
+    public StoragePostStarService(IStorageStarRepository storageStarRepository,
+        IStorageRepository storageRepository,
         IIdentityService identityService)
     {
-        this._sellerPostStarRepository = sellerPostStarRepository;
-        this._sellerPostsRepository = sellerPostsRepository;
+        this._storageStarRepository = storageStarRepository;
+        this._storageRepository = storageRepository;
         this._identityService = identityService;
     }
 
     public async Task<long> CountAsync()
-        => await _sellerPostStarRepository.CountAsync();
+        => await _storageStarRepository.CountAsync();
 
-    public async Task<int> CreateAsync(SellerPostStarCreateDto dto)
+    public async Task<int> CreateAsync(StorageStarCreateDto dto)
     {
-        SellerPostStars stars = new SellerPostStars();
+        StoragePostStars stars = new StoragePostStars();
         stars.UserId = _identityService.Id;
         stars.PostId = dto.PostId;
 
-        var post = await _sellerPostsRepository.GetByIdAsync(dto.PostId);
+        var post = await _storageRepository.GetByIdAsync(dto.PostId);
         if (post.Id == 0)
         {
-            throw new SellerPostsNotFoundException();
+            throw new StorageNotFoundException();
         }
         else
         {
@@ -47,22 +47,22 @@ public class StoragePostStarService:IStorageStarRepository
                 stars.CreatedAt = Helpers.TimeHelper.GetDateTime();
                 stars.UpdatedAt = Helpers.TimeHelper.GetDateTime();
 
-                var result = await _sellerPostStarRepository.CreateAsync(stars);
+                var result = await _storageStarRepository.CreateAsync(stars);
 
                 return result;
             }
             else
             {
-                var starsOld = await _sellerPostStarRepository.GetByIdAsync(Id);
+                var starsOld = await _storageStarRepository.GetByIdAsync(Id);
 
-                SellerPostStars starsNew = new SellerPostStars();
+                StoragePostStars starsNew = new StoragePostStars();
                 starsNew.UserId = starsOld.UserId;
                 starsNew.PostId = starsOld.PostId;
                 starsNew.Stars = dto.Stars;
                 starsNew.CreatedAt = starsOld.CreatedAt;
                 starsNew.UpdatedAt = Helpers.TimeHelper.GetDateTime();
 
-                var result = await _sellerPostStarRepository.UpdateAsync(Id, starsNew);
+                var result = await _storageStarRepository.UpdateAsync(Id, starsNew);
 
                 return result;
             }
@@ -74,45 +74,45 @@ public class StoragePostStarService:IStorageStarRepository
         long UserId = _identityService.Id;
         long Id = await GetIdAsync(UserId, postId);
 
-        var result = await _sellerPostStarRepository.DeleteAsync(Id);
+        var result = await _storageStarRepository.DeleteAsync(Id);
 
         return result;
     }
 
-    public Task<List<SellerPostStars>> GetAllAsync(PaginationParams @params)
+    public Task<List<StoragePostStars>> GetAllAsync(PaginationParams @params)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<SellerPostStars> GetByIdAsync(long Id)
+    public async Task<StoragePostStars> GetByIdAsync(long Id)
     {
         long UserId = _identityService.Id;
         long RowId = await GetIdAsync(UserId, Id);
 
-        var result = await _sellerPostStarRepository.GetByIdAsync(RowId);
+        var result = await _storageStarRepository.GetByIdAsync(RowId);
 
         return result;
     }
 
-    public async Task<int> UpdateAsync(long PostId, SellerPostStarUpdateDto dto)
+    public async Task<int> UpdateAsync(long PostId, StorageStarUpdateDto dto)
     {
         long UserId = _identityService.Id;
         long Id = await GetIdAsync(UserId, PostId);
 
-        var starsOld = await _sellerPostStarRepository.GetByIdAsync(Id);
+        var starsOld = await _storageStarRepository.GetByIdAsync(Id);
 
-        SellerPostStars starsNew = new SellerPostStars();
+        StoragePostStars starsNew = new StoragePostStars();
         starsNew.UserId = starsOld.UserId;
         starsNew.PostId = starsOld.PostId;
         starsNew.Stars = dto.Stars;
         starsNew.CreatedAt = starsOld.CreatedAt;
         starsNew.UpdatedAt = Helpers.TimeHelper.GetDateTime();
 
-        var result = await _sellerPostStarRepository.UpdateAsync(Id, starsNew);
+        var result = await _storageStarRepository.UpdateAsync(Id, starsNew);
 
         return result;
     }
 
     public async Task<long> GetIdAsync(long userid, long postid)
-        => await _sellerPostStarRepository.GetIdAsync(userid, postid);
+        => await _storageStarRepository.GetIdAsync(userid, postid);
 }
