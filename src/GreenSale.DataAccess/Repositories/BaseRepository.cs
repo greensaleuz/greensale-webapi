@@ -10,9 +10,9 @@ public class BaseRepository
     {
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
-        //this._connection = new NpgsqlConnection(
-        //    "Host=dbaas-db-8432700-do-user-14588616-0.b.db.ondigitalocean.com; Port=25060; Database=greensale-server; " +
-        //    " User Id=doadmin; Password=AVNS_7Y14YLpKBS_teIyr_YW;");
-        this._connection = new NpgsqlConnection("Host=localhost; Port=5432; Database=greensale-db; User Id=postgres; Password=1234;");
+        this._connection = new NpgsqlConnection(
+            "Host=dbaas-db-8432700-do-user-14588616-0.b.db.ondigitalocean.com; Port=25060; Database=greensale-server; " +
+            " User Id=doadmin; Password=AVNS_7Y14YLpKBS_teIyr_YW;");
+       // this._connection = new NpgsqlConnection("Host=localhost; Port=5432; Database=greensale-db; User Id=postgres; Password=1234;");
     }
 }
