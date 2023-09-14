@@ -1,4 +1,6 @@
-﻿using GreenSale.Service.Interfaces.Auth;
+﻿using GreenSale.DataAccess.Interfaces.SellerPosts;
+using GreenSale.DataAccess.Repositories.SellerPosts;
+using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.BuyerPosts;
 using GreenSale.Service.Interfaces.Categories;
 using GreenSale.Service.Interfaces.Common;
@@ -36,6 +38,7 @@ public static class ServiceLayerConfiguration
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IIdentityService, IdentityService>();
         builder.Services.AddScoped<IBuyerPostService, BuyerPostService>();
-        builder.Services.AddScoped<IBuyerPostStarService, BuyerPostStarService>();  
+        builder.Services.AddScoped<IBuyerPostStarService, BuyerPostStarService>();
+        builder.Services.AddScoped<ISellerPostStarService, SellerPostStarService>();
     }
 }

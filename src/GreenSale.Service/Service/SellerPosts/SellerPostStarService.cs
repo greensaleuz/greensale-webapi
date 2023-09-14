@@ -11,12 +11,15 @@ namespace GreenSale.Service.Service.SellerPosts;
 public class SellerPostStarService : ISellerPostStarService
 {
     public readonly ISellerPostStarRepository _sellerPostStarRepository;
+    public readonly ISellerPostsRepository _sellerPostsRepository;
     public readonly IIdentityService _identityService;
 
     public SellerPostStarService(ISellerPostStarRepository sellerPostStarRepository,
+        ISellerPostsRepository sellerPostsRepository,
         IIdentityService identityService)
     {
         this._sellerPostStarRepository = sellerPostStarRepository;
+        this._sellerPostsRepository = sellerPostsRepository;
         this._identityService = identityService;
     }
 
@@ -29,7 +32,7 @@ public class SellerPostStarService : ISellerPostStarService
         stars.UserId = _identityService.Id;
         stars.PostId = dto.PostId;
 
-        var post = await _sellerPostStarRepository.GetByIdAsync(dto.PostId);
+        var post = await _sellerPostsRepository.GetByIdAsync(dto.PostId);
         if (post.Id == 0)
         {
             throw new SellerPostsNotFoundException();
