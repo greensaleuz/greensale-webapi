@@ -1,5 +1,6 @@
 ﻿using GreenSale.Domain.Entites.BuyerPosts;
 using GreenSale.Domain.Enums.BuyerPosts;
+using System.ComponentModel;
 
 namespace GreenSale.DataAccess.ViewModels.BuyerPosts
 {
@@ -21,6 +22,8 @@ namespace GreenSale.DataAccess.ViewModels.BuyerPosts
         public string District { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public BuyerPostEnum Status { get; set; }
+        public long AverageStars { get; set; }
+        public int UserStars { get; set; } 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<BuyerPostImage> BuyerPostsImages { get; set; }
