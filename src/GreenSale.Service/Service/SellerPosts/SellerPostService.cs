@@ -27,6 +27,7 @@ public class SellerPostService : ISellerPostService
     private readonly IPaginator _paginator;
     private readonly IIdentityService _identity;
     private readonly ISellerPostsRepository _repository;
+    private readonly ISellerPostStarService _sellerPostStarService;
     private readonly string SELLERPOSTIMAGES = "SellerPostImages";
 
     public SellerPostService(
@@ -36,6 +37,7 @@ public class SellerPostService : ISellerPostService
         IFileService fileService,
         ISellerPostImageRepository imageRepository,
         ICategoryRepository categoryRepository,
+        ISellerPostStarService sellerPostStarService,
         IUserRepository userRepository)
     {
         this._userep = userRepository;
@@ -43,6 +45,7 @@ public class SellerPostService : ISellerPostService
         this._imageRepository = imageRepository;
         this._fileservice = fileService;
         this._paginator = paginator;
+        this._sellerPostStarService= sellerPostStarService;
         this._identity = identity;
         this._repository = repository;
     }
@@ -157,6 +160,8 @@ public class SellerPostService : ISellerPostService
         foreach (var item in DbResult)
         {
             item.PostImages = new List<SellerPostImage>();
+            item.AverageStars = await _sellerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars=await _sellerPostStarService.GetUserStarAsync(item.Id);
 
             foreach (var img in dBim)
             {
@@ -197,6 +202,8 @@ public class SellerPostService : ISellerPostService
         foreach (var item in DbResult)
         {
             item.PostImages = new List<SellerPostImage>();
+            item.AverageStars = await _sellerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _sellerPostStarService.GetUserStarAsync(item.Id);
 
             foreach (var img in dBim)
             {
@@ -230,6 +237,8 @@ public class SellerPostService : ISellerPostService
         var item = await _repository.GetByIdAsync(sellerId);
         var dBim = await _imageRepository.GetByIdAllAsync(sellerId);
 
+        item.AverageStars = await _sellerPostStarService.AvarageStarAsync(sellerId);
+        item.UserStars = await _sellerPostStarService.GetUserStarAsync(sellerId);
         if (item.Id == 0)
             throw new SellerPostsNotFoundException();
 
@@ -278,6 +287,8 @@ public class SellerPostService : ISellerPostService
         foreach (var item in res.Item2)
         {
             item.PostImages = new List<SellerPostImage>();
+            item.AverageStars = await _sellerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _sellerPostStarService.GetUserStarAsync(item.Id);
 
             foreach (var img in dBim)
             {

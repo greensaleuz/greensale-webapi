@@ -23,7 +23,7 @@ namespace GreenSale.DataAccess.ViewModels.SellerPosts
         public DateTime UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public SellerPostEnum Status { get; set; }
-        public long AverageStars { get; set; }
+        public double AverageStars { get; set; }
         public int UserStars { get; set; }
         public List<SellerPostImage> PostImages { get; set; }
         public string MainImage { get; set; } = string.Empty;

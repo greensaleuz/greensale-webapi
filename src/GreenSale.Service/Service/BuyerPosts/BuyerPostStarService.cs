@@ -1,12 +1,10 @@
 ﻿using GreenSale.Application.Exceptions.BuyerPosts;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.BuyerPosts;
-using GreenSale.DataAccess.Repositories.BuyerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
 using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.BuyerPosts;
-using System.Diagnostics.Eventing.Reader;
 
 namespace GreenSale.Service.Service.BuyerPosts;
 
