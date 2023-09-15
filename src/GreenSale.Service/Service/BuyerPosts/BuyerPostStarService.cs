@@ -69,10 +69,9 @@ public class BuyerPostStarService : IBuyerPostStarService
         }
     }
 
-    public async Task<int> DeleteAsync(long postId)
+    public async Task<int> DeleteAsync(long userId, long postId)
     {
-        long UserId=_identityService.Id;
-        long Id = await GetIdAsync(UserId, postId);
+        long Id = await GetIdAsync(userId, postId);
 
         var result = await _buyerPostStarRepository.DeleteAsync(Id);
 

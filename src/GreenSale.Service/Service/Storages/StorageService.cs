@@ -104,14 +104,17 @@ public class StorageService : IStoragesService
         if (storageGet.Id == 0)
             throw new StorageNotFoundException();
 
+        var delstoragecategoryresult = await _storagecategoryRepository.DeleteAsync(storageGet.Id);
+
         var deleteImage = await _fileService.DeleteImageAsync(storageGet.ImagePath);
 
         if (deleteImage == false)
             throw new ImageNotFoundException();
 
+        var deletestarresult = await _storagePostStarService.DeleteAsync(storageGet.UserId,  storageId);
         var result = await _repository.DeleteAsync(storageId);
 
-        return result > 0;
+        return result > 0 && deletestarresult>0;
     }
 
     public async Task<List<StoragesViewModel>> GetAllAsync(PaginationParams @params)

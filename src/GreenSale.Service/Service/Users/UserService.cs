@@ -10,9 +10,14 @@ using GreenSale.DataAccess.ViewModels.Users;
 using GreenSale.Persistence.Dtos.UserDtos;
 using GreenSale.Persistence.Validators.Users;
 using GreenSale.Service.Interfaces.Auth;
+using GreenSale.Service.Interfaces.BuyerPosts;
 using GreenSale.Service.Interfaces.Common;
+using GreenSale.Service.Interfaces.SellerPosts;
+using GreenSale.Service.Interfaces.Storages;
 using GreenSale.Service.Interfaces.Users;
 using GreenSale.Service.Security;
+using GreenSale.Service.Service.BuyerPosts;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GreenSale.Service.Service.Users;
 
@@ -25,10 +30,12 @@ public class UserService : IUserService
     private readonly IUserRoles _rolerepository;
     private readonly ISellerPostsRepository _sellerpostrepository;
     private readonly ISellerPostImageRepository _sellerImagerepository;
-    private readonly ISellerPostsRepository _sellerRepository;
     private readonly IIdentityService _identity;
     private readonly IPaginator _paginator;
     private readonly IUserRepository _userRepository;
+    private readonly IBuyerPostService _buyerPostService;
+    private readonly ISellerPostService _sellerPostService;
+    private readonly IStoragesService _storagesService;
 
     public UserService(
         IUserRepository userRepository,
@@ -38,8 +45,11 @@ public class UserService : IUserService
         ISellerPostImageRepository sellerPostImageRepository,
         IUserRoles userRoles,
         IBuyerPostRepository buyerPostRepository,
+        IBuyerPostService buyerPostService,
         IBuyerPostImageRepository buyerPostImageRepository,
         IStorageRepository storageRepository,
+        ISellerPostService sellerPostService,
+        IStoragesService storagesService,
         IFileService fileService)
     {
         this._fileservice = fileService;
@@ -52,6 +62,9 @@ public class UserService : IUserService
         this._identity = identity;
         this._paginator = paginator;
         this._userRepository = userRepository;
+        this._buyerPostService=buyerPostService;
+        this._storagesService=storagesService;
+        this._sellerPostService = sellerPostService;
     }
 
     public async Task<long> CountAsync()
@@ -74,20 +87,7 @@ public class UserService : IUserService
         {
             foreach (var item in sellerPost)
             {
-                var AllImg = await _sellerImagerepository.GetByIdAllAsync(userId);
-
-                foreach (var img in AllImg)
-                {
-                    await _fileservice.DeleteImageAsync(img.ImagePath);
-                }
-
-                var res = await _sellerImagerepository.DeleteAsync(item.Id);
-
-                if (res > 0)
-                {
-                    var delpost = await _sellerpostrepository.DeleteAsync(item.Id);
-                }
-
+                var delpost = await _sellerPostService.DeleteAsync(item.Id);
             }
         }
 
@@ -97,32 +97,21 @@ public class UserService : IUserService
         {
             foreach (var item in buyerPost)
             {
-                var AllImg = await _buyerImgrepository.GetByIdAllAsync(userId);
-
-                foreach (var img in AllImg)
-                {
-                    await _fileservice.DeleteImageAsync(img.ImagePath);
-                }
-
-                var res = await _buyerImgrepository.DeleteAsync(item.Id);
-
-                if (res > 0)
-                {
-                    var delpost = await _buyerRepository.DeleteAsync(item.Id);
-                }
-
+                var delpost = await _buyerPostService.DeleteAsync(item.Id);
             }
         }
 
         var storg = await _storagerepository.GetAllByIdAsync(userId);
 
-        foreach (var item in storg)
+        if (storg is not null)
         {
-            var del = await _storagerepository.DeleteAsync(item.Id);
+            foreach (var item in storg)
+            {
+                var del = await _storagesService.DeleteAsync(item.Id);
+            }
         }
 
         var roldel = await _rolerepository.DeleteAsync(userId);
-
         var DbResult = await _userRepository.DeleteAsync(userId);
 
         return DbResult > 0;

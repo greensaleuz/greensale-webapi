@@ -11,7 +11,7 @@ namespace GreenSale.Service.Interfaces.SellerPosts
         public Task<long> CountAsync();
         public Task<List<SellerPostStars>> GetAllAsync(PaginationParams @params);
         public Task<SellerPostStars> GetByIdAsync(long Id);
-        public Task<int> DeleteAsync(long Id);
+        public Task<int> DeleteAsync(long userId,long postId);
         public Task<double> AvarageStarAsync(long postid);
         public Task<int> GetUserStarAsync(long postId);
     }
