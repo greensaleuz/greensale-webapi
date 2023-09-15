@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Client.StoragePosts
 {
-    [Route("api/[controller]")]
+    [Route("api/client/storage/post/star")]
     [ApiController]
     public class ClientStoragePostStarController : BaseClientController
     {
@@ -16,11 +16,11 @@ namespace GreenSale.WebApi.Controllers.Client.StoragePosts
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(StorageStarCreateDto dto)
+        public async Task<IActionResult> CreateAsync([FromForm] StorageStarCreateDto dto)
             => Ok(await _storagePostStarService.CreateAsync(dto));
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(long postid, StorageStarUpdateDto dto)
+        [HttpPut("{postId}")]
+        public async Task<IActionResult> UpdateAsync([FromForm] long postid, [FromForm] StorageStarUpdateDto dto)
             => Ok(await _storagePostStarService.UpdateAsync(postid, dto));
     }
 }
