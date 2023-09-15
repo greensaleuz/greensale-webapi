@@ -14,7 +14,7 @@
         public double AddressLatitude { get; set; }
         public double AddressLongitude { get; set; }
         public string Info { get; set; } = string.Empty;
-        public long AverageStars { get; set; }
+        public double AverageStars { get; set; }
         public int UserStars { get; set; }
         public string ImagePath { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }

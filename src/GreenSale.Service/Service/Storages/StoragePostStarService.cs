@@ -115,4 +115,43 @@ public class StoragePostStarService : IStoragePostStarService
 
     public async Task<long> GetIdAsync(long userid, long postid)
         => await _storageStarRepository.GetIdAsync(userid, postid);
+
+    public async Task<double> AvarageStarAsync(long postid)
+    {
+        List<int> starlist = await _storageStarRepository.GetAllStarsPostIdCountAsync(postid);
+        double avaragestar = 0;
+        if (starlist.Count == 0)
+        {
+            return avaragestar;
+        }
+        else
+        {
+            long totalstar = 0;
+            foreach (var star in starlist)
+            {
+                totalstar += star;
+            }
+            avaragestar = totalstar / starlist.Count;
+            return Math.Round(avaragestar, 1);
+        }
+    }
+
+    public async Task<int> GetUserStarAsync(long postId)
+    {
+        long userid = _identityService.Id;
+        long Id = await GetIdAsync(userid, postId);
+        int userstar = 0;
+        if (Id == 0)
+        {
+            return userstar;
+        }
+        else
+        {
+            var userpoststar = await _storageStarRepository.GetByIdAsync(Id);
+            userstar = userpoststar.Stars;
+
+            return userstar;
+        }
+    }
+
 }

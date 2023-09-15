@@ -13,4 +13,6 @@ public interface IStoragePostStarService
     public Task<List<StoragePostStars>> GetAllAsync(PaginationParams @params);
     public Task<StoragePostStars> GetByIdAsync(long Id);
     public Task<int> DeleteAsync(long Id);
+    public Task<double> AvarageStarAsync(long postid);
+    public Task<int> GetUserStarAsync(long postId);
 }

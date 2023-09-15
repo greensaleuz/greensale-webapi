@@ -28,6 +28,7 @@ public class StorageService : IStoragesService
     private IPaginator _paginator;
     private IFileService _fileService;
     private ICategoryRepository _categoryRepository;
+    private IStoragePostStarService _storagePostStarService;
     private readonly string STORAGEPOSTIMAGES = "StoragePostImages";
 
     public StorageService(
@@ -37,15 +38,17 @@ public class StorageService : IStoragesService
         IIdentityService identity,
         IUserRepository userRepository,
         IStorageCategoryRepository storagecategoryRepository,
-        ICategoryRepository categoryRepository)
+        ICategoryRepository categoryRepository,
+        IStoragePostStarService storagePostStarService)
     {
         this._userep = userRepository;
         this._identity = identity;
         this._repository = repository;
         this._paginator = paginator;
         this._fileService = fileService;
-        this._storagecategoryRepository= storagecategoryRepository;
-        this._categoryRepository= categoryRepository;
+        this._storagecategoryRepository = storagecategoryRepository;
+        this._categoryRepository = categoryRepository;
+        this._storagePostStarService = storagePostStarService;
     }
 
     public async Task<long> CountAsync()
@@ -114,6 +117,13 @@ public class StorageService : IStoragesService
     public async Task<List<StoragesViewModel>> GetAllAsync(PaginationParams @params)
     {
         var getAll = await _repository.GetAllAsync(@params);
+
+        foreach (var item in getAll)
+        {
+            item.AverageStars = await _storagePostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _storagePostStarService.GetUserStarAsync(item.Id);
+        }
+
         var count = await _repository.CountAsync();
         _paginator.Paginate(count, @params);
 
@@ -124,6 +134,9 @@ public class StorageService : IStoragesService
     {
         var getId = await _repository.GetByIdAsync(storageId);
 
+        getId.AverageStars = await _storagePostStarService.AvarageStarAsync(getId.Id);
+        getId.UserStars = await _storagePostStarService.GetUserStarAsync(getId.Id);
+        
         if (getId.Id == 0)
             throw new StorageNotFoundException();
 
@@ -205,6 +218,13 @@ public class StorageService : IStoragesService
             throw new UserNotFoundException();
 
         var DbFound = await _repository.GetAllByIdAsync(userId, @params);
+
+        foreach (var item in DbFound)
+        {
+            item.AverageStars = await _storagePostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _storagePostStarService.GetUserStarAsync(item.Id);
+        }
+
         var count = await _repository.CountAsync();
         _paginator.Paginate(count, @params);
 
@@ -216,6 +236,12 @@ public class StorageService : IStoragesService
         var res = await _repository.SearchAsync(search);
 
         if(res.ItemsCount == 0) throw new StorageNotFoundException();
+
+        foreach (var item in res.Item2)
+        {
+            item.AverageStars = await _storagePostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _storagePostStarService.GetUserStarAsync(item.Id);
+        }
 
         return res;
     }
