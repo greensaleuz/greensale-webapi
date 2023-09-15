@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Client.BuyerPosts
 {
-    [Route("api/[controller]")]
+    [Route("api/client/buyer/star")]
     [ApiController]
     public class ClientBuyerPostStarController : BaseClientController
     {
@@ -16,11 +16,11 @@ namespace GreenSale.WebApi.Controllers.Client.BuyerPosts
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(BuyerPostStarCreateDto dto)
+        public async Task<IActionResult> CreateAsync([FromForm] BuyerPostStarCreateDto dto)
             => Ok(await _buyerPostStarService.CreateAsync(dto));
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(long postId, BuyerPostStarUpdateDto dto)
+        [HttpPut("{postId}")]
+        public async Task<IActionResult> UpdateAsync([FromForm] long postId, [FromForm] BuyerPostStarUpdateDto dto)
             => Ok(await _buyerPostStarService.UpdateAsync(postId, dto));
 
         // [HttpGet]
