@@ -97,20 +97,20 @@ namespace GreenSale.DataAccess.Repositories.BuyerPosts
             }
         }
 
-        public async Task<List<long>> GetAllStarsPostIdCountAsync(long postid)
+        public async Task<List<int>> GetAllStarsPostIdCountAsync(long postid)
         {
             try
             {
                 await _connection.OpenAsync();
 
                 string query = $"SELECT stars as Stars FROM buyerpoststars where post_id=@Id;";
-                var result = (await _connection.QueryAsync<long>(query, new { Id = postid })).ToList();
+                var result = (await _connection.QueryAsync<int>(query, new { Id = postid })).ToList();
 
                 return result;
             }
             catch
             {
-                return new List<long>();
+                return new List<int>();
             }
             finally
             {

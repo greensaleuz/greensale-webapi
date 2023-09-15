@@ -131,7 +131,7 @@ public class BuyerPostService : IBuyerPostService
         var deletestarresult = await _buyerPostStarService.DeleteAsync(DbFound.UserId, buyerId);
         var DbResult = await _postRepository.DeleteAsync(buyerId);
 
-        if (DbResult > 0 && 0 < DbImgResult && deletestarresult>0)
+        if (DbResult > 0 && 0 < DbImgResult && deletestarresult)
         {
             foreach (var item in DbImgAll)
             {

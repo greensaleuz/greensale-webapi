@@ -26,7 +26,7 @@ public class BuyerPostStarService : IBuyerPostStarService
     public async Task<long> CountAsync()
         => await _buyerPostStarRepository.CountAsync();
 
-    public async Task<int> CreateAsync(BuyerPostStarCreateDto dto)
+    public async Task<bool> CreateAsync(BuyerPostStarCreateDto dto)
     {
         BuyerPostStars stars = new BuyerPostStars();
         stars.UserId = _identityService.Id;
@@ -49,7 +49,7 @@ public class BuyerPostStarService : IBuyerPostStarService
 
                 var result = await _buyerPostStarRepository.CreateAsync(stars);
 
-                return result;
+                return result>0;
             }
             else
             {
@@ -64,18 +64,18 @@ public class BuyerPostStarService : IBuyerPostStarService
 
                 var result = await _buyerPostStarRepository.UpdateAsync(Id, starsNew);
 
-                return result;
+                return result>0;
             }
         }
     }
 
-    public async Task<int> DeleteAsync(long userId, long postId)
+    public async Task<bool> DeleteAsync(long userId, long postId)
     {
         long Id = await GetIdAsync(userId, postId);
 
         var result = await _buyerPostStarRepository.DeleteAsync(Id);
 
-        return result;
+        return result > 0;
     }
 
     public Task<List<BuyerPostStars>> GetAllAsync(PaginationParams @params)
@@ -93,7 +93,7 @@ public class BuyerPostStarService : IBuyerPostStarService
         return result;
     }
 
-    public async Task<int> UpdateAsync(long PostId, BuyerPostStarUpdateDto dto)
+    public async Task<bool> UpdateAsync(long PostId, BuyerPostStarUpdateDto dto)
     {
         long UserId=_identityService.Id;
 
@@ -117,7 +117,7 @@ public class BuyerPostStarService : IBuyerPostStarService
 
             var result = await _buyerPostStarRepository.UpdateAsync(Id, starsNew);
 
-            return result;
+            return result>0;
         }
     }
 
@@ -126,7 +126,7 @@ public class BuyerPostStarService : IBuyerPostStarService
 
     public async Task<double> AvarageStarAsync(long postid)
     {
-        List<long> starlist = await _buyerPostStarRepository.GetAllStarsPostIdCountAsync(postid);
+        List<int> starlist = await _buyerPostStarRepository.GetAllStarsPostIdCountAsync(postid);
         double avaragestar = 0;
         if (starlist.Count == 0)
         {
