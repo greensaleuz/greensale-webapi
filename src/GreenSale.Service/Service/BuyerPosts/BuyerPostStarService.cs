@@ -139,8 +139,8 @@ public class BuyerPostStarService : IBuyerPostStarService
             {
                 totalstar += star;
             }
-            avaragestar=totalstar/starlist.Count;
-            return Math.Round(avaragestar,1);
+            avaragestar=Convert.ToDouble(totalstar)/starlist.Count;
+            return Math.Round(avaragestar,2);
         }
     }
 
