@@ -57,7 +57,7 @@ namespace GreenSale.DataAccess.Repositories.StorageCategories
             {
                 await _connection.OpenAsync();
 
-                string query = $"DELETE FROM storage_categories WHERE id={Id};";
+                string query = $"DELETE FROM storage_categories WHERE storage_id={Id};";
                 var result = await _connection.ExecuteAsync(query);
 
                 return result;

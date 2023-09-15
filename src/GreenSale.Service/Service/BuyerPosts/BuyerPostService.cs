@@ -128,9 +128,10 @@ public class BuyerPostService : IBuyerPostService
             throw new ImageNotFoundException();
 
         var DbImgResult = await _imageRepository.DeleteAsync(buyerId);
+        var deletestarresult = await _buyerPostStarService.DeleteAsync(DbFound.UserId, buyerId);
         var DbResult = await _postRepository.DeleteAsync(buyerId);
 
-        if (DbResult > 0 && 0 < DbImgResult)
+        if (DbResult > 0 && 0 < DbImgResult && deletestarresult>0)
         {
             foreach (var item in DbImgAll)
             {

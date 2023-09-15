@@ -127,11 +127,15 @@ public class SellerPostService : ISellerPostService
             throw new ImageNotFoundException();
 
         var DbImgResult = await _imageRepository.DeleteAsync(sellerId);
+        var delstarresult = await _sellerPostStarService.DeleteAsync(DbFound.UserId, sellerId);
         var Dbresult = await _repository.DeleteAsync(sellerId);
 
-        foreach (var item in DbImgAll)
+        if (DbImgResult > 0 && delstarresult > 0 && Dbresult > 0)
         {
-            await _fileservice.DeleteImageAsync(item.ImagePath);
+            foreach (var item in DbImgAll)
+            {
+                await _fileservice.DeleteImageAsync(item.ImagePath);
+            }
         }
 
         return Dbresult > 0;
