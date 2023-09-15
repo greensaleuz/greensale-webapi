@@ -7,12 +7,12 @@ namespace GreenSale.Service.Interfaces.BuyerPosts
 
     public interface IBuyerPostStarService
     {
-        public Task<int> CreateAsync(BuyerPostStarCreateDto dto);
-        public Task<int> UpdateAsync(long Id, BuyerPostStarUpdateDto dto);
+        public Task<bool> CreateAsync(BuyerPostStarCreateDto dto);
+        public Task<bool> UpdateAsync(long Id, BuyerPostStarUpdateDto dto);
         public Task<long> CountAsync();
         public Task<List<BuyerPostStars>> GetAllAsync(PaginationParams @params);
         public Task<BuyerPostStars> GetByIdAsync(long Id);
-        public Task<int> DeleteAsync(long userId, long postId);
+        public Task<bool> DeleteAsync(long userId, long postId);
         public Task<double> AvarageStarAsync(long postid);
         public Task<int> GetUserStarAsync(long postId);
     }

@@ -130,7 +130,7 @@ public class SellerPostService : ISellerPostService
         var delstarresult = await _sellerPostStarService.DeleteAsync(DbFound.UserId, sellerId);
         var Dbresult = await _repository.DeleteAsync(sellerId);
 
-        if (DbImgResult > 0 && delstarresult > 0 && Dbresult > 0)
+        if (DbImgResult > 0 && delstarresult  && Dbresult > 0)
         {
             foreach (var item in DbImgAll)
             {

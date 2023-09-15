@@ -114,7 +114,7 @@ public class StorageService : IStoragesService
         var deletestarresult = await _storagePostStarService.DeleteAsync(storageGet.UserId,  storageId);
         var result = await _repository.DeleteAsync(storageId);
 
-        return result > 0 && deletestarresult>0;
+        return result > 0 && deletestarresult;
     }
 
     public async Task<List<StoragesViewModel>> GetAllAsync(PaginationParams @params)
