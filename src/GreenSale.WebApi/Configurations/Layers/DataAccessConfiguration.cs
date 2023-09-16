@@ -2,14 +2,17 @@
 using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.Roles;
 using GreenSale.DataAccess.Interfaces.SellerPosts;
+using GreenSale.DataAccess.Interfaces.StorageCategories;
 using GreenSale.DataAccess.Interfaces.Storages;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.Repositories.BuyerPosts;
 using GreenSale.DataAccess.Repositories.Categories;
 using GreenSale.DataAccess.Repositories.Roles;
 using GreenSale.DataAccess.Repositories.SellerPosts;
+using GreenSale.DataAccess.Repositories.StorageCategories;
 using GreenSale.DataAccess.Repositories.Storages;
 using GreenSale.DataAccess.Repositories.Users;
+using System.Security.Principal;
 
 namespace GreenSale.WebApi.Configurations.Layers
 {
@@ -27,6 +30,10 @@ namespace GreenSale.WebApi.Configurations.Layers
             builder.Services.AddScoped<IStorageRepository, StorageRepository>();
             builder.Services.AddScoped<IBuyerPostRepository, BuyerPostsRepository>();
             builder.Services.AddScoped<IBuyerPostImageRepository, BuyerPostImageRepository>();
+            builder.Services.AddScoped<IStorageCategoryRepository, StorageCategoryRepository>();
+            builder.Services.AddScoped<IBuyerPostStarRepository, BuyerPostStarRepository>();
+            builder.Services.AddScoped<ISellerPostStarRepository, SellerPostStarRepository>();
+            builder.Services.AddScoped<IStorageStarRepository, StorageStarRepository>();    
         }
     }
 }

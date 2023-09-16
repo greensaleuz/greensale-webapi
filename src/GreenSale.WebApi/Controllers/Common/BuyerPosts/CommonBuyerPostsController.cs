@@ -42,6 +42,5 @@ namespace GreenSale.WebApi.Controllers.Common.BuyerPosts
 
             return Ok(new { res.IteamCount, res.Item2 });
         }
-
     }
 }
