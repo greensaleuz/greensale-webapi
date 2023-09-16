@@ -71,9 +71,7 @@ public class BuyerPostStarService : IBuyerPostStarService
 
     public async Task<bool> DeleteAsync(long userId, long postId)
     {
-        long Id = await GetIdAsync(userId, postId);
-
-        var result = await _buyerPostStarRepository.DeleteAsync(Id);
+        var result = await _buyerPostStarRepository.DeleteAsync(postId);
 
         return result > 0;
     }
@@ -160,5 +158,10 @@ public class BuyerPostStarService : IBuyerPostStarService
 
             return userstar;
         }
+    }
+
+    public Task<bool> DeleteUserAsync(long userId)
+    {
+        throw new NotImplementedException();
     }
 }

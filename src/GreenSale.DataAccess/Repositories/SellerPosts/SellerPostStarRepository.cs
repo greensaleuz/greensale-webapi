@@ -64,7 +64,7 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
             {
                 await _connection.OpenAsync();
 
-                string query = $"DELETE FROM public.sellerpoststars WHERE id = @ID;";
+                string query = $"DELETE FROM public.sellerpoststars WHERE post_id = @ID;";
                 var result = await _connection.ExecuteAsync(query, new { ID = Id });
 
                 return result;
@@ -72,6 +72,27 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
             catch
             {
                 return 0;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task<bool> DeleteUserAsync(long userId)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string query = $"DELETE FROM public.sellerpoststars WHERE user_id = @ID;";
+                var result = await _connection.ExecuteAsync(query, new { ID = userId });
+
+                return result > 0;
+            }
+            catch
+            {
+                return false;
             }
             finally
             {

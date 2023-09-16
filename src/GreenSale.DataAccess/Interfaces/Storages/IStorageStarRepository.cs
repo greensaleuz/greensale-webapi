@@ -6,4 +6,5 @@ public interface IStorageStarRepository : IRepository<StoragePostStars,StoragePo
 {
     public Task<List<int>> GetAllStarsPostIdCountAsync(long id);
     public Task<long> GetIdAsync(long userid, long postid);
+    public Task<bool> DeleteUserAsync(long userId);
 }
