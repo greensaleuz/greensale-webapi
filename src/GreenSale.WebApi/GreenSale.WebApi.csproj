@@ -22,9 +22,9 @@
     <Folder Include="wwwroot\Media\Images\BuyerPostImages\" />
     <Folder Include="wwwroot\Media\Images\BuyerPostImages\" />
     <Folder Include="wwwroot\Media\Images\BuyerPostImages\" />
-    <Folder Include="wwwroot\Media\Images\StoragePostImages\" />
     <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
     <Folder Include="wwwroot\Media\Images\SellerPostImages\" />
+    <Folder Include="wwwroot\Media\Images\StoragePostImages\k\" />
   </ItemGroup>
 
 </Project>

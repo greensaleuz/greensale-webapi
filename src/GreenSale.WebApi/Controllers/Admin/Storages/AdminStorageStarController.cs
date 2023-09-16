@@ -1,4 +1,5 @@
 ﻿using GreenSale.Persistence.Dtos.StoragDtos;
+using GreenSale.Persistence.Validators.PostStar;
 using GreenSale.Service.Interfaces.Storages;
 using GreenSale.WebApi.Controllers.Client;
 using Microsoft.AspNetCore.Http;
@@ -18,10 +19,32 @@ namespace GreenSale.WebApi.Controllers.Admin.Storages
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromForm] StorageStarCreateDto dto)
-            => Ok(await _storagePostStarService.CreateAsync(dto));
+        {
+            PostStarValidator validations = new PostStarValidator();
+            var resltvalid = validations.Validate(dto.Stars);
+            if (resltvalid.IsValid)
+            {
+                var result = await _storagePostStarService.CreateAsync(dto);
+
+                return Ok(result);
+            }
+            else
+                return BadRequest(resltvalid.Errors);
+        }
 
         [HttpPut("{postId}")]
-        public async Task<IActionResult> UpdateAsync([FromForm] long postid, [FromForm] StorageStarUpdateDto dto)
-            => Ok(await _storagePostStarService.UpdateAsync(postid, dto));
+        public async Task<IActionResult> UpdateAsync([FromForm] long postId, [FromForm] StorageStarUpdateDto dto)
+        {
+            PostStarValidator validations = new PostStarValidator();
+            var resltvalid = validations.Validate(dto.Stars);
+            if (resltvalid.IsValid)
+            {
+                var result = await _storagePostStarService.UpdateAsync(postId, dto);
+
+                return Ok(result);
+            }
+            else
+                return BadRequest(resltvalid.Errors);
+        }
     }
 }
