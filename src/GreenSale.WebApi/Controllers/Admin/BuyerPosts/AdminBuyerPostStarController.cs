@@ -1,16 +1,17 @@
 ﻿using GreenSale.Persistence.Dtos.BuyerPostsDto;
 using GreenSale.Service.Interfaces.BuyerPosts;
+using GreenSale.WebApi.Controllers.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GreenSale.WebApi.Controllers.Client.BuyerPosts
+namespace GreenSale.WebApi.Controllers.Admin.BuyerPosts
 {
-    [Route("api/client/buyer/star")]
+    [Route("api/admin/buyer/star")]
     [ApiController]
-    public class ClientBuyerPostStarController : BaseClientController
+    public class AdminBuyerPostStarController : AdminBaseController
     {
         private readonly IBuyerPostStarService _buyerPostStarService;
-        public ClientBuyerPostStarController(IBuyerPostStarService buyerPostStarService)
+        public AdminBuyerPostStarController(IBuyerPostStarService buyerPostStarService)
         {
             _buyerPostStarService = buyerPostStarService;
         }

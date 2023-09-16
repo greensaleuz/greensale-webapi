@@ -6,4 +6,5 @@ public interface ISellerPostStarRepository: IRepository<SellerPostStars, SellerP
 {
     public Task<List<int>> GetAllStarsPostIdCountAsync(long postid);
     public Task<long> GetIdAsync(long userid, long postid);
+    public Task<bool> DeleteUserAsync(long userId);
 }

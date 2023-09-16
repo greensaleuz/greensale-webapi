@@ -59,7 +59,7 @@ namespace GreenSale.DataAccess.Repositories.Storages
             {
                 await _connection.OpenAsync();
 
-                string query = $"DELETE FROM public.storagepoststars WHERE id = @ID;";
+                string query = $"DELETE FROM public.storagepoststars WHERE post_id = @ID;";
                 var result = await _connection.ExecuteAsync(query, new { ID = Id });
 
                 return result;
@@ -67,6 +67,27 @@ namespace GreenSale.DataAccess.Repositories.Storages
             catch
             {
                 return 0;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task<bool> DeleteUserAsync(long userId)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string query = $"DELETE FROM public.storages WHERE user_id = @ID;";
+                var result = await _connection.ExecuteAsync(query, new { ID = userId });
+
+                return result > 0;
+            }
+            catch
+            {
+                return false;
             }
             finally
             {

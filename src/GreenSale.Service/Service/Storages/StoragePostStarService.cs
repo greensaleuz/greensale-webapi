@@ -71,9 +71,7 @@ public class StoragePostStarService : IStoragePostStarService
 
     public async Task<bool> DeleteAsync(long userId, long postId)
     {
-        long Id = await GetIdAsync(userId, postId);
-
-        var result = await _storageStarRepository.DeleteAsync(Id);
+        var result = await _storageStarRepository.DeleteAsync(postId);
 
         return result>0;
     }

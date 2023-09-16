@@ -70,10 +70,8 @@ public class SellerPostStarService : ISellerPostStarService
     }
 
     public async Task<bool> DeleteAsync( long userId, long postId)
-    {
-        long Id = await GetIdAsync(userId, postId);
-
-        var result = await _sellerPostStarRepository.DeleteAsync(Id);
+    { 
+        var result = await _sellerPostStarRepository.DeleteAsync(postId);
 
         return result>0;
     }
