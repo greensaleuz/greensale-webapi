@@ -57,7 +57,7 @@ namespace GreenSale.DataAccess.Repositories.StorageCategories
             {
                 await _connection.OpenAsync();
 
-                string query = $"DELETE FROM storage_categories WHERE storage_id={Id};";
+                string query = $"DELETE FROM storage_categories WHERE storage_id={Id} or category_id= {Id} ;";
                 var result = await _connection.ExecuteAsync(query);
 
                 return result;
@@ -109,6 +109,50 @@ namespace GreenSale.DataAccess.Repositories.StorageCategories
             catch
             {
                 return new StorageCategory();
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task<long> GetCategoriesAsync(long storageId)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string query = "SELECT category_id FROM storage_categories WHERE storage_id=@ID; ";
+
+                var result = await _connection.QuerySingleAsync<long>(query, new {ID=storageId});
+
+                return result;
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                await _connection.CloseAsync();
+            }
+        }
+
+        public async Task<List<long>> GetStorageIdAsync(long categoryId)
+        {
+            try
+            {
+                await _connection.OpenAsync();
+
+                string query = "SELECT storage_id FROM storage_categories WHERE category_id=@ID; ";
+
+                var result = (await _connection.QueryAsync<long>(query,new {ID=categoryId})).ToList();
+
+                return result;
+            }
+            catch
+            {
+                return new List<long>();
             }
             finally
             {

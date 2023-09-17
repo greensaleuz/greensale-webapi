@@ -114,6 +114,26 @@ public class CategoryRepository : BaseRepository, ICategoryRepository
         }
     }
 
+    public async Task<string> GetCategoryNameAsync(long categoryId)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT name FROM categories where id=@ID;";
+            var result = await _connection.QuerySingleAsync<string>(query, new { ID = categoryId });
+
+            return result;
+        }
+        catch
+        {
+            return "";
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<int> UpdateAsync(long Id, Category entity)
     {
         try

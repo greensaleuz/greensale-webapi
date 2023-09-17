@@ -125,6 +125,8 @@ public class StorageService : IStoragesService
         {
             item.AverageStars = await _storagePostStarService.AvarageStarAsync(item.Id);
             item.UserStars = await _storagePostStarService.GetUserStarAsync(item.Id);
+            long categoryId = await _storagecategoryRepository.GetCategoriesAsync(item.Id);
+            item.StorageCategory = await _categoryRepository.GetCategoryNameAsync(categoryId);
         }
 
         var count = await _repository.CountAsync();
@@ -139,7 +141,9 @@ public class StorageService : IStoragesService
 
         getId.AverageStars = await _storagePostStarService.AvarageStarAsync(getId.Id);
         getId.UserStars = await _storagePostStarService.GetUserStarAsync(getId.Id);
-        
+        long categoryId = await _storagecategoryRepository.GetCategoriesAsync(getId.Id);
+        getId.StorageCategory = await _categoryRepository.GetCategoryNameAsync(categoryId);
+
         if (getId.Id == 0)
             throw new StorageNotFoundException();
 
@@ -226,6 +230,8 @@ public class StorageService : IStoragesService
         {
             item.AverageStars = await _storagePostStarService.AvarageStarAsync(item.Id);
             item.UserStars = await _storagePostStarService.GetUserStarAsync(item.Id);
+            long categoryId = await _storagecategoryRepository.GetCategoriesAsync(item.Id);
+            item.StorageCategory = await _categoryRepository.GetCategoryNameAsync(categoryId);
         }
 
         var count = await _repository.CountAsync();
@@ -244,6 +250,8 @@ public class StorageService : IStoragesService
         {
             item.AverageStars = await _storagePostStarService.AvarageStarAsync(item.Id);
             item.UserStars = await _storagePostStarService.GetUserStarAsync(item.Id);
+            long categoryId = await _storagecategoryRepository.GetCategoriesAsync(item.Id);
+            item.StorageCategory = await _categoryRepository.GetCategoryNameAsync(categoryId);
         }
 
         return res;

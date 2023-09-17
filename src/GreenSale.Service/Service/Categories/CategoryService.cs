@@ -1,6 +1,7 @@
 ﻿using GreenSale.Application.Exceptions.Categories;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.Categories;
+using GreenSale.DataAccess.Interfaces.StorageCategories;
 using GreenSale.Domain.Entites.Categories;
 using GreenSale.Persistence.Dtos.CategoryDtos;
 using GreenSale.Service.Helpers;
@@ -17,6 +18,7 @@ namespace GreenSale.Service.Service.Categories
         private ISellerPostService _sellerservice;
         private IBuyerPostService _buyerservice;
         private IStoragesService _storageservice;
+        private IStorageCategoryRepository _storageCategoryRepository;
         private ICategoryRepository _repository;
         private IPaginator _paginator;
 
@@ -24,11 +26,13 @@ namespace GreenSale.Service.Service.Categories
             ICategoryRepository repository,
             IPaginator paginator,
             ISellerPostService sellerPostService,
+            IStorageCategoryRepository storageCategoryRepository,
             IBuyerPostService buyerPostService,
             IStoragesService storagesService)
         {
             this._sellerservice = sellerPostService;
             this._buyerservice = buyerPostService;
+            this._storageCategoryRepository = storageCategoryRepository;
             this._storageservice = storagesService;
             this._repository = repository;
             _paginator = paginator;
@@ -64,7 +68,6 @@ namespace GreenSale.Service.Service.Categories
 
             var seller = await _sellerservice.GetAllByIdAsync(categoryId);
             var buyer = await _buyerservice.GetAllByIdAsync(categoryId);
-
             foreach (var item in seller)
             {
                 await _sellerservice.DeleteAsync(item.Id);
@@ -75,7 +78,14 @@ namespace GreenSale.Service.Service.Categories
                 await _buyerservice.DeleteAsync(item.Id);
             }
 
+            List<long> storageId = await _storageCategoryRepository.GetStorageIdAsync(categoryId);
+            var storagecategory = await _storageCategoryRepository.DeleteAsync(categoryId);
             var result = await _repository.DeleteAsync(categoryId);
+
+            foreach (var id in storageId)
+            {
+                await  _storageservice.DeleteAsync(id);
+            }
 
             return result > 0;
         }
