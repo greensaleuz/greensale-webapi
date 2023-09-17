@@ -74,6 +74,7 @@ namespace GreenSale.DataAccess.Repositories.Roles
         {
             try
             {
+
                 await _connection.OpenAsync();
 
                 string query = "SELECT * FROM Role order by id desc " +

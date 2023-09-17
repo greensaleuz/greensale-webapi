@@ -25,6 +25,7 @@ public class BuyerPostService : IBuyerPostService
     private readonly IPaginator _paginator;
     private readonly IFileService _fileService;
     private readonly IBuyerPostImageRepository _imageRepository;
+    private readonly IBuyerPostStarService _buyerPostStarService;
     private readonly IIdentityService _identity;
     private readonly string BUYERPOSTIMAGES = "BuyerPostImages";
 
@@ -35,6 +36,7 @@ public class BuyerPostService : IBuyerPostService
         IBuyerPostImageRepository imageRepository,
         IIdentityService identity,
         ICategoryRepository categoryRepository,
+        IBuyerPostStarService buyerPostStarService,
         IUserRepository userRepository)
     {
         this._userep = userRepository;
@@ -43,6 +45,7 @@ public class BuyerPostService : IBuyerPostService
         this._paginator = paginator;
         this._fileService = fileService;
         this._imageRepository = imageRepository;
+        this._buyerPostStarService = buyerPostStarService;
         this._identity = identity;
     }
 
@@ -125,9 +128,10 @@ public class BuyerPostService : IBuyerPostService
             throw new ImageNotFoundException();
 
         var DbImgResult = await _imageRepository.DeleteAsync(buyerId);
+        var deletestarresult = await _buyerPostStarService.DeleteAsync(DbFound.UserId, buyerId);
         var DbResult = await _postRepository.DeleteAsync(buyerId);
 
-        if (DbResult > 0 && 0 < DbImgResult)
+        if (DbResult > 0 && 0 < DbImgResult && deletestarresult)
         {
             foreach (var item in DbImgAll)
             {
@@ -160,6 +164,8 @@ public class BuyerPostService : IBuyerPostService
         foreach (var item in DbResult)
         {
             item.BuyerPostsImages = new List<BuyerPostImage>();
+            item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars=await _buyerPostStarService.GetUserStarAsync(item.Id);
 
             foreach (var img in dBim)
             {
@@ -200,7 +206,8 @@ public class BuyerPostService : IBuyerPostService
         foreach (var item in DbResult)
         {
             item.BuyerPostsImages = new List<BuyerPostImage>();
-
+            item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _buyerPostStarService.GetUserStarAsync(item.Id);
             foreach (var img in dBim)
             {
                 if (img.BuyerpostId == item.Id)
@@ -224,6 +231,11 @@ public class BuyerPostService : IBuyerPostService
     public async Task<List<BuyerPostViewModel>> GetAllByIdAsync(long BuyerId)
     {
         var res = await _postRepository.GetAllByIdBuyerAsync(BuyerId);
+        foreach (var item in res)
+        {
+            item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _buyerPostStarService.GetUserStarAsync(item.Id);
+        }
         return res;
     }
 
@@ -234,6 +246,9 @@ public class BuyerPostService : IBuyerPostService
 
         if (item.Id == 0)
             throw new BuyerPostNotFoundException();
+
+        item.AverageStars = await _buyerPostStarService.AvarageStarAsync(buyerId);
+        item.UserStars = await _buyerPostStarService.GetUserStarAsync(buyerId);
 
         item.BuyerPostsImages = new List<BuyerPostImage>();
 
@@ -278,6 +293,8 @@ public class BuyerPostService : IBuyerPostService
 
         foreach (var item in DbResult.Item2)
         {
+            item.AverageStars = await _buyerPostStarService.AvarageStarAsync(item.Id);
+            item.UserStars = await _buyerPostStarService.GetUserStarAsync(item.Id);
             item.BuyerPostsImages = new List<BuyerPostImage>();
 
             foreach (var img in dBim)
