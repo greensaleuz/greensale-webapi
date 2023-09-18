@@ -14,4 +14,5 @@ public interface IUserService
     public Task<long> CountAsync();
     public Task<List<UserViewModel>> GetAllAsync(PaginationParams @params);
     public Task<UserViewModel> GetByIdAsync(long userId);
+    public Task<List<UserViewModel>> GetAllAdminAsync(PaginationParams @params);
 }

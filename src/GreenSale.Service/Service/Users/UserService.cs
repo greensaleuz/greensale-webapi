@@ -122,6 +122,20 @@ public class UserService : IUserService
         return DbResult > 0;
     }
 
+    public async Task<List<UserViewModel>> GetAllAdminAsync(PaginationParams @params)
+    {
+        var adminId = await _rolerepository.GetAdminIdASync(@params);
+
+        List<UserViewModel> admins = new List<UserViewModel>();
+
+        foreach (var id in adminId)
+        {
+            admins.Add(await _userRepository.GetByIdAsync(id));
+        }
+
+        return admins;
+    }
+
     public async Task<List<UserViewModel>> GetAllAsync(PaginationParams @params)
     {
         var DbResult = await _userRepository.GetAllAsync(@params);

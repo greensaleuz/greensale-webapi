@@ -1,6 +1,7 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.Service.Interfaces.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GreenSale.WebApi.Controllers.Admin.Users
 {
@@ -28,20 +29,9 @@ namespace GreenSale.WebApi.Controllers.Admin.Users
         public async Task<IActionResult> CountAsync()
             => Ok(await _userService.CountAsync());
 
-        /*[HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateAsync(long userId, [FromQuery] UserUpdateDto dto)
-        {
-            UserUpdateValidator validations = new UserUpdateValidator();
-            var resltvalid = validations.Validate(dto);
-            if (resltvalid.IsValid)
-            {
-                var result = await _userService.UpdateByAdminAsync(userId, dto);
-
-                return Ok(result);
-            }
-            else
-                return BadRequest(resltvalid.Errors);
-        }*/
+        [HttpGet("admin")]
+        public async Task<IActionResult> GetAllAdminAsync([FromQuery] int page = 1)
+       => Ok(await _userService.GetAllAdminAsync(new PaginationParams(page, maxPage)));
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteAsync(long userId)
