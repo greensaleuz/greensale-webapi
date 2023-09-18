@@ -71,6 +71,29 @@ public class UserRoleRepository : BaseRepository, IUserRoles
         }
     }
 
+    public async Task<List<long>> GetAdminIdASync(PaginationParams @params)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string qauery = "SELECT * FROM user_roles where role_id=2 order by id desc " +
+                $"offset {@params.GetSkipCount()} limit {@params.PageSize} ";
+
+            var result = (await _connection.QueryAsync<long>(qauery)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<long>();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<List<UserRoleViewModel>> GetAllAsync(PaginationParams @params)
     {
         try
