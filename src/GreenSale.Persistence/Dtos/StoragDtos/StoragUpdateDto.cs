@@ -12,5 +12,4 @@ public class StoragUpdateDto
     public double AddressLatitude { get; set; }
     public double AddressLongitude { get; set; }
     public string Info { get; set; } = string.Empty;
-    public IFormFile ImagePath { get; set; } = default!;
 }
