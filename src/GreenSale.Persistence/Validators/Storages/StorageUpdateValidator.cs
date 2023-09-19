@@ -26,16 +26,16 @@ public class StorageUpdateValidator : AbstractValidator<StoragUpdateDto>
         RuleFor(dto => dto.AddressLatitude).NotNull().NotEmpty().WithMessage("Latitude filed is required");
         RuleFor(dto => dto.AddressLongitude).NotNull().NotEmpty().WithMessage("Longitude filed is required");
 
-        When(dto => dto.ImagePath is not null, () =>
-        {
-            int maxImageSize = 5;
-            RuleFor(dto => dto.ImagePath!.Length).LessThan(maxImageSize * 1024 * 1024 + 1).WithMessage($"Image size be less than {maxImageSize} MB");
-            RuleFor(dto => dto.ImagePath!.FileName).Must(predicate =>
-            {
-                FileInfo fileInfo = new FileInfo(predicate);
+        //When(dto => dto.ImagePath is not null, () =>
+        //{
+        //    int maxImageSize = 5;
+        //    RuleFor(dto => dto.ImagePath!.Length).LessThan(maxImageSize * 1024 * 1024 + 1).WithMessage($"Image size be less than {maxImageSize} MB");
+        //    RuleFor(dto => dto.ImagePath!.FileName).Must(predicate =>
+        //    {
+        //        FileInfo fileInfo = new FileInfo(predicate);
 
-                return MediaHelper.GetImageExtensions().Contains(fileInfo.Extension);
-            }).WithMessage("This file type is not image file");
-        });
+        //        return MediaHelper.GetImageExtensions().Contains(fileInfo.Extension);
+        //    }).WithMessage("This file type is not image file");
+        //});
     }
 }
