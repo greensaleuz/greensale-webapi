@@ -23,7 +23,7 @@ public class AuthController : BaseController
         _authService = authServices;
         _userRole = userRole;
     }
-    [HttpGet("userole")]
+    [HttpGet("check/user/role")]
     public async Task<IActionResult> GetUserRole()
         => Ok (await _userRole.GetRole());
 

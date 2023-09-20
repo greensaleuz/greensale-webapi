@@ -80,7 +80,7 @@ public class UserRepository : BaseRepository, IUserRepository
         {
             await _connection.OpenAsync();
 
-            string query = "SELECT id, first_name, last_name, phone_number, region, district, address " +
+            string query = "SELECT id, first_name, last_name, phone_number, region, district, address , created_at, updated_at " +
                 $"FROM public.users ORDER BY id DESC OFFSET {@params.GetSkipCount()} LIMIT {@params.PageSize};";
 
             var result = (await _connection.QueryAsync<UserViewModel>(query)).ToList();
