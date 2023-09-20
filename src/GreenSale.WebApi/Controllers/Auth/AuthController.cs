@@ -2,6 +2,7 @@
 using GreenSale.Persistence.Dtos.Auth;
 using GreenSale.Persistence.Validators;
 using GreenSale.Service.Interfaces.Auth;
+using GreenSale.Service.Interfaces.Roles;
 using GreenSale.WebApi.Controllers.Common;
 using GreenSaleuz.Persistence.Validators.Dtos.AuthUserValidators;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,18 @@ namespace GreenSale.WebApi.Controllers.Auth;
 public class AuthController : BaseController
 {
     private readonly IAuthServices _authService;
+    private readonly IUserRoleService _userRole;
 
-    public AuthController(
+    public AuthController(IUserRoleService userRole,
         IAuthServices authServices,
         IConfiguration configuration)
     {
         _authService = authServices;
+        _userRole = userRole;
     }
+    [HttpGet("userole")]
+    public async Task<IActionResult> GetUserRole()
+        => Ok (await _userRole.GetRole());
 
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromForm] UserRegisterDto dto)
