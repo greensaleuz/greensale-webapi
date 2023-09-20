@@ -81,9 +81,9 @@ public class UserRepository : BaseRepository, IUserRepository
             await _connection.OpenAsync();
 
             string query = "SELECT id, first_name, last_name, phone_number, region, district, address " +
-                "FROM public.users;";
+                $"FROM public.users ORDER BY id DESC OFFSET {@params.GetSkipCount()} LIMIT {@params.PageSize};";
 
-            var result = await _connection.QueryAsync<UserViewModel>(query);
+            var result = (await _connection.QueryAsync<UserViewModel>(query)).ToList();
 
             return result.ToList();
         }

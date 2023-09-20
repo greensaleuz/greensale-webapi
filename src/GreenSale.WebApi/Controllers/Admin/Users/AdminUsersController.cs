@@ -10,7 +10,7 @@ namespace GreenSale.WebApi.Controllers.Admin.Users
     public class AdminUsersController : AdminBaseController
     {
         private readonly IUserService _userService;
-        private readonly int maxPage = 30;
+        private readonly int maxPage = 20;
 
         public AdminUsersController(IUserService userService)
         {

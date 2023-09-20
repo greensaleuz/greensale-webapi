@@ -9,7 +9,7 @@ namespace GreenSale.WebApi.Controllers.Common.BuyerPosts
     public class CommonBuyerPostsController : BaseController
     {
         private IBuyerPostService _service;
-        private readonly int maxPage = 30;
+        private readonly int maxPage = 20;
         public CommonBuyerPostsController(IBuyerPostService service)
         {
             this._service = service;

@@ -36,6 +36,7 @@ app.UseCors("AllowAll");
 
 app.UseStaticFiles();
 
+app.UseMiddleware<CrosOriginAccessMiddleware>();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseAuthentication();

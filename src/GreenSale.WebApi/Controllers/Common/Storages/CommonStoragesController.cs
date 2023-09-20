@@ -9,7 +9,7 @@ namespace GreenSale.WebApi.Controllers.Common.Storages;
 public class CommonStoragesController : BaseController
 {
     private IStoragesService _service;
-    private int maxPageSize = 30;
+    private int maxPageSize = 20;
 
     public CommonStoragesController(IStoragesService service)
     {
