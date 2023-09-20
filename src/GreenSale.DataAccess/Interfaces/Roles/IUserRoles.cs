@@ -7,5 +7,6 @@ namespace GreenSale.DataAccess.Interfaces.Roles
     public interface IUserRoles : IRepository<UserRole, UserRoleViewModel>
     { 
         public Task<List<long>> GetAdminIdASync(PaginationParams @params);
+        public Task<UserRole>GetUserRole(long id);
     }
 }

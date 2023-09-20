@@ -137,6 +137,26 @@ public class UserRoleRepository : BaseRepository, IUserRoles
         }
     }
 
+    public async Task<UserRole> GetUserRole(long id)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = "select role_id from user_roles  where user_id = @ID";
+            var result = await _connection.QuerySingleAsync<UserRole>(query, new { Id = id });
+
+            return result;
+        }
+        catch
+        {
+            return new UserRole();
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<int> UpdateAsync(long Id, UserRole entity)
     {
         try

@@ -34,9 +34,8 @@ public class IdentityService : IIdentityService
         {
             if (_accessor.HttpContext is null)
                 return "";
-
-            var claim = _accessor.HttpContext.User.Claims.FirstOrDefault(op => op.Type == "RoleName");
-
+            string type = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role";
+            var claim = _accessor.HttpContext.User.Claims.FirstOrDefault(op => op.Type == type);
             if (claim is null)
                 return "";
             else
