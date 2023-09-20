@@ -194,7 +194,7 @@ namespace GreenSale.DataAccess.Repositories.SellerPosts
 
                 string query = $"UPDATE public.sellerpoststars " +
                     $"SET stars = @Stars, created_at = @CreatedAt, updated_at = @UpdatedAt " +
-                        $"WHERE user_id = and post_id =; ";
+                        $"WHERE id = {Id};";
 
                 var result = await _connection.ExecuteAsync(query, entity);
 

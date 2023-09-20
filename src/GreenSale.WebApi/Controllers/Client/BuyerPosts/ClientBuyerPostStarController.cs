@@ -31,19 +31,19 @@ namespace GreenSale.WebApi.Controllers.Client.BuyerPosts
                 return BadRequest(resltvalid.Errors);
         }
 
-        [HttpPut("{postId}")]
-        public async Task<IActionResult> UpdateAsync([FromForm] long postId, [FromForm] BuyerPostStarUpdateDto dto)
-        {
-            PostStarValidator validations = new PostStarValidator();
-            var resltvalid = validations.Validate(dto.Stars);
-            if (resltvalid.IsValid)
-            {
-                var result = await _buyerPostStarService.UpdateAsync(postId, dto);
+        //[HttpPut("{postId}")]
+        //public async Task<IActionResult> UpdateAsync([FromForm] long postId, [FromForm] BuyerPostStarUpdateDto dto)
+        //{
+        //    PostStarValidator validations = new PostStarValidator();
+        //    var resltvalid = validations.Validate(dto.Stars);
+        //    if (resltvalid.IsValid)
+        //    {
+        //        var result = await _buyerPostStarService.UpdateAsync(postId, dto);
 
-                return Ok(result);
-            }
-            else
-                return BadRequest(resltvalid.Errors);
-        }
+        //        return Ok(result);
+        //    }
+        //    else
+        //        return BadRequest(resltvalid.Errors);
+        //}
     }
 }
