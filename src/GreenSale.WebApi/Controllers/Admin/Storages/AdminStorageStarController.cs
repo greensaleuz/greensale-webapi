@@ -32,19 +32,19 @@ namespace GreenSale.WebApi.Controllers.Admin.Storages
                 return BadRequest(resltvalid.Errors);
         }
 
-        [HttpPut("{postId}")]
-        public async Task<IActionResult> UpdateAsync([FromForm] long postId, [FromForm] StorageStarUpdateDto dto)
-        {
-            PostStarValidator validations = new PostStarValidator();
-            var resltvalid = validations.Validate(dto.Stars);
-            if (resltvalid.IsValid)
-            {
-                var result = await _storagePostStarService.UpdateAsync(postId, dto);
+        //[HttpPut("{postId}")]
+        //public async Task<IActionResult> UpdateAsync([FromForm] long postId, [FromForm] StorageStarUpdateDto dto)
+        //{
+        //    PostStarValidator validations = new PostStarValidator();
+        //    var resltvalid = validations.Validate(dto.Stars);
+        //    if (resltvalid.IsValid)
+        //    {
+        //        var result = await _storagePostStarService.UpdateAsync(postId, dto);
 
-                return Ok(result);
-            }
-            else
-                return BadRequest(resltvalid.Errors);
-        }
+        //        return Ok(result);
+        //    }
+        //    else
+        //        return BadRequest(resltvalid.Errors);
+        //}
     }
 }

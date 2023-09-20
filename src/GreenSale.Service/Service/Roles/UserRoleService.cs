@@ -5,6 +5,7 @@ using GreenSale.DataAccess.ViewModels.UserRoles;
 using GreenSale.Domain.Entites.Roles.UserRoles;
 using GreenSale.Persistence.Dtos.RoleDtos;
 using GreenSale.Service.Helpers;
+using GreenSale.Service.Interfaces.Auth;
 using GreenSale.Service.Interfaces.Common;
 using GreenSale.Service.Interfaces.Roles;
 
@@ -14,13 +15,16 @@ public class UserRoleService : IUserRoleService
 {
     private readonly IPaginator _paginator;
     private readonly IUserRoles _userRole;
+    private readonly IIdentityService _identity;
 
     public UserRoleService(
+        IIdentityService identity,
         IUserRoles userRoles,
         IPaginator paginator)
     {
         this._paginator = paginator;
         this._userRole = userRoles;
+        this._identity = identity;
     }
 
     public async Task<long> CountAsync()
@@ -59,6 +63,11 @@ public class UserRoleService : IUserRoleService
             throw new UserRoleNotFoundException();
 
         return DbResultFound;
+    }
+
+    public async Task<UserRole> GetRole()
+    {
+      return await _userRole.GetUserRole(_identity.Id);
     }
 
     public async Task<bool> UpdateAsync(long UserroleId, UserRoleDtoUpdate dto)
