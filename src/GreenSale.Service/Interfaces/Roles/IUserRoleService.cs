@@ -1,5 +1,6 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.ViewModels.UserRoles;
+using GreenSale.Domain.Entites.Roles.UserRoles;
 using GreenSale.Persistence.Dtos.RoleDtos;
 
 namespace GreenSale.Service.Interfaces.Roles
@@ -11,5 +12,6 @@ namespace GreenSale.Service.Interfaces.Roles
         public Task<List<UserRoleViewModel>> GetAllAsync(PaginationParams @params);
         public Task<UserRoleViewModel> GetByIdAsync(long UserroleId);
         public Task<long> CountAsync();
+        public Task<UserRole> GetRole();
     }
 }
