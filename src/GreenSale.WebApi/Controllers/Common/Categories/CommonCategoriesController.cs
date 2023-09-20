@@ -9,7 +9,7 @@ namespace GreenSale.WebApi.Controllers.Common.Categories;
 public class CommonCategoriesController : BaseController
 {
     private ICategoryService _service;
-    private readonly int maxPage = 30;
+    private readonly int maxPage = 20;
 
     public CommonCategoriesController(ICategoryService service)
     {

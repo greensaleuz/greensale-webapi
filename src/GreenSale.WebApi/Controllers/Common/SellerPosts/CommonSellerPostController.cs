@@ -9,7 +9,7 @@ namespace GreenSale.WebApi.Controllers.Common.SellerPosts;
 public class CommonSellerPostController : BaseController
 {
     private readonly ISellerPostService _postService;
-    private int maxpage = 30;
+    private int maxpage = 20;
 
     public CommonSellerPostController(ISellerPostService postService)
     {
