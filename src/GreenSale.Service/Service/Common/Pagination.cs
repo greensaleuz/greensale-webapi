@@ -22,6 +22,10 @@ public class Pagination : IPaginator
         metaData.PageSize = @params.PageSize;
 
         metaData.TotalPages = (int)Math.Ceiling((double)itemsCount) / (@params.PageSize);
+        if ((int)Math.Ceiling((double)itemsCount) % (@params.PageSize) > 0)
+        {
+            metaData.TotalPages += 1;
+        }
         metaData.HasPrevious = metaData.CurrentPage > 1;
         metaData.HasNext = metaData.CurrentPage < metaData.TotalPages;
 
