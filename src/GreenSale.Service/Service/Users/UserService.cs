@@ -125,7 +125,8 @@ public class UserService : IUserService
     public async Task<List<UserViewModel>> GetAllAdminAsync(PaginationParams @params)
     {
         var adminId = await _rolerepository.GetAdminIdASync(@params);
-
+        var count = await _rolerepository.CountAsync();
+        _paginator.Paginate(count, @params);
         List<UserViewModel> admins = new List<UserViewModel>();
 
         foreach (var id in adminId)
