@@ -63,6 +63,13 @@ public class BuyerPostService : IBuyerPostService
         return DbResult;
     }
 
+    public async Task<long> CountStatusNewAsync()
+    {
+        var DbResult = await _postRepository.CountStatusNewAsync();
+
+        return DbResult;
+    }
+
     public async Task<bool> CreateAsync(BuyerPostCreateDto dto)
     {
         var check = await _categoryRepository.GetByIdAsync(dto.CategoryID);

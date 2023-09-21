@@ -23,6 +23,9 @@ public class CommonSellerPostController : BaseController
     [HttpGet("agreed/count")]
     public async Task<IActionResult> CountAgreeAsync()
             => Ok(await _postService.CountStatusAgreeAsync());
+    [HttpGet("new/count")]
+    public async Task<IActionResult> CountNewAsync()
+           => Ok(await _postService.CountStatusNewAsync());
 
     [HttpGet]
     public async Task<IActionResult> GetAllasync([FromQuery] int page = 1)

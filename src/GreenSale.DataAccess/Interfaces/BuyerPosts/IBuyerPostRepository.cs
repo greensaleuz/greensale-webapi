@@ -12,4 +12,5 @@ public interface IBuyerPostRepository : IRepository<BuyerPost, BuyerPostViewMode
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId);
     public Task<List<BuyerPostViewModel>> GetAllByIdBuyerAsync(long buyerId);
     public Task<long> CountStatusAgreeAsync();
+    public Task<long> CountStatusNewAsync();
 }
