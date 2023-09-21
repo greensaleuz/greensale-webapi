@@ -3,6 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenSale.WebApi.Controllers.Admin;
 
-[Authorize(Roles = "admin, SuperAdmin")]
+[Authorize(Roles = "Admin, SuperAdmin")]
 public class AdminBaseController : ControllerBase
 { }
