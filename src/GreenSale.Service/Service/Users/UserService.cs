@@ -171,6 +171,20 @@ public class UserService : IUserService
         return DbResult;
     }
 
+    public async Task<(long IteamCount, List<UserViewModel>)> SearchAsync(string search)
+    {
+        var result = await _userRepository.SearchAsync(search);
+
+        if(result.ItemsCount == 0)
+        {
+            List<UserViewModel> userViewModels = new List<UserViewModel>();
+
+            return (result.ItemsCount, userViewModels);
+        }
+        
+        return result;
+    }
+
     public async Task<bool> UpdateAsync(UserUpdateDto dto)
     {
         var DbFound = await _userRepository.GetByPhoneAsync(_identity.PhoneNumber);

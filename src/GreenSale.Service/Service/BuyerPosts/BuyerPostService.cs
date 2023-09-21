@@ -307,7 +307,11 @@ public class BuyerPostService : IBuyerPostService
     {
         var DbResult = await _postRepository.SearchAsync(search);
 
-        if (DbResult.ItemsCount == 0) throw new BuyerPostNotFoundException();
+        if (DbResult.ItemsCount == 0)
+        {
+            List<BuyerPostViewModel> empty = new List<BuyerPostViewModel>();
+            return (0, empty);
+        }
 
         var dBim = await _imageRepository.GetFirstAllAsync();
 

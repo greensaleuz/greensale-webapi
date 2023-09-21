@@ -40,5 +40,14 @@ namespace GreenSale.WebApi.Controllers.Admin.Users
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteAsync(long userId)
             => Ok(await _userService.DeleteAsync(userId));
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchAsync([FromQuery] string search)
+        {
+
+             var res = (await _userService.SearchAsync(search));
+        
+            return Ok(new { res.IteamCount, res.Item2 });
+        }
     }
 }

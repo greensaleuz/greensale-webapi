@@ -1,4 +1,5 @@
 ﻿using GreenSale.Application.Utils;
+using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.DataAccess.ViewModels.Users;
 using GreenSale.Persistence.Dtos.UserDtos;
 using GreenSale.Persistence.Validators.Users;
@@ -16,4 +17,5 @@ public interface IUserService
     public Task<UserViewModel> GetByIdAsync(long userId);
     public Task<List<UserViewModel>> GetAllAdminAsync(PaginationParams @params);
     public Task<List<UserViewModel>> GetAllUserAsync(PaginationParams @params);
+    public Task<(long IteamCount, List<UserViewModel>)> SearchAsync(string search);
 }
