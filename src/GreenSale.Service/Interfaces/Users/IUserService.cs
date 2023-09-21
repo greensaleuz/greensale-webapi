@@ -15,4 +15,5 @@ public interface IUserService
     public Task<List<UserViewModel>> GetAllAsync(PaginationParams @params);
     public Task<UserViewModel> GetByIdAsync(long userId);
     public Task<List<UserViewModel>> GetAllAdminAsync(PaginationParams @params);
+    public Task<List<UserViewModel>> GetAllUserAsync(PaginationParams @params);
 }

@@ -33,6 +33,10 @@ namespace GreenSale.WebApi.Controllers.Admin.Users
         public async Task<IActionResult> GetAllAdminAsync([FromQuery] int page = 1)
        => Ok(await _userService.GetAllAdminAsync(new PaginationParams(page, maxPage)));
 
+        [HttpGet("only/users")]
+        public async Task<IActionResult> GetAllUserAsync([FromQuery] int page = 1)
+     => Ok(await _userService.GetAllUserAsync(new PaginationParams(page, maxPage)));
+
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteAsync(long userId)
             => Ok(await _userService.DeleteAsync(userId));
