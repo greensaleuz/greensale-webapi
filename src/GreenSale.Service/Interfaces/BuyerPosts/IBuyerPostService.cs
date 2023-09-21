@@ -1,5 +1,6 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
+using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
 
@@ -21,4 +22,6 @@ public interface IBuyerPostService
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long BuyerId);
     public Task<BuyerPostViewModel> GetBYIdAsync(long buyerId);
     public Task<(long IteamCount, List<BuyerPostViewModel>)> SearchingAsync(string search);
+    public Task<List<PostCreatedAt>> BuyerDaylilyCreatedAsync(int day);
+    public Task<List<PostCreatedAt>> BuyerMonthlyCreatedAsync(int month);
 }

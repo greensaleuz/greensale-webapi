@@ -22,4 +22,6 @@ public interface ISellerPostService
     public Task<List<SellerPost>> GetAllByIdAsync(long sellerId);
     public Task<SellerPostViewModel> GetBYIdAsync(long sellerId);
     public Task<(long IteamCount, List<SellerPostViewModel>)> SearchAsync(string search);
+    public Task<List<PostCreatedAt>> SellerDaylilyCreatedAsync(int day);
+    public Task<List<PostCreatedAt>> SellerMonthlyCreatedAsync(int month);
 }

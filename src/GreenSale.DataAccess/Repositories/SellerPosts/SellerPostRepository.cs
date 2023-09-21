@@ -274,6 +274,44 @@ public class SellerPostRepository : BaseRepository, ISellerPostsRepository
         }
     }
 
+    public async Task<List<PostCreatedAt>> SellerDaylilyCreatedAsync(string day)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = "SELECT DATE(created_at) AS kun, COUNT(*) FROM seller_posts " +
+                $"WHERE DATE(created_at) >= CURRENT_DATE - INTERVAL '{day} days' GROUP BY kun ORDER BY kun;";
+
+            var result = (await _connection.QueryAsync<PostCreatedAt>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<PostCreatedAt>();
+        }
+    }
+
+    public async Task<List<PostCreatedAt>> SellerMonthlyCreatedAsync(string month)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = "SELECT DATE_TRUNC('month', created_at) AS oy, COUNT(*) FROM seller_posts " +
+                $"WHERE created_at >= CURRENT_DATE - INTERVAL '{month} months' GROUP BY oy ORDER BY oy;";
+
+            var result = (await _connection.QueryAsync<PostCreatedAt>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<PostCreatedAt>();
+        }
+    }
+
     public async Task<int> UpdateAsync(long Id, SellerPost entity)
     {
         try

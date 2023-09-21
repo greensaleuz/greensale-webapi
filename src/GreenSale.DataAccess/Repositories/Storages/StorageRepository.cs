@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.Storages;
+using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.Domain.Entites.Storages;
 
@@ -182,6 +183,44 @@ public class StorageRepository : BaseRepository, IStorageRepository
         finally
         {
             await _connection.CloseAsync();
+        }
+    }
+
+    public async Task<List<PostCreatedAt>> StorageDaylilyCreatedAsync(string day)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = "SELECT DATE(created_at) AS kun, COUNT(*) FROM storages " +
+                $"WHERE DATE(created_at) >= CURRENT_DATE - INTERVAL '{day} days' GROUP BY kun ORDER BY kun;";
+
+            var result = (await _connection.QueryAsync<PostCreatedAt>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<PostCreatedAt>();
+        }
+    }
+
+    public async Task<List<PostCreatedAt>> StorageMonthlyCreatedAsync(string month)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = "SELECT DATE_TRUNC('month', created_at) AS oy, COUNT(*) FROM storages " +
+                $"WHERE created_at >= CURRENT_DATE - INTERVAL '{month} months' GROUP BY oy ORDER BY oy;";
+
+            var result = (await _connection.QueryAsync<PostCreatedAt>(query)).ToList();
+
+            return result;
+        }
+        catch
+        {
+            return new List<PostCreatedAt>();
         }
     }
 

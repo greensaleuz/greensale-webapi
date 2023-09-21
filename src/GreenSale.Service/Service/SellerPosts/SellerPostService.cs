@@ -318,6 +318,20 @@ public class SellerPostService : ISellerPostService
         return res;
     }
 
+    public async Task<List<PostCreatedAt>> SellerDaylilyCreatedAsync(int day)
+    {
+        var result = await _repository.SellerDaylilyCreatedAsync(day.ToString()); 
+        
+        return result;
+    }
+
+    public async Task<List<PostCreatedAt>> SellerMonthlyCreatedAsync(int month)
+    {
+        var result = await _repository.SellerMonthlyCreatedAsync(month.ToString());
+
+        return result;
+    }
+
     public async Task<bool> UpdateAsync(long sellerID, SellerPostUpdateDto dto)
     {
         var DbFound = await _repository.GetByIdAsync(sellerID);

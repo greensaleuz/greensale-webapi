@@ -7,6 +7,7 @@ using GreenSale.DataAccess.Interfaces.BuyerPosts;
 using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.Users;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
+using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 using GreenSale.Persistence.Dtos.BuyerPostImageUpdateDtos;
 using GreenSale.Persistence.Dtos.BuyerPostsDto;
@@ -47,6 +48,20 @@ public class BuyerPostService : IBuyerPostService
         this._imageRepository = imageRepository;
         this._buyerPostStarService = buyerPostStarService;
         this._identity = identity;
+    }
+
+    public async Task<List<PostCreatedAt>> BuyerDaylilyCreatedAsync(int day)
+    {
+        var result = await _postRepository.BuyerDaylilyCreatedAsync(day.ToString()); 
+        
+        return result;
+    }
+
+    public async Task<List<PostCreatedAt>> BuyerMonthlyCreatedAsync(int month)
+    {
+        var result = await _postRepository.BuyerDaylilyCreatedAsync(month.ToString());
+
+        return result;
     }
 
     public async Task<long> CountAsync()

@@ -7,6 +7,7 @@ using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.StorageCategories;
 using GreenSale.DataAccess.Interfaces.Storages;
 using GreenSale.DataAccess.Interfaces.Users;
+using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.Domain.Entites.Storages;
 using GreenSale.Persistence.Dtos.StoragDtos;
@@ -255,5 +256,19 @@ public class StorageService : IStoragesService
         }
 
         return res;
+    }
+
+    public async Task<List<PostCreatedAt>> StorageDaylilyCreatedAsync(int day)
+    {
+        var result = await _repository.StorageDaylilyCreatedAsync(day.ToString());
+
+        return result;
+    }
+
+    public async Task<List<PostCreatedAt>> StorageMonthlyCreatedAsync(int month)
+    {
+        var result = await _repository.StorageMonthlyCreatedAsync(month.ToString());
+
+        return result;
     }
 }

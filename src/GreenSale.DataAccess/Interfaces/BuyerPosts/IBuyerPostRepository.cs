@@ -1,6 +1,7 @@
 ﻿using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Common;
 using GreenSale.DataAccess.ViewModels.BuyerPosts;
+using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.BuyerPosts;
 
 namespace GreenSale.DataAccess.Interfaces.BuyerPosts;
@@ -13,4 +14,7 @@ public interface IBuyerPostRepository : IRepository<BuyerPost, BuyerPostViewMode
     public Task<List<BuyerPostViewModel>> GetAllByIdBuyerAsync(long buyerId);
     public Task<long> CountStatusAgreeAsync();
     public Task<long> CountStatusNewAsync();
+    public Task<List<PostCreatedAt>> BuyerDaylilyCreatedAsync(string day);
+    public Task<List<PostCreatedAt>> BuyerMonthlyCreatedAsync(string month);
+
 }

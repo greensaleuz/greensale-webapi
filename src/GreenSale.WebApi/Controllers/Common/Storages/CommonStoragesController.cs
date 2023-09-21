@@ -39,4 +39,12 @@ public class CommonStoragesController : BaseController
 
         return Ok(new { res.IteamCount, res.Item2 });
     }
+
+    [HttpGet("created/daylily/count")]
+    public async Task<IActionResult> GetCreatedDaylilyAsync([FromQuery] int day)
+           => Ok(await _service.StorageDaylilyCreatedAsync(day));
+
+    [HttpGet("created/monthly/count")]
+    public async Task<IActionResult> GetCreatedMonthlyAsync([FromQuery] int month)
+        => Ok(await _service.StorageMonthlyCreatedAsync(month));
 }
