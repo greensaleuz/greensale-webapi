@@ -143,7 +143,7 @@ public class UserRoleRepository : BaseRepository, IUserRoles
         {
             await _connection.OpenAsync();
 
-            string qauery = "SELECT user_id FROM user_roles where role_id=1 order by id desc " +
+            string qauery = "SELECT user_id FROM user_roles where role_id = 1 order by id desc " +
                 $"offset {@params.GetSkipCount()} limit {@params.PageSize} ";
 
             var result = (await _connection.QueryAsync<long>(qauery)).ToList();
