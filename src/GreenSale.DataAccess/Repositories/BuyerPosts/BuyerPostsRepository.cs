@@ -49,6 +49,26 @@ public class BuyerPostsRepository : BaseRepository, IBuyerPostRepository
         }
     }
 
+    public async Task<long> CountStatusNewAsync()
+    {
+        try
+        {
+            await _connection.OpenAsync();
+            string query = $"SELECT COUNT(*) FROM buyer_posts where status = '0';";
+            var result = await _connection.QuerySingleAsync<long>(query);
+
+            return result;
+        }
+        catch
+        {
+            return 0;
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
     public async Task<int> CreateAsync(BuyerPost entity)
     {
         try

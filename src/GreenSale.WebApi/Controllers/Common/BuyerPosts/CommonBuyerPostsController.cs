@@ -35,6 +35,10 @@ namespace GreenSale.WebApi.Controllers.Common.BuyerPosts
         public async Task<IActionResult> CountAgreeAsync()
             => Ok(await _service.CountStatusAgreeAsync());
 
+        [HttpGet("new/count")]
+        public async Task<IActionResult> CountNewAsync()
+           => Ok(await _service.CountStatusNewAsync());
+
         [HttpGet("search/title")]
         public async Task<IActionResult> SearchingAsync(string search)
         {

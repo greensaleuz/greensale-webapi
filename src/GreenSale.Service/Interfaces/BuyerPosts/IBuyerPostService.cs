@@ -15,6 +15,7 @@ public interface IBuyerPostService
     public Task<bool> ImageUpdateAsync(long ImageId, BuyerPostImageDto dto);
     public Task<long> CountAsync();
     public Task<long> CountStatusAgreeAsync();
+    public Task<long> CountStatusNewAsync();
     public Task<List<BuyerPostViewModel>> GetAllAsync(PaginationParams @params);
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long userId, PaginationParams @params);
     public Task<List<BuyerPostViewModel>> GetAllByIdAsync(long BuyerId);

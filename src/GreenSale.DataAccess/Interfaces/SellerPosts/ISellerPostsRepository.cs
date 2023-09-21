@@ -12,5 +12,6 @@ namespace GreenSale.DataAccess.Interfaces.SellerPosts
         public Task<List<SellerPostViewModel>> GetAllByIdAsync(long userId);
         public Task<List<SellerPost>> GetAllByIdSellerAsync(long categotyId);
         public Task<long> CountStatusAgreeAsync();
+        public Task<long> CountStatusNewAsync();
     }
 }
