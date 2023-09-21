@@ -13,7 +13,7 @@ public class UserRoleRepository : BaseRepository, IUserRoles
         try
         {
             await _connection.OpenAsync();
-            string query = "select count(*) from user_roles";
+            string query = "select count(*) from user_roles where = 1 ";
             var result = await _connection.QuerySingleAsync<long>(query);
 
             return result;
