@@ -148,8 +148,8 @@ public class UserRepository : BaseRepository, IUserRepository
         {
             await _connection.OpenAsync();
 
-            string query = @" SELECT *  FROM sellerposts  WHERE title ILIKE '%'  @Search '%' " +
-                " OFFSET @offset LIMIT @limit";
+            string query = $"SELECT *  FROM user_role_viewmodel  WHERE (first_name  ILIKE '%{search}%' or last_name ILIKE '%{search}%')" +
+                " and role_name = 'User'";
 
             /*var parameters = new
             {
