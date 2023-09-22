@@ -6,6 +6,7 @@ using GreenSale.Application.Utils;
 using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.SellerPosts;
 using GreenSale.DataAccess.Interfaces.Users;
+using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.Domain.Entites.SelerPosts;
 using GreenSale.Domain.Entites.SellerPosts;
@@ -289,7 +290,11 @@ public class SellerPostService : ISellerPostService
     {
         var res = await _repository.SearchAsync(search);
 
-        if (res.ItemsCount == 0) throw new SellerPostsNotFoundException();
+        if (res.ItemsCount == 0)
+        {
+            List<SellerPostViewModel> empty = new List<SellerPostViewModel>();
+            return (0, empty);
+        }
 
         var dBim = await _imageRepository.GetFirstAllAsync();
 

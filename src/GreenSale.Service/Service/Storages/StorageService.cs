@@ -7,6 +7,7 @@ using GreenSale.DataAccess.Interfaces.Categories;
 using GreenSale.DataAccess.Interfaces.StorageCategories;
 using GreenSale.DataAccess.Interfaces.Storages;
 using GreenSale.DataAccess.Interfaces.Users;
+using GreenSale.DataAccess.ViewModels.BuyerPosts;
 using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.Domain.Entites.Storages;
@@ -245,7 +246,11 @@ public class StorageService : IStoragesService
     {
         var res = await _repository.SearchAsync(search);
 
-        if(res.ItemsCount == 0) throw new StorageNotFoundException();
+        if(res.ItemsCount == 0)
+        {
+            List<StoragesViewModel> empty = new List<StoragesViewModel>();
+            return (0, empty);
+        }
 
         foreach (var item in res.Item2)
         {
