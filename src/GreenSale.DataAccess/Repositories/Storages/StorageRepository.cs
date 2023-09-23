@@ -233,7 +233,7 @@ public class StorageRepository : BaseRepository, IStorageRepository
             string query = "UPDATE public.storages " +
                 "SET name=@Name, description=@Description, region=@Region, district=@District, address=@Address, " +
                     " address_latitude=@AddressLatitude, address_longitude=@AddressLongitude, info=@Info, " +
-                        " image_path=@ImagePath, user_id=@UserId, created_at=@CreatedAt, updated_at=@UpdatedAt " +
+                        " user_id=@UserId, created_at=@CreatedAt, updated_at=@UpdatedAt " +
                         $" WHERE id={Id} RETURNING id ";
 
             return await _connection.ExecuteScalarAsync<int>(query, entity);

@@ -110,8 +110,8 @@ public class StorageService : IStoragesService
 
         var deleteImage = await _fileService.DeleteImageAsync(storageGet.ImagePath);
 
-        if (deleteImage == false)
-            throw new ImageNotFoundException();
+        /*if (deleteImage == false)
+            throw new ImageNotFoundException();*/
 
         var deletestarresult = await _storagePostStarService.DeleteAsync(storageGet.UserId,  storageId);
         var result = await _repository.DeleteAsync(storageId);
