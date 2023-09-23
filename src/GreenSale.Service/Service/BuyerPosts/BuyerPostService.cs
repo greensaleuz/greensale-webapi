@@ -146,8 +146,8 @@ public class BuyerPostService : IBuyerPostService
 
         var DbImgAll = await _imageRepository.GetByIdAllAsync(buyerId);
 
-        if (DbImgAll.Count == 0)
-            throw new ImageNotFoundException();
+        /*if (DbImgAll.Count == 0)
+            throw new ImageNotFoundException();*/
 
         var DbImgResult = await _imageRepository.DeleteAsync(buyerId);
         var deletestarresult = await _buyerPostStarService.DeleteAsync(DbFound.UserId, buyerId);
@@ -155,10 +155,14 @@ public class BuyerPostService : IBuyerPostService
 
         if (DbResult > 0 && 0 < DbImgResult && deletestarresult)
         {
-            foreach (var item in DbImgAll)
+            if(DbImgAll.Count != 0)
             {
-                await _fileService.DeleteImageAsync(item.ImagePath);
+                foreach (var item in DbImgAll)
+                {
+                    await _fileService.DeleteImageAsync(item.ImagePath);
+                }
             }
+            
         }
 
         return DbResult > 0;
