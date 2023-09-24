@@ -4,6 +4,7 @@ using GreenSale.DataAccess.Interfaces.Storages;
 using GreenSale.DataAccess.ViewModels.SellerPosts;
 using GreenSale.DataAccess.ViewModels.Storages;
 using GreenSale.Domain.Entites.Storages;
+using static Dapper.SqlMapper;
 
 namespace GreenSale.DataAccess.Repositories.Storages;
 
@@ -237,6 +238,28 @@ public class StorageRepository : BaseRepository, IStorageRepository
                         $" WHERE id={Id} RETURNING id ";
 
             return await _connection.ExecuteScalarAsync<int>(query, entity);
+        }
+        catch
+        {
+            return 0;
+        }
+        finally
+        {
+            await _connection.CloseAsync();
+        }
+    }
+
+    public async Task<int> UpdateImageAsync(long Id, string imagePath)
+    {
+        try
+        {
+            await _connection.OpenAsync();
+
+            string query = "UPDATE public.storages " +
+                $"SET image_path={imagePath} " +
+                        $" WHERE id={Id} ; ";
+
+            return await _connection.ExecuteScalarAsync<int>(query);
         }
         catch
         {
