@@ -200,22 +200,22 @@ public class StorageService : IStoragesService
         var res = await _fileService.UploadImageAsync(dto.StorageImage, STORAGEPOSTIMAGES);
         DbFound.ImagePath = res;
 
-        Storage storage = new Storage()
-        {
-            Name = DbFound.FullName.Split(' ')[0],
-            UserId = DbFound.UserId,
-            Description = DbFound.Description,
-            Region = DbFound.Region,
-            District = DbFound.District,
-            Address = DbFound.Address,
-            AddressLatitude = DbFound.AddressLatitude,
-            AddressLongitude = DbFound.AddressLongitude,
-            Info = DbFound.Info,
-            CreatedAt = DbFound.CreatedAt,
-            UpdatedAt = TimeHelper.GetDateTime(),
-            ImagePath = res
-        };
-        var Result = await _repository.UpdateAsync(storageID, storage);
+        //Storage storage = new Storage()
+        //{
+        //    Name = DbFound.FullName.Split(' ')[0],
+        //    UserId = DbFound.UserId,
+        //    Description = DbFound.Description,
+        //    Region = DbFound.Region,
+        //    District = DbFound.District,
+        //    Address = DbFound.Address,
+        //    AddressLatitude = DbFound.AddressLatitude,
+        //    AddressLongitude = DbFound.AddressLongitude,
+        //    Info = DbFound.Info,
+        //    CreatedAt = DbFound.CreatedAt,
+        //    UpdatedAt = TimeHelper.GetDateTime(),
+        //    ImagePath = res
+        //};
+        var Result = await _repository.UpdateImageAsync(storageID,res);
 
         return Result > 0;
     }
