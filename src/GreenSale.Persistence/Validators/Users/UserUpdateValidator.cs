@@ -15,7 +15,7 @@ public class UserUpdateValidator : AbstractValidator<UserUpdateDto>
 
         RuleFor(dto => dto.PhoneNumber).Must(phone => PhoneNumberValidator.IsValid(phone))
            .WithMessage("Phone number is invalid! ex: +998xxYYYAABB");
-
+        
         RuleFor(dto => dto.Region).MinimumLength(3).WithMessage("Region must be less than 3 characters")
                 .MaximumLength(30).WithMessage("Region must be less than 30 characters");
 
