@@ -12,7 +12,7 @@ public class BaseRepository
 
 
         
-        //string connection = "Host = localhost; Database = greensale-db; Port = 5432; User Id = postgres; Password = 1234";
-        this._connection = new NpgsqlConnection();
+        string connection = "Host=greensale-database-host; Port=5434; User Id=postgres_admin; Password=AAaa@@11; Database=greensale-db;";
+        this._connection = new NpgsqlConnection(connection);
     }
 }
