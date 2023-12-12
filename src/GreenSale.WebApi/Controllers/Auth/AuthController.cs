@@ -32,6 +32,7 @@ public class AuthController : BaseController
     {
         UserRegisterValidator validations = new UserRegisterValidator();
         var resltvalid = validations.Validate(dto);
+
         if (resltvalid.IsValid)
         {
             var result = await _authService.RegisterAsync(dto);
@@ -62,8 +63,12 @@ public class AuthController : BaseController
     public async Task<IActionResult> VerifyRegisterAsync([FromBody] VerfyUserDto dto)
     {
         var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
-        if (res == false) return BadRequest("Phone number is invalid!");
+
+        if (res == false) 
+            return BadRequest("Phone number is invalid!");
+
         var srResult = await _authService.VerifyRegisterAsync(dto.PhoneNumber, dto.Code);
+
         return Ok(new { srResult.Result, srResult.Token });
     }
 
